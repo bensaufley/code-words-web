@@ -6,9 +6,9 @@ import { signUp } from '../actions/user';
 import '../styles/SignUp.css';
 
 export const USERNAME_REGEX = /^[A-Za-z][A-Za-z0-9.\-_]{7,24}$/,
-             USERNAME_PATTERN_DESC = 'must begin with a letter, be 7-24 characters long, and consist of letters, numbers, periods, dashes and underscores.',
-             PASSWORD_REGEX = /^.{7,50}$/i,
-             PASSWORD_PATTERN_DESC = 'must be between 7 and fifty characters in length.';
+      USERNAME_PATTERN_DESC = 'must begin with a letter, be 7-24 characters long, and consist of letters, numbers, periods, dashes and underscores.',
+      PASSWORD_REGEX = /^.{7,50}$/i,
+      PASSWORD_PATTERN_DESC = 'must be between 7 and fifty characters in length.';
 
 class SignUp extends Component {
   handleSubmit({ username, password }, dispatch) {
@@ -80,11 +80,9 @@ function validate(values) {
   if (!PASSWORD_REGEX.test(values.password || '')) errors.password = `Password ${PASSWORD_PATTERN_DESC}`;
   if (values.password !== values.password_confirmation || '') errors.password_confirmation = 'Please make sure that password and confirmation match';
   return errors;
-};
+}
 
-SignUp = reduxForm({
+export default reduxForm({
   form: 'signUp',
   validate
 })(SignUp);
-
-export default SignUp;

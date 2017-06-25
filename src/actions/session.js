@@ -7,7 +7,7 @@ import config from '../config';
 import { showModal } from './modal';
 
 export const LOGGED_IN = 'LOGGED_IN',
-             LOGGED_OUT = 'LOGGED_OUT';
+      LOGGED_OUT = 'LOGGED_OUT';
 
 export function loggedIn(token, user) {
   let expires = new Date(jwtDecode(token).exp * 1000);
@@ -33,7 +33,7 @@ export function logIn(username, password) {
   return function(dispatch) {
     axios.post(`${config.apiUrl}/login`, { username, password })
       .then(({ data: { token, user } }) => {
-        return dispatch(loggedIn(token, user))
+        return dispatch(loggedIn(token, user));
       })
       .then(() => {
         return Promise.all([

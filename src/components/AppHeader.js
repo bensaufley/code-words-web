@@ -38,7 +38,7 @@ class AppHeader extends Component {
         {this.props.session.apiToken ? this.loggedInLinks() : this.loggedOutLinks()}
       </header>
     );
-  };
+  }
 }
 
 function mapStateToProps({ session }) {

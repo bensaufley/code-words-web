@@ -30,6 +30,7 @@
     "react-scripts": "1.0.7"
   },
   "scripts": {
+    "lint": "eslint .",
     "build-css": "node-sass-chokidar src/sass -o src/styles",
     "watch-css": "npm run build-css && node-sass-chokidar src/sass -o src/styles --watch --recursive",
     "start-js": "react-scripts start",

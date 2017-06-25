@@ -24,7 +24,7 @@ render((
           <Route path="/sign-in" component={SignIn} />
         </main>
         <footer>
-          Copyright ©{new Date().getFullYear()} <a href="http://bensaufley.com" target="_blank">Ben Saufley</a>
+          Copyright ©{new Date().getFullYear()} <a href="http://bensaufley.com">Ben Saufley</a>
         </footer>
         <Modal />
       </div>

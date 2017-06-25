@@ -15,7 +15,7 @@ class Modal extends Component {
           <p>{this.props.content}</p>
         </div>
       </div>
-    )
+    );
   }
 }
 

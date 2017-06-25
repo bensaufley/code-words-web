@@ -68,7 +68,7 @@ function validate(values) {
   if (!USERNAME_REGEX.test(values.username || '')) errors.username = `Username ${USERNAME_PATTERN_DESC}`;
   if (!PASSWORD_REGEX.test(values.password || '')) errors.password = `Password ${PASSWORD_PATTERN_DESC}`;
   return errors;
-};
+}
 
 export default reduxForm({
   form: 'signIn',

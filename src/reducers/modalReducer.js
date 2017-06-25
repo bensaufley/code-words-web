@@ -19,4 +19,4 @@ export default function modalReducer(state = initialState, action) {
     default:
       return state;
   }
-};
+}
