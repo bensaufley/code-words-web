@@ -2,7 +2,6 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import jwtDecode from 'jwt-decode';
 import { push, replace } from 'react-router-redux';
-import config from '../config';
 
 import { showModal } from './modal';
 
@@ -31,7 +30,7 @@ export function loggedOut() {
 
 export function logIn(username, password) {
   return function(dispatch) {
-    axios.post(`${config.apiUrl}/login`, { username, password })
+    axios.post(`${process.env.REACT_APP_API_URL}/login`, { username, password })
       .then(({ data: { token, user } }) => {
         return dispatch(loggedIn(token, user));
       })

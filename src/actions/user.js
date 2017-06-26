@@ -1,13 +1,12 @@
 import axios from 'axios';
 import { push } from 'react-router-redux';
-import config from '../config';
 
 import { showModal } from './modal';
 import { loggedIn } from './session';
 
 export function signUp(username, password) {
   return function(dispatch) {
-    axios.post(`${config.apiUrl}/signup`, { username, password })
+    axios.post(`${process.env.REACT_APP_API_URL}/signup`, { username, password })
       .then(({ data: { token, user } }) => {
         return dispatch(loggedIn(token, user));
       })
