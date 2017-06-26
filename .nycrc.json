@@ -1,0 +1,12 @@
+ {
+  "exclude": [
+    "test",
+    "test{,-*}.js",
+    "**/*-test.js",
+    "**/node_modules/**",
+    "coverage",
+    "**/*.config.*"
+  ],
+  "all": true,
+  "reporter": ["lcov", "text"]
+}
