@@ -7,11 +7,11 @@ import store, { history } from './store';
 import registerServiceWorker from './registerServiceWorker';
 import './styles/index.css';
 
-import AppHeader from './components/AppHeader';
+import AppHeader from './containers/AppHeader';
 import Home from './components/Home';
 import SignUp from './components/SignUp';
 import SignIn from './components/SignIn';
-import Modal from './components/Modal';
+import Modal from './containers/Modal';
 
 render((
   <Provider store={store}>
