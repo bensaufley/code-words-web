@@ -1,11 +1,11 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import { expect } from 'chai';
-import Home from '../../src/components/Home';
+import SignUp from '../../src/components/SignUp';
 
-const wrapper = shallow(<Home />);
+const wrapper = shallow(<SignUp />);
 
-describe('(Component) Home', () => {
+describe('(Component) SignUp', () => {
   it('renders without exploding', () => {
     expect(wrapper).to.have.lengthOf(1);
   });
