@@ -7,5 +7,8 @@
     "context": false,
     "describe": false,
     "it": false
+  },
+  "rules":{
+    "no-unused-expressions": "off"
   }
 }
