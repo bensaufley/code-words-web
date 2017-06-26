@@ -1,5 +1,7 @@
+@import 'shared';
+
 .modal-overlay {
-  background: rgba(0, 0, 0, .6);
+  background: transparentize($black, .4);
   bottom: 0;
   left: 0;
   position: absolute;
@@ -9,7 +11,7 @@
 }
 
 .modal {
-  background: #fff;
+  background: $white;
   left: 50%;
   padding: 20px;
   position: absolute;
