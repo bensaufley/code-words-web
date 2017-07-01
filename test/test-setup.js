@@ -1,7 +1,12 @@
 import { JSDOM } from 'jsdom';
+import chai from 'chai';
+import sinonChai from 'sinon-chai';
 
-global.document = new JSDOM('<!DOCTYPE html><html><body></body></html>');
-global.window = document.defaultView;
+chai.use(sinonChai);
+
+const jsdom = new JSDOM('<!DOCTYPE html><html><body></body></html>');
+global.window = jsdom.window;
+global.document = global.window.document;
 global.navigator = {
   userAgent: 'node.js'
 };

@@ -1,14 +1,14 @@
 import React from 'react';
-import { shallow } from 'enzyme';
 import { expect } from 'chai';
-import { createStore } from 'redux';
-import { Provider } from 'react-redux';
+import { findRenderedComponentWithType } from 'react-dom/test-utils';
+import { wrapContainer, unmountContainer } from '../support/container-helper';
+
 import Modal from '../../src/containers/Modal';
 
-const wrapper = shallow(<Provider store={createStore(() => {}, {})}><Modal /></Provider>);
+const wrapper = wrapContainer()(<Modal />);
 
-describe('(Component) Modal', () => {
+describe('(Container) Modal', () => {
   it('renders without exploding', () => {
-    expect(wrapper).to.have.lengthOf(1);
+    expect(findRenderedComponentWithType(wrapper, Modal)).to.exist;
   });
 });

@@ -1,14 +1,14 @@
 import React from 'react';
-import { shallow } from 'enzyme';
 import { expect } from 'chai';
-import { createStore } from 'redux';
-import { Provider } from 'react-redux';
+import { findRenderedComponentWithType } from 'react-dom/test-utils';
+import { wrapContainer, unmountContainer } from '../support/container-helper';
+
 import AppHeader from '../../src/containers/AppHeader';
 
-const wrapper = shallow(<Provider store={createStore(() => {}, {})}><AppHeader /></Provider>);
+const wrapper = wrapContainer()(<AppHeader />);
 
-describe('(Component) AppHeader', () => {
+describe('(Container) AppHeader', () => {
   it('renders without exploding', () => {
-    expect(wrapper).to.have.lengthOf(1);
+    expect(findRenderedComponentWithType(wrapper, AppHeader)).to.exist;
   });
 });
