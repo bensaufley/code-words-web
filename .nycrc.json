@@ -8,5 +8,7 @@
     "**/*.config.*"
   ],
   "all": true,
-  "reporter": ["lcov", "text"]
+  "reporter": ["lcov", "text"],
+  "sourceMap": false,
+  "instrument": false
 }
