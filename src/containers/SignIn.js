@@ -6,7 +6,7 @@ import { USERNAME_REGEX, USERNAME_PATTERN_DESC, renderField, validateWith, valid
 
 import '../styles/SignIn.css';
 
-class SignIn extends Component {
+export class SignIn extends Component {
   handleSubmit(values, dispatch) {
     dispatch(logIn(values.username, values.password));
   }

@@ -5,7 +5,7 @@ import '../styles/AppHeader.css';
 
 import { logOut } from '../actions/session';
 
-class AppHeader extends Component {
+export class AppHeader extends Component {
   logOut(e) {
     e.preventDefault();
     if (!window.confirm('Are you sure you want to log out?')) return;
@@ -16,7 +16,7 @@ class AppHeader extends Component {
     return (
       <nav>
         <NavLink to="/">Home</NavLink>
-        <a href="/" onClick={this.logOut.bind(this)}>Log Out</a>
+        <a href="/" className="log-out" onClick={this.logOut.bind(this)}>Log Out</a>
       </nav>
     );
   }

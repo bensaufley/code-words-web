@@ -4,7 +4,7 @@ import { closeModal } from '../actions/modal';
 
 import '../styles/Modal.css';
 
-class Modal extends Component {
+export class Modal extends Component {
   render() {
     if (!this.props.shown) return null;
 
