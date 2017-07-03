@@ -1,6 +1,5 @@
 import React from 'react';
-import { findDOMNode, unmountComponentAtNode } from 'react-dom';
-import { renderIntoDocument, findRenderedComponentWithType } from 'react-dom/test-utils';
+import { renderIntoDocument } from 'react-dom/test-utils';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'react-router-redux';
@@ -8,8 +7,8 @@ import createHistory from 'history/createMemoryHistory';
 
 export function wrapContainer(providerProps = {}, routerProps = {}) {
   let initialState = Object.assign({
-        session: {}
-      }, providerProps.initialState || {});
+    session: {}
+  }, providerProps.initialState || {});
   delete providerProps.initialState;
 
   return function(containerComponent) {
@@ -21,15 +20,11 @@ export function wrapContainer(providerProps = {}, routerProps = {}) {
       >
         <ConnectedRouter
           history={history}
-          {...providerProps}
+          {...routerProps}
         >
           {containerComponent}
         </ConnectedRouter>
       </Provider>
     );
-  }
-}
-
-export function unmountContainer(container) {
-  return unmountComponentAtNode(findDOMNode(container));
+  };
 }

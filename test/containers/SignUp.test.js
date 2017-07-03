@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { findRenderedComponentWithType } from 'react-dom/test-utils';
-import { wrapContainer, unmountContainer } from '../support/container-helper';
+import { wrapContainer } from '../support/container-helper';
 
 import SignUp from '../../src/containers/SignUp';
 

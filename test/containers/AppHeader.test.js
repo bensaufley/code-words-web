@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { findRenderedComponentWithType } from 'react-dom/test-utils';
 import jwt from 'jsonwebtoken';
-import { wrapContainer, unmountContainer } from '../support/container-helper';
+import { wrapContainer } from '../support/container-helper';
 
 import AppHeader from '../../src/containers/AppHeader';
 
