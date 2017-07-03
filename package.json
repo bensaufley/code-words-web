@@ -45,6 +45,7 @@
     "fs-extra": "3.0.1",
     "html-webpack-plugin": "2.28.0",
     "jsdom": "^11.0.0",
+    "jsonwebtoken": "^7.4.1",
     "mocha": "^3.4.2",
     "node-sass-chokidar": "^0.0.3",
     "normalize-scss": "^7.0.0",

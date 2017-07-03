@@ -20,7 +20,7 @@ class Modal extends Component {
 }
 
 function mapStateToProps({ modal }) {
-  return modal;
+  return modal || {};
 }
 
 export default connect(mapStateToProps, { closeModal })(Modal);
