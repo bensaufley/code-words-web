@@ -1,0 +1,2 @@
+--require ./test/test-setup.js
+./test/**/*.test.js

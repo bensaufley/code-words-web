@@ -4,6 +4,8 @@ import sinonChai from 'sinon-chai';
 
 chai.use(sinonChai);
 
+console.log("ENV IS:", process.env.NODE_ENV);
+
 const jsdom = new JSDOM('<!DOCTYPE html><html><body></body></html>');
 global.window = jsdom.window;
 global.document = global.window.document;

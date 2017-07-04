@@ -11,7 +11,13 @@
     "src/registerServiceWorker.js"
   ],
   "all": true,
-  "reporter": ["lcov", "text"],
-  "sourceMap": true,
-  "instrument": true
+  "reporter": [
+    "lcov",
+    "text"
+  ],
+  "require": [
+    "babel-core/register"
+  ],
+  "sourceMap": false,
+  "instrument": false
 }
