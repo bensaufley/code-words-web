@@ -6,8 +6,8 @@
     "**/node_modules/**",
     "coverage",
     "**/*.config.*",
-    "config/*",
-    "scripts/*",
+    "config",
+    "scripts",
     "src/registerServiceWorker.js"
   ],
   "all": true,
