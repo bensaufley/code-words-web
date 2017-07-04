@@ -13,7 +13,7 @@ export function wrapContainer(providerProps = {}, routerProps = {}, appendToBody
   }, providerProps.initialState || {});
   delete providerProps.initialState;
 
-  return function(ContainerComponent, props = {}) {
+  return (ContainerComponent, props = {}) => {
     const history = createHistory(),
           store = createStore(
             ((state) => state),

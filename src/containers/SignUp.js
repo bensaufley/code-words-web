@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
 
-import { signUp } from '../actions/user';
+import { signUp } from '../actions/session';
 import { USERNAME_REGEX, USERNAME_PATTERN_DESC, renderField, validateWith, validateUsername, validatePassword, validatePasswordConfirmation } from '../helpers/forms';
 
 import '../styles/SignUp.css';
