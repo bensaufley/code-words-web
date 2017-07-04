@@ -18,8 +18,10 @@
   },
   "devDependencies": {
     "autoprefixer": "7.1.0",
+    "babel-cli": "^6.24.1",
     "babel-core": "6.24.1",
     "babel-eslint": "7.2.3",
+    "babel-istanbul": "^0.12.2",
     "babel-loader": "7.0.0",
     "babel-plugin-istanbul": "^4.1.4",
     "babel-plugin-transform-object-rest-spread": "^6.23.0",
@@ -51,7 +53,6 @@
     "node-sass-chokidar": "^0.0.3",
     "normalize-scss": "^7.0.0",
     "npm-run-all": "^4.0.2",
-    "nyc": "^11.0.2",
     "object-assign": "4.1.1",
     "postcss-flexbugs-fixes": "3.0.0",
     "postcss-loader": "2.0.5",
@@ -79,7 +80,7 @@
     "build": "npm run build-css && node scripts/build.js",
     "test": "NODE_ENV=test mocha --compilers js:babel-core/register",
     "test:watch": "npm test -- -w",
-    "coverage-test": "cross-env NODE_ENV=test nyc mocha"
+    "coverage-test": "./node_modules/.bin/babel-node ./node_modules/.bin/babel-istanbul cover ./node_modules/.bin/_mocha"
   },
   "babel": {
     "presets": [
