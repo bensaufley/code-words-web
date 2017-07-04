@@ -9,8 +9,8 @@ import './styles/index.css';
 
 import AppHeader from './containers/AppHeader';
 import Home from './components/Home';
-import SignUp from './components/SignUp';
-import SignIn from './components/SignIn';
+import SignUp from './containers/SignUp';
+import SignIn from './containers/SignIn';
 import Modal from './containers/Modal';
 
 render((

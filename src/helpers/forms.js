@@ -23,12 +23,15 @@ export function renderField({ input, placeholder, type, meta: { touched, error }
 }
 
 export function validateUsername(values, errors) {
-  if (!USERNAME_REGEX.test(values.username || '')) return { ...errors, username: `Username ${USERNAME_PATTERN_DESC}` };
-  else return errors;
+  return validateWithRegex(values, 'username', USERNAME_REGEX, `Username ${USERNAME_PATTERN_DESC}`, errors);
 }
 
 export function validatePassword(values, errors) {
-  if (!PASSWORD_REGEX.test(values.password || '')) return { ...errors, password: `Password ${PASSWORD_PATTERN_DESC}` };
+  return validateWithRegex(values, 'password', PASSWORD_REGEX, `Password ${PASSWORD_PATTERN_DESC}`, errors);
+}
+
+function validateWithRegex(values, key, regex, error, errors) {
+  if (!regex.test(values[key] || '')) return { ...errors, [key]: error };
   else return errors;
 }
 
