@@ -55,7 +55,7 @@ function createSessionCallback(username, password, createUser = false) {
   }
 
   return (dispatch) => {
-    axios.post(url, { username, password })
+    return axios.post(url, { username, password })
       .then(({ data: { token, user } }) => {
         return dispatch(loggedIn(token, user));
       })
