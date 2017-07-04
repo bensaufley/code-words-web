@@ -7,26 +7,31 @@ import rootReducer from './reducers';
 
 export const history = createHistory();
 
-const initialState = {
-        session: {
-          apiToken: Cookies.get('apiToken'),
-          user: Cookies.getJSON('apiUser')
-        }
-      },
-      enhancers = [],
-      middleware = [
-        thunk,
-        routerMiddleware(history)
-      ];
+export function generateStore(hist, init = {}) {
+  const initialState = {
+          session: {
+            apiToken: Cookies.get('apiToken'),
+            user: Cookies.getJSON('apiUser')
+          },
+          ...init
+        },
+        enhancers = [],
+        middleware = [
+          thunk,
+          routerMiddleware(hist)
+        ];
 
-if (process.env.NODE_ENV === 'development') {
-  const devToolsExtension = window.devToolsExtension;
+  /* istanbul ignore next */
+  if (process.env.NODE_ENV === 'development') {
+    const devToolsExtension = window.devToolsExtension;
 
-  if (typeof devToolsExtension === 'function') enhancers.push(devToolsExtension());
+    if (typeof devToolsExtension === 'function') enhancers.push(devToolsExtension());
+  }
+
+  const composedEnhancers = compose(applyMiddleware(...middleware), ...enhancers);
+
+  return createStore(rootReducer, initialState, composedEnhancers);
 }
 
-const composedEnhancers = compose(applyMiddleware(...middleware), ...enhancers);
-
-const store = createStore(rootReducer, initialState, composedEnhancers);
-
+const store = generateStore(history);
 export default store;

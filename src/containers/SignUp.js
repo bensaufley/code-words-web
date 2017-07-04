@@ -7,13 +7,11 @@ import { USERNAME_REGEX, USERNAME_PATTERN_DESC, renderField, validateWith, valid
 import '../styles/SignUp.css';
 
 export class SignUp extends Component {
-  handleSubmit({ username, password }, dispatch) {
-    dispatch(signUp(username, password));
-  }
-
   render() {
+    let { handleSubmit, invalid, submitting } = this.props;
+
     return (
-      <form onSubmit={this.props.handleSubmit(this.handleSubmit.bind(this))}>
+      <form onSubmit={handleSubmit}>
         <h1>Sign Up</h1>
         <Field
           component={renderField}
@@ -36,7 +34,7 @@ export class SignUp extends Component {
           minLength={7}
           maxLength={50}
           placeholder="Password Confirmation" />
-        <button type="submit">Sign Up</button>
+        <button type="submit" disabled={invalid || submitting}>Sign Up</button>
       </form>
     );
   }
@@ -44,5 +42,6 @@ export class SignUp extends Component {
 
 export default reduxForm({
   form: 'signUp',
+  onSubmit: ({ username, password }, dispatch) => { dispatch(signUp(username, password)); },
   validate: validateWith(validateUsername, validatePassword, validatePasswordConfirmation)
 })(SignUp);

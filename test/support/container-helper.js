@@ -1,11 +1,9 @@
 import React from 'react';
 import { render, findDOMNode, unmountComponentAtNode } from 'react-dom';
-import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'react-router-redux';
 import createHistory from 'history/createMemoryHistory';
-import thunk from 'redux-thunk';
-import { routerMiddleware } from 'react-router-redux';
+import { generateStore } from '../../src/store';
 
 export function wrapContainer(providerProps = {}, routerProps = {}, appendToBody = false) {
   let initialState = Object.assign({
@@ -15,11 +13,7 @@ export function wrapContainer(providerProps = {}, routerProps = {}, appendToBody
 
   return (ContainerComponent, props = {}) => {
     const history = createHistory(),
-          store = createStore(
-            ((state) => state),
-            initialState,
-            applyMiddleware(thunk, routerMiddleware(history))
-          );
+          store = generateStore(history, initialState);
     let div = document.createElement('div'),
         wrapper = render(
       <Provider

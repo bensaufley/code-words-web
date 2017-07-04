@@ -5,9 +5,30 @@ import { wrapContainer } from '../support/container-helper';
 import ModalContainer, { Modal } from '../../src/containers/Modal';
 
 describe('(Container) Modal', () => {
-  it('renders without exploding', () => {
-    const wrapper = wrapContainer()(ModalContainer);
+  context('inactive', () => {
+    it('renders container without exploding', () => {
+      const wrapper = wrapContainer()(ModalContainer);
 
-    expect(findRenderedComponentWithType(wrapper, Modal)).to.exist;
+      expect(findRenderedComponentWithType(wrapper, Modal)).to.exist;
+    });
+  });
+
+  context('active', () => {
+    let initialState;
+    beforeEach(() => {
+      initialState = {
+        modal: {
+          shown: true,
+          message: 'This is a test message',
+          type: 'success'
+        }
+      };
+    });
+
+    it('renders container without exploding', () => {
+      const wrapper = wrapContainer({ initialState })(ModalContainer);
+
+      expect(findRenderedComponentWithType(wrapper, Modal)).to.exist;
+    });
   });
 });
