@@ -5,6 +5,7 @@ import jwt from 'jsonwebtoken';
 import axios from 'axios';
 
 import { LOGGED_IN, LOGGED_OUT, loggedIn, loggedOut, logIn, logOut, signUp } from '../../src/actions/session';
+import { MODAL_SHOW } from '../../src/actions/modal';
 
 describe('(Actions) session', () => {
   describe('loggedIn', () => {
@@ -104,7 +105,16 @@ describe('(Actions) session', () => {
         let dispatch = sandbox.stub();
 
         return logIn('test-user', 'test-password')(dispatch).then(() => {
-          expect(dispatch).to.have.been.calledWith(sinon.match.has('type', LOGGED_IN));
+          expect(dispatch.getCalls()[0].args).to.deep.eq([{ type: LOGGED_IN, payload: { token, user } }]).and.have.lengthOf(1);
+        });
+      });
+
+      it('redirects and generates modal action', () => {
+        let dispatch = sandbox.stub();
+
+        return logIn('test-user', 'test-password')(dispatch).then(() => {
+          expect(dispatch.getCalls()[1].args).to.deep.eq([{ type: '@@router/CALL_HISTORY_METHOD', payload: { args: ['/'], method: 'push' } }]).and.have.lengthOf(1);
+          expect(dispatch.getCalls()[2].args).to.deep.eq([{ type: MODAL_SHOW, payload: { message: 'You have successfully logged in.', type: 'success' }}]).and.have.lengthOf(1);
         });
       });
     });
