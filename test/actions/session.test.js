@@ -24,7 +24,7 @@ describe('(Actions) session', () => {
     it('creates cookies', () => {
       sandbox.stub(Cookies, 'set');
 
-      let action = loggedIn(token, { username: 'test-user' });
+      loggedIn(token, { username: 'test-user' });
 
       expect(Cookies.set).to.have.been.calledWith('apiToken', token, sinon.match({ expires }));
       expect(Cookies.set).to.have.been.calledWith('apiUser', { username: 'test-user' }, sinon.match({ expires }));
@@ -36,7 +36,7 @@ describe('(Actions) session', () => {
       expect(action.type).to.eq(LOGGED_IN);
     });
 
-    it(`returns action with proper payload`, () => {
+    it('returns action with proper payload', () => {
       let action = loggedIn(token, { username: 'test-user' });
 
       expect(action.payload).to.deep.eq({ token, user: { username: 'test-user' } });
@@ -57,7 +57,7 @@ describe('(Actions) session', () => {
     it('removes cookies', () => {
       sandbox.stub(Cookies, 'remove');
 
-      let action = loggedOut();
+      loggedOut();
 
       expect(Cookies.remove).to.have.been.calledWith('apiToken');
       expect(Cookies.remove).to.have.been.calledWith('apiUser');
@@ -87,7 +87,7 @@ describe('(Actions) session', () => {
       beforeEach(() => {
         token = jwt.sign({ userId: '12345' }, 'big-secret', { expiresIn: '7 days' });
 
-        sandbox.stub(axios, 'post').callsFake((url, { username, password }) => {
+        sandbox.stub(axios, 'post').callsFake((url, { username }) => {
           user = { username };
           return Promise.resolve({
             data: { token, user }
@@ -96,7 +96,7 @@ describe('(Actions) session', () => {
       });
 
       it('generates a request to REACT_APP_API_URL/login', () => {
-        let action = logIn('test-user', 'test-password')(sandbox.stub());
+        logIn('test-user', 'test-password')(sandbox.stub());
 
         expect(axios.post).to.have.been.calledWith(`${process.env.REACT_APP_API_URL}/login`, sinon.match({ username: 'test-user', password: 'test-password' }));
       });
@@ -105,7 +105,7 @@ describe('(Actions) session', () => {
         let dispatch = sandbox.stub();
 
         return logIn('test-user', 'test-password')(dispatch).then(() => {
-          expect(dispatch.getCalls()[0].args).to.deep.eq([{ type: LOGGED_IN, payload: { token, user } }]).and.have.lengthOf(1);
+          expect(dispatch).to.have.been.calledWith({ type: LOGGED_IN, payload: { token, user } });
         });
       });
 
@@ -113,18 +113,124 @@ describe('(Actions) session', () => {
         let dispatch = sandbox.stub();
 
         return logIn('test-user', 'test-password')(dispatch).then(() => {
-          expect(dispatch.getCalls()[1].args).to.deep.eq([{ type: '@@router/CALL_HISTORY_METHOD', payload: { args: ['/'], method: 'push' } }]).and.have.lengthOf(1);
-          expect(dispatch.getCalls()[2].args).to.deep.eq([{ type: MODAL_SHOW, payload: { message: 'You have successfully logged in.', type: 'success' }}]).and.have.lengthOf(1);
+          expect(dispatch).to.have.been.calledWith({ type: '@@router/CALL_HISTORY_METHOD', payload: { args: ['/'], method: 'push' } });
+          expect(dispatch).to.have.been.calledWith({ type: MODAL_SHOW, payload: { message: 'You have successfully logged in.', type: 'success' } });
+        });
+      });
+    });
+
+    context('error', () => {
+      it('emits the returned error message to Modal if present', () => {
+        let dispatch = sandbox.stub();
+        sandbox.stub(axios, 'post').callsFake(() => {
+          return Promise.reject({ response: { data: { message: 'Invalid credentials' } }});
+        });
+
+        return logIn({ username: 'blah', password: '' })(dispatch).then(() => {
+          expect(dispatch).to.have.been.calledWith({ type: MODAL_SHOW, payload: { message: 'Invalid credentials', type: 'error' } });
+        });
+      });
+
+      it('emits Error.message to Modal if nothing returned from API', () => {
+        let dispatch = sandbox.stub();
+        sandbox.stub(axios, 'post').callsFake(() => {
+          return Promise.reject(new Error('Something went wrong'));
+        });
+
+        return logIn({ username: 'blah', password: '' })(dispatch).then(() => {
+          expect(dispatch).to.have.been.calledWith({ type: MODAL_SHOW, payload: { message: 'Something went wrong', type: 'error' } });
         });
       });
     });
   });
 
   describe('logOut', () => {
+    it(`dispatches ${LOGGED_OUT} action`, () => {
+      let dispatch = sinon.stub();
+      logOut()(dispatch);
 
+      expect(dispatch).to.have.been.calledWith(sinon.match.has('type', LOGGED_OUT));
+    });
+
+    it('redirects to root', () => {
+      let dispatch = sinon.stub();
+      logOut()(dispatch);
+
+      expect(dispatch).to.have.been.calledWith(sinon.match({ type: '@@router/CALL_HISTORY_METHOD', payload: { args: ['/'], method: 'push' } }));
+    });
   });
 
   describe('signUp', () => {
+    let sandbox;
 
+    beforeEach(() => {
+      sandbox = sinon.sandbox.create();
+    });
+
+    afterEach(() => {
+      sandbox.restore();
+    });
+
+    context('successful', () => {
+      let token, user;
+
+      beforeEach(() => {
+        token = jwt.sign({ userId: '12345' }, 'big-secret', { expiresIn: '7 days' });
+
+        sandbox.stub(axios, 'post').callsFake((url, { username }) => {
+          user = { username };
+          return Promise.resolve({
+            data: { token, user }
+          });
+        });
+      });
+
+      it('generates a request to REACT_APP_API_URL/signup', () => {
+        signUp('test-user', 'test-password')(sandbox.stub());
+
+        expect(axios.post).to.have.been.calledWith(`${process.env.REACT_APP_API_URL}/signup`, sinon.match({ username: 'test-user', password: 'test-password' }));
+      });
+
+      it('dispatches loggedIn event', () => {
+        let dispatch = sandbox.stub();
+
+        return signUp('test-user', 'test-password')(dispatch).then(() => {
+          expect(dispatch).to.have.been.calledWith({ type: LOGGED_IN, payload: { token, user } });
+        });
+      });
+
+      it('redirects and generates modal action', () => {
+        let dispatch = sandbox.stub();
+
+        return signUp('test-user', 'test-password')(dispatch).then(() => {
+          expect(dispatch).to.have.been.calledWith({ type: '@@router/CALL_HISTORY_METHOD', payload: { args: ['/'], method: 'push' } });
+          expect(dispatch).to.have.been.calledWith({ type: MODAL_SHOW, payload: { message: 'Welcome! You have successfully created an account.', type: 'success' } });
+        });
+      });
+    });
+
+    context('error', () => {
+      it('emits the returned error message to Modal if present', () => {
+        let dispatch = sandbox.stub();
+        sandbox.stub(axios, 'post').callsFake(() => {
+          return Promise.reject({ response: { data: { message: 'Invalid credentials' } }});
+        });
+
+        return signUp({ username: 'blah', password: '' })(dispatch).then(() => {
+          expect(dispatch).to.have.been.calledWith({ type: MODAL_SHOW, payload: { message: 'Invalid credentials', type: 'error' } });
+        });
+      });
+
+      it('emits Error.message to Modal if nothing returned from API', () => {
+        let dispatch = sandbox.stub();
+        sandbox.stub(axios, 'post').callsFake(() => {
+          return Promise.reject(new Error('Something went wrong'));
+        });
+
+        return signUp({ username: 'blah', password: '' })(dispatch).then(() => {
+          expect(dispatch).to.have.been.calledWith({ type: MODAL_SHOW, payload: { message: 'Something went wrong', type: 'error' } });
+        });
+      });
+    });
   });
 });

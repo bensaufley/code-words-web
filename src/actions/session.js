@@ -1,7 +1,7 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import jwtDecode from 'jwt-decode';
-import { push, replace } from 'react-router-redux';
+import { push } from 'react-router-redux';
 
 import { showModal } from './modal';
 
@@ -36,7 +36,7 @@ export function logIn(username, password) {
 export function logOut() {
   return (dispatch) => {
     dispatch(loggedOut());
-    dispatch(replace('/'));
+    dispatch(push('/'));
   };
 }
 
