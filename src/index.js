@@ -21,8 +21,8 @@ render((
         <AppHeader />
         <main>
           <Route exact path="/" component={Home} />
-          <Route path="/sign-up" component={SignUp} />
-          <Route path="/sign-in" component={SignIn} />
+          <Route path="/sign-up/" component={SignUp} />
+          <Route path="/sign-in/" component={SignIn} />
         </main>
         <footer>
           Copyright ©{new Date().getFullYear()} <a href="http://bensaufley.com">Ben Saufley</a>

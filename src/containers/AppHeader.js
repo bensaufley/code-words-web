@@ -24,9 +24,9 @@ export class AppHeader extends Component {
   loggedOutLinks() {
     return (
       <nav>
-        <NavLink to="/">Home</NavLink>
-        <NavLink to="/sign-up">Sign Up</NavLink>
-        <NavLink to="/sign-in">Sign In</NavLink>
+        <NavLink exact to="/">Home</NavLink>
+        <NavLink to="/sign-up/">Sign Up</NavLink>
+        <NavLink to="/sign-in/">Sign In</NavLink>
       </nav>
     );
   }
@@ -41,9 +41,10 @@ export class AppHeader extends Component {
   }
 }
 
-function mapStateToProps({ session }) {
+function mapStateToProps({ session, routing: { location } }) {
   return {
-    session
+    session,
+    location
   };
 }
 
