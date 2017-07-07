@@ -1,0 +1,48 @@
+body.loading {
+  pointer-events: none; }
+
+.loading-indicator {
+  animation: bounce 0.2s cubic-bezier(0.66, 0, 1, 1) infinite alternate;
+  background-color: #fff;
+  border-radius: 50%;
+  color: transparent;
+  height: 75px;
+  left: 50%;
+  overflow: hidden;
+  position: fixed;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 75px; }
+  .loading-indicator::before {
+    animation: spin 2s linear infinite;
+    background-image: radial-gradient(150px at top left, red, rgba(255, 0, 0, 0.5) 33%, rgba(255, 0, 0, 0)), radial-gradient(150px at top right, lime, rgba(0, 255, 0, 0.5) 33%, rgba(0, 255, 0, 0)), radial-gradient(150px at bottom center, blue, rgba(0, 0, 255, 0.5) 33%, rgba(0, 0, 255, 0));
+    background-size: 100%;
+    background-repeat: no-repeat;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: 0; }
+  .loading-indicator::before, .loading-indicator::after {
+    content: '\00A0';
+    display: block;
+    position: absolute; }
+  .loading-indicator::after {
+    background-color: transparent;
+    background-image: radial-gradient(75px at 25% 25%, rgba(240, 255, 230, 0.5), rgba(255, 255, 255, 0) 50%), linear-gradient(to bottom, rgba(40, 10, 30, 0) 33.33%, rgba(40, 10, 30, 0.3));
+    border-radius: 37.5px;
+    bottom: 2px;
+    left: 2px;
+    right: 2px;
+    top: 2px; }
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg); }
+  100% {
+    transform: rotate(360deg); } }
+
+@keyframes bounce {
+  0% {
+    transform: translate(-50%, -75%); }
+  100% {
+    transform: translate(-50%, -15%); } }

@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 
 import { startLoading, endLoading } from '../actions/loading';
 
+import '../styles/LoadingIndicator.css';
+
 export class LoadingIndicator extends Component {
   interceptHandler(callback) {
     return (data) => {

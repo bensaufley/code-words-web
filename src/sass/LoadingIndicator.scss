@@ -1,0 +1,72 @@
+@import 'shared';
+
+$loader-size: 75px;
+
+body.loading {
+  pointer-events: none;
+}
+
+.loading-indicator {
+  animation: bounce .2s cubic-bezier(.66, 0, 1, 1) infinite alternate;
+  background-color: #fff;
+  border-radius: 50%;
+  color: rgba(0, 0, 0, 0);
+  height: $loader-size;
+  left: 50%;
+  overflow: hidden;
+  position: fixed;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: $loader-size;
+
+  &::before {
+    animation: spin 2s linear infinite;
+    background-image:
+      radial-gradient(#{$loader-size * 2} at top left, rgba(255, 0, 0, 1), rgba(255, 0, 0, .5) 33%, rgba(255, 0, 0, 0)),
+      radial-gradient(#{$loader-size * 2} at top right, rgba(0, 255, 0, 1), rgba(0, 255, 0, .5) 33%, rgba(0, 255, 0, 0)),
+      radial-gradient(#{$loader-size * 2} at bottom center, rgba(0, 0, 255, 1), rgba(0, 0, 255, .5) 33%, rgba(0, 0, 255, 0));
+    background-size: 100%;
+    background-repeat: no-repeat;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: 0;
+  }
+
+  &::before,
+  &::after {
+    content: '\00A0';
+    display: block;
+    position: absolute;
+  }
+
+  &::after {
+    background-color: transparent;
+    background-image: radial-gradient($loader-size at 25% 25%, rgba(240, 255, 230, .5), rgba(255, 255, 255, 0) 50%), linear-gradient(to bottom, rgba(40, 10, 30, 0) 33.33%, rgba(40, 10, 30, .3));
+    border-radius: $loader-size / 2;
+    bottom: 2px;
+    left: 2px;
+    right: 2px;
+    top: 2px;
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes bounce {
+  0% {
+    transform: translate(-50%, -75%)
+  }
+
+  100% {
+    transform: translate(-50%, -15%);
+  }
+}
