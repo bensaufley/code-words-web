@@ -3,6 +3,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
 import axios from 'axios';
+import pry from 'pryjs';
 
 import { findRenderedComponentWithType } from 'react-dom/test-utils';
 import { wrapContainer } from '../support/container-helper';
@@ -44,7 +45,7 @@ describe('(Container) LoadingIndicator', () => {
       it('intercepts axios requests with a call to startLoading', () => {
         mount(<LoadingIndicator {...props} />);
 
-        return axios.get('/').then(() => {
+        return axios.get('http://bensaufley.com/').then(() => {
           expect(props.startLoading).to.have.been.called;
         });
       });
@@ -52,7 +53,7 @@ describe('(Container) LoadingIndicator', () => {
       it('intercepts axios responses with a call to endLoading', () => {
         mount(<LoadingIndicator {...props} />);
 
-        return axios.get('/').then(() => {
+        return axios.get('http://bensaufley.com/').then(() => {
           expect(props.endLoading).to.have.been.called;
         });
       });
