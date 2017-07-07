@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
 
 import { logIn } from '../actions/session';
-import { USERNAME_REGEX, USERNAME_PATTERN_DESC, renderField, validateWith, validateUsername, validatePassword } from '../helpers/forms';
+import FormInputWithError from '../components/FormInputWithError';
+import { USERNAME_REGEX, USERNAME_PATTERN_DESC, validateWith, validateUsername, validatePassword } from '../helpers/forms';
 
 import '../styles/SignIn.css';
 
@@ -14,14 +15,14 @@ export class SignIn extends Component {
       <form onSubmit={handleSubmit}>
         <h1>Sign In</h1>
         <Field
-          component={renderField}
+          component={FormInputWithError}
           type="text"
           name="username"
           pattern={USERNAME_REGEX}
           title={USERNAME_PATTERN_DESC}
           placeholder="Username" />
         <Field
-          component={renderField}
+          component={FormInputWithError}
           type="password"
           name="password"
           minLength={7}
