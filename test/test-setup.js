@@ -15,6 +15,11 @@ function noop() {
   return {};
 }
 
+process.on('unhandledRejection', (reason, p) => {
+  console.log('Unhandled Rejection at: Promise', p, 'reason:', reason);
+  process.exit();
+});
+
 // prevent mocha tests from breaking when trying to require a css file
 require.extensions['.css'] = noop;
 require.extensions['.svg'] = noop;

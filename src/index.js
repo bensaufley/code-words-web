@@ -12,6 +12,7 @@ import Home from './components/Home';
 import SignUp from './containers/SignUp';
 import SignIn from './containers/SignIn';
 import Modal from './containers/Modal';
+import LoadingIndicator from './containers/LoadingIndicator';
 
 render((
   <Provider store={store}>
@@ -27,6 +28,7 @@ render((
           Copyright ©{new Date().getFullYear()} <a href="http://bensaufley.com">Ben Saufley</a>
         </footer>
         <Modal />
+        <LoadingIndicator />
       </div>
     </ConnectedRouter>
   </Provider>
