@@ -5,24 +5,28 @@ import { connect } from 'react-redux';
 import { startLoading, endLoading } from '../actions/loading';
 
 export class LoadingIndicator extends Component {
+  interceptHandler(callback) {
+    return (data) => {
+      callback();
+      return data;
+    };
+  }
+
+  interceptErrorHandler(error) {
+    this.props.endLoading();
+    return Promise.reject(error);
+  }
+
   componentDidMount() {
-    this.axiosRequestInterceptor = axios.interceptors.request.use((config) => {
-      this.props.startLoading();
-      return config;
-    },
-    /* istanbul ignore next */
-    (error) => {
-      this.props.endLoading();
-      return Promise.reject(error);
-    });
-    this.axiosResponseInterceptor = axios.interceptors.response.use((response) => {
-      this.props.endLoading();
-      return response;
-    },
-    (error) => {
-      this.props.endLoading();
-      return Promise.reject(error);
-    });
+    this.axiosRequestInterceptor = axios.interceptors.request.use(
+      this.interceptHandler(this.props.startLoading),
+      this.interceptErrorHandler.bind(this)
+    );
+
+    this.axiosResponseInterceptor = axios.interceptors.response.use(
+      this.interceptHandler(this.props.endLoading),
+      this.interceptErrorHandler.bind(this)
+    );
   }
 
   componentWillUnmount() {
