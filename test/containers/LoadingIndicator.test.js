@@ -3,7 +3,6 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
 import axios from 'axios';
-import pry from 'pryjs';
 
 import { findRenderedComponentWithType } from 'react-dom/test-utils';
 import { wrapContainer } from '../support/container-helper';
