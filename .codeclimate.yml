@@ -4,7 +4,7 @@ engines:
     config:
       languages:
         javascript:
-          mass_threshold: 50
+          mass_threshold: 60
     exclude_paths:
       - "test/**/*.test.js"
       - "config/webpack.config.*.js"
