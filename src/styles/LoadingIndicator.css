@@ -16,8 +16,8 @@ body.loading {
   .loading-indicator::before {
     animation: spin 2s linear infinite;
     background-image: radial-gradient(150px at top left, red, rgba(255, 0, 0, 0.5) 33%, rgba(255, 0, 0, 0)), radial-gradient(150px at top right, lime, rgba(0, 255, 0, 0.5) 33%, rgba(0, 255, 0, 0)), radial-gradient(150px at bottom center, blue, rgba(0, 0, 255, 0.5) 33%, rgba(0, 0, 255, 0));
-    background-size: 100%;
     background-repeat: no-repeat;
+    background-size: 100%;
     bottom: 0;
     left: 0;
     right: 0;

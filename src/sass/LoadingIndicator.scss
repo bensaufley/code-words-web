@@ -25,8 +25,8 @@ body.loading {
       radial-gradient(#{$loader-size * 2} at top left, rgba(255, 0, 0, 1), rgba(255, 0, 0, .5) 33%, rgba(255, 0, 0, 0)),
       radial-gradient(#{$loader-size * 2} at top right, rgba(0, 255, 0, 1), rgba(0, 255, 0, .5) 33%, rgba(0, 255, 0, 0)),
       radial-gradient(#{$loader-size * 2} at bottom center, rgba(0, 0, 255, 1), rgba(0, 0, 255, .5) 33%, rgba(0, 0, 255, 0));
-    background-size: 100%;
     background-repeat: no-repeat;
+    background-size: 100%;
     bottom: 0;
     left: 0;
     right: 0;
@@ -63,7 +63,7 @@ body.loading {
 
 @keyframes bounce {
   0% {
-    transform: translate(-50%, -75%)
+    transform: translate(-50%, -75%);
   }
 
   100% {

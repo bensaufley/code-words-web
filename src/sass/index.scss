@@ -3,12 +3,41 @@
 
 @import 'shared';
 
+* {
+  box-sizing: border-box;
+}
+
 body {
   font-family: sans-serif;
+  font-size: 16px;
   margin: 0;
   padding: 0;
 }
 
+@import 'typography';
+@import 'forms';
+
+.page-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto 1fr auto;
+  min-height: 100vh;
+}
+
+main {
+  margin: 0 auto;
+  max-width: 61rem;
+  padding: 0 .5rem;
+  width: 100%;
+}
+
+.page-footer {
+  font-size: .75rem;
+  line-height: 1rem;
+  padding: .5rem;
+  text-align: center;
+}
+
 .error {
-  color: $red;
+  color: $alert;
 }

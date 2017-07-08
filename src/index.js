@@ -17,14 +17,14 @@ import LoadingIndicator from './containers/LoadingIndicator';
 render((
   <Provider store={store}>
     <ConnectedRouter history={history}>
-      <div>
+      <div className="page-container">
         <AppHeader />
         <main>
           <Route exact path="/" component={Home} />
           <Route path="/sign-up/" component={SignUp} />
           <Route path="/sign-in/" component={SignIn} />
         </main>
-        <footer>
+        <footer className="page-footer">
           Copyright ©{new Date().getFullYear()} <a href="http://bensaufley.com">Ben Saufley</a>
         </footer>
         <Modal />

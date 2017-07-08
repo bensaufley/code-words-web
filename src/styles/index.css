@@ -402,10 +402,72 @@ template {
 [hidden] {
   display: none; }
 
+* {
+  box-sizing: border-box; }
+
 body {
   font-family: sans-serif;
+  font-size: 16px;
   margin: 0;
   padding: 0; }
+
+a:link,
+a:visited {
+  color: #438;
+  text-decoration: none;
+  transition: .3s color; }
+  a:link:hover,
+  a:visited:hover {
+    color: black; }
+
+[type=text],
+[type=date],
+[type=password] {
+  border: 1px solid rgba(68, 51, 136, 0.25);
+  font-size: 1rem;
+  line-height: 1.5rem;
+  margin-bottom: 0.375rem;
+  padding: 0 .5rem;
+  width: 100%; }
+  [type=text]:focus,
+  [type=date]:focus,
+  [type=password]:focus {
+    border-color: #438;
+    outline: none; }
+  [type=text].error,
+  [type=date].error,
+  [type=password].error {
+    border-color: #f00;
+    color: #f00; }
+    [type=text].error + small.error,
+    [type=date].error + small.error,
+    [type=password].error + small.error {
+      background: #f00;
+      color: #fff;
+      display: block;
+      font-size: .75rem;
+      line-height: 1rem;
+      margin-bottom: 0.375rem;
+      margin-top: -0.375rem;
+      padding: .5rem; }
+
+.page-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto 1fr auto;
+  min-height: 100vh; }
+
+main {
+  margin: 0 auto;
+  max-width: 61rem;
+  padding: 0 .5rem;
+  width: 100%; }
+
+.page-footer {
+  font-size: .75rem;
+  line-height: 1rem;
+  padding: .5rem;
+  text-align: center; }
 
 .error {
   color: #f00; }

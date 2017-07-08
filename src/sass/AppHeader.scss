@@ -1,7 +1,40 @@
+@import 'shared';
+
 .page-header {
+  border-bottom: 1px solid $primary;
+  margin-bottom: .5rem;
+  padding: 0;
+  width: 100%;
+
+  h2 {
+    float: left;
+    font-size: 1.5rem;
+    line-height: 3rem;
+    margin: 0 0 0 .5rem;
+  }
+
+  a.active {
+    color: $secondary;
+    font-weight: bold;
+  }
+
   nav {
-    .active {
-      font-weight: bold;
+    text-align: right;
+
+    a {
+      display: inline-block;
+      font-size: .75rem;
+      line-height: 3rem;
+      padding: 0 .25rem;
+
+      &:last-child {
+        padding-right: .5rem;
+      }
+
+      @media screen and (min-width: 30em) {
+        font-size: 1rem;
+        padding: 0 .5rem;
+      }
     }
   }
 }
