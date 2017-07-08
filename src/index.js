@@ -3,6 +3,7 @@ import { render } from 'react-dom';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'react-router-redux';
 import { Switch, Route } from 'react-router-dom';
+import Cookies from 'js-cookie';
 import store, { history } from './store';
 import registerServiceWorker from './registerServiceWorker';
 import './styles/index.css';
@@ -14,6 +15,7 @@ import SignIn from './containers/SignIn';
 import Modal from './containers/Modal';
 import FourOhFour from './components/FourOhFour';
 import LoadingIndicator from './containers/LoadingIndicator';
+import { loggedIn } from './actions/session';
 
 render((
   <Provider store={store}>
@@ -36,5 +38,14 @@ render((
       </div>
     </ConnectedRouter>
   </Provider>
-), document.getElementById('root'));
+), document.getElementById('root'), () => {
+  let apiToken = Cookies.get('apiToken'),
+      apiUser = Cookies.getJSON('apiUser');
+  if (apiToken && apiUser) {
+    store.dispatch(loggedIn(apiToken, apiUser));
+  } else {
+    Cookies.remove('apiToken');
+    Cookies.remove('apiUser');
+  }
+});
 registerServiceWorker();

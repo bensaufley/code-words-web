@@ -1,8 +1,12 @@
 import { JSDOM } from 'jsdom';
-import chai from 'chai';
+import chai, { Assertion } from 'chai';
 import sinonChai from 'sinon-chai';
+import { WebSocketStub as WebSocket } from './support/websocket-helper';
+import { receivedDispatch } from './support/dispatch-helper';
 
 chai.use(sinonChai);
+
+Assertion.addMethod('receivedDispatch', receivedDispatch);
 
 const jsdom = new JSDOM('<!DOCTYPE html><html><body></body></html>');
 global.window = jsdom.window;
@@ -10,6 +14,7 @@ global.document = global.window.document;
 global.navigator = {
   userAgent: 'node.js'
 };
+global.WebSocket = WebSocket;
 
 function noop() {
   return {};

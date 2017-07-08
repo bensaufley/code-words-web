@@ -6,16 +6,22 @@ import { push } from 'react-router-redux';
 import { showModal } from './modal';
 
 export const LOGGED_IN = 'LOGGED_IN',
-      LOGGED_OUT = 'LOGGED_OUT';
+      LOGGED_OUT = 'LOGGED_OUT',
+      WEBSOCKET_OPENED = 'WEBSOCKET_OPENED',
+      WEBSOCKET_CLOSED = 'WEBSOCKET_CLOSED';
 
 export function loggedIn(token, user) {
-  let expires = new Date(jwtDecode(token).exp * 1000);
-  Cookies.set('apiToken', token, { expires });
-  Cookies.set('apiUser', user, { expires });
+  return (dispatch) => {
+    let expires = new Date(jwtDecode(token).exp * 1000);
+    Cookies.set('apiToken', token, { expires });
+    Cookies.set('apiUser', user, { expires });
 
-  return {
-    type: LOGGED_IN,
-    payload: { token, user }
+    dispatch({
+      type: LOGGED_IN,
+      payload: { token, user }
+    });
+
+    dispatch(openWebSocket(token));
   };
 }
 
@@ -47,10 +53,10 @@ export function signUp(username, password) {
 function createSessionCallback(username, password, createUser = false) {
   let url, successMessage;
   if (createUser) {
-    url = `${process.env.REACT_APP_API_URL}/signup`;
+    url = `http://${process.env.REACT_APP_API_URL}/signup`;
     successMessage = 'Welcome! You have successfully created an account.';
   } else {
-    url = `${process.env.REACT_APP_API_URL}/login`;
+    url = `http://${process.env.REACT_APP_API_URL}/login`;
     successMessage = 'You have successfully logged in.';
   }
 
@@ -72,4 +78,25 @@ function createSessionCallback(username, password, createUser = false) {
         dispatch(showModal(message, 'error'));
       });
   };
+}
+
+export function openWebSocket(token) {
+  return (dispatch) => {
+    let webSocket = new WebSocket(`ws://${process.env.REACT_APP_API_URL}/api/v1/?access_token=${token}`);
+
+    webSocket.onopen = () => {
+      dispatch({
+        type: WEBSOCKET_OPENED,
+        payload: { webSocket }
+      });
+    };
+
+    webSocket.onmessage = (/*data*/) => {
+      // dispatch(data)
+    };
+  };
+}
+
+export function closeWebSocket() {
+  return { type: WEBSOCKET_CLOSED };
 }

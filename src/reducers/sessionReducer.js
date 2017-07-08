@@ -1,4 +1,4 @@
-import { LOGGED_IN, LOGGED_OUT } from '../actions/session';
+import { LOGGED_IN, LOGGED_OUT, WEBSOCKET_OPENED, WEBSOCKET_CLOSED } from '../actions/session';
 
 let initialState = {
   apiToken: null,
@@ -14,6 +14,16 @@ export default function(state = initialState, action) {
       };
     case LOGGED_OUT:
       return initialState;
+    case WEBSOCKET_OPENED:
+      return {
+        ...state,
+        webSocket: action.payload.webSocket
+      };
+    case WEBSOCKET_CLOSED: {
+      let { webSocket, ...others } = state;
+      if (webSocket) console.log('closing', webSocket) && webSocket.close();
+      return { ...others };
+    }
     default:
       return state;
   }

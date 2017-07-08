@@ -3,6 +3,7 @@ import sinon from 'sinon';
 import Cookies from 'js-cookie';
 import jwt from 'jsonwebtoken';
 import axios from 'axios';
+import { DispatchStub } from '../support/dispatch-helper';
 
 import { LOGGED_IN, LOGGED_OUT, loggedIn, loggedOut, logIn, logOut, signUp } from '../../src/actions/session';
 import { MODAL_SHOW } from '../../src/actions/modal';
@@ -24,22 +25,18 @@ describe('(Actions) session', () => {
     it('creates cookies', () => {
       sandbox.stub(Cookies, 'set');
 
-      loggedIn(token, { username: 'test-user' });
+      loggedIn(token, { username: 'test-user' })(() => {});
 
       expect(Cookies.set).to.have.been.calledWith('apiToken', token, sinon.match({ expires }));
       expect(Cookies.set).to.have.been.calledWith('apiUser', { username: 'test-user' }, sinon.match({ expires }));
     });
 
-    it(`returns action with type ${LOGGED_IN}`, () => {
-      let action = loggedIn(token, { username: 'test-user' });
+    it(`returns action with type ${LOGGED_IN} and proper payload`, () => {
+      let stub = new DispatchStub(),
+          { dispatch } = stub;
+      loggedIn(token, { username: 'test-user' })(dispatch);
 
-      expect(action.type).to.eq(LOGGED_IN);
-    });
-
-    it('returns action with proper payload', () => {
-      let action = loggedIn(token, { username: 'test-user' });
-
-      expect(action.payload).to.deep.eq({ token, user: { username: 'test-user' } });
+      expect(stub).to.have.receivedDispatch({ type: LOGGED_IN, payload: { token, user: { username: 'test-user'} } });
     });
   });
 
@@ -98,14 +95,15 @@ describe('(Actions) session', () => {
       it('generates a request to REACT_APP_API_URL/login', () => {
         logIn('test-user', 'test-password')(sandbox.stub());
 
-        expect(axios.post).to.have.been.calledWith(`${process.env.REACT_APP_API_URL}/login`, sinon.match({ username: 'test-user', password: 'test-password' }));
+        expect(axios.post).to.have.been.calledWith(`http://${process.env.REACT_APP_API_URL}/login`, sinon.match({ username: 'test-user', password: 'test-password' }));
       });
 
       it('dispatches loggedIn event', () => {
-        let dispatch = sandbox.stub();
+        let stub = new DispatchStub(),
+            { dispatch } = stub;
 
         return logIn('test-user', 'test-password')(dispatch).then(() => {
-          expect(dispatch).to.have.been.calledWith({ type: LOGGED_IN, payload: { token, user } });
+          expect(stub).to.have.receivedDispatch({ type: LOGGED_IN, payload: { token, user } });
         });
       });
 
@@ -188,14 +186,15 @@ describe('(Actions) session', () => {
       it('generates a request to REACT_APP_API_URL/signup', () => {
         signUp('test-user', 'test-password')(sandbox.stub());
 
-        expect(axios.post).to.have.been.calledWith(`${process.env.REACT_APP_API_URL}/signup`, sinon.match({ username: 'test-user', password: 'test-password' }));
+        expect(axios.post).to.have.been.calledWith(`http://${process.env.REACT_APP_API_URL}/signup`, sinon.match({ username: 'test-user', password: 'test-password' }));
       });
 
       it('dispatches loggedIn event', () => {
-        let dispatch = sandbox.stub();
+        let stub = new DispatchStub(),
+            { dispatch } = stub;
 
         return signUp('test-user', 'test-password')(dispatch).then(() => {
-          expect(dispatch).to.have.been.calledWith({ type: LOGGED_IN, payload: { token, user } });
+          expect(stub).to.have.receivedDispatch({ type: LOGGED_IN, payload: { token, user: { username: 'test-user' } } });
         });
       });
 
