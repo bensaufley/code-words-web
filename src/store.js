@@ -11,7 +11,7 @@ export function generateStore(hist, init = {}) {
   const initialState = {
           session: {
             apiToken: Cookies.get('apiToken'),
-            user: Cookies.getJSON('apiUser')
+            apiUser: Cookies.getJSON('apiUser')
           },
           ...init
         },
