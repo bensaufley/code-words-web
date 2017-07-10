@@ -4,6 +4,7 @@ import jwtDecode from 'jwt-decode';
 import { push } from 'react-router-redux';
 
 import { showModal } from './modal';
+import { gameActions } from './games';
 
 export const LOGGED_IN = 'LOGGED_IN',
       LOGGED_OUT = 'LOGGED_OUT',
@@ -82,7 +83,8 @@ function createSessionCallback(username, password, createUser = false) {
 
 export function openWebSocket(token) {
   return (dispatch) => {
-    let webSocket = new WebSocket(`ws://${process.env.REACT_APP_API_URL}/api/v1/?access_token=${token}`);
+    let webSocketUrl = `ws://${process.env.REACT_APP_API_URL}/api/v1/?access_token=${token}`,
+        webSocket = new WebSocket(webSocketUrl);
 
     webSocket.onopen = () => {
       dispatch({
@@ -91,13 +93,31 @@ export function openWebSocket(token) {
       });
     };
 
-    webSocket.onmessage = (/*data*/) => {
-      // dispatch(data)
+    webSocket.onmessage = ({ data }) => {
+      try {
+        let { event: type, payload } = JSON.parse(data);
+        if (type && gameActions.includes(type)) {
+          dispatch({ type, payload });
+        } else {
+          throw new Error(`Unrecognized action of type '${type}' with payload:`, payload);
+        }
+      } catch (e) {
+        console.log(e);
+      }
     };
 
     webSocket.onclose = (e) => {
-      if (e !== 1000) webSocket.reconnect();
-      else dispatch({ type: WEBSOCKET_CLOSED });
+      if (e !== 1000) {
+        let reconnectInterval = setInterval(() => {
+          if (webSocket.readyState === WebSocket.CLOSED) {
+            webSocket = new WebSocket(webSocketUrl);
+          } else {
+            clearInterval(reconnectInterval);
+          }
+        }, 1000);
+      } else {
+        dispatch({ type: WEBSOCKET_CLOSED });
+      }
     };
   };
 }

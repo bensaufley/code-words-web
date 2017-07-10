@@ -25,8 +25,8 @@ describe('(Container) Games', () => {
           apiUser: { username: 'test-user' }
         },
         games: [
-          { id: '510924' },
-          { id: '812470' }
+          { game: { id: '510924' }, players: [ {} ], users: [ {} ] },
+          { game: { id: '812470' }, players: [ {} ], users: [ {} ] }
         ]
       };
       const wrapper = wrapContainer({ initialState })(GamesContainer);
