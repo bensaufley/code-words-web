@@ -94,6 +94,11 @@ export function openWebSocket(token) {
     webSocket.onmessage = (/*data*/) => {
       // dispatch(data)
     };
+
+    webSocket.onclose = (e) => {
+      if (e !== 1000) webSocket.reconnect();
+      else dispatch({ type: WEBSOCKET_CLOSED });
+    };
   };
 }
 

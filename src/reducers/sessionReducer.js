@@ -21,7 +21,7 @@ export default function(state = initialState, action) {
       };
     case WEBSOCKET_CLOSED: {
       let { webSocket, ...others } = state;
-      if (webSocket) console.log('closing', webSocket) && webSocket.close();
+      if (webSocket && webSocket.readyState === WebSocket.OPEN) webSocket.close();
       return { ...others };
     }
     default:
