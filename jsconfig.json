@@ -1,0 +1,12 @@
+{
+    "compilerOptions": {
+      "target": "ES5",
+      "module": "es6",
+      "outDir": "build",
+      "allowSyntheticDefaultImports": true
+    },
+    "exclude": [
+      "build",
+      "node_modules"
+    ]
+}
