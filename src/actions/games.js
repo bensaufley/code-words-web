@@ -3,7 +3,7 @@ import axios from 'axios';
 import { startLoading, endLoading } from './loading';
 import { showModal } from './modal';
 
-export const GAME_CREATED = 'CREATE_GAME',
+export const GAME_CREATED = 'GAME_CREATED',
       GAME_TRANSMIT = 'GAME_TRANSMIT',
       GAME_DECODE = 'GAME_DECODE',
       GAMES_INDEXED = 'GAMES_INDEXED',

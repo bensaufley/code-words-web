@@ -19,7 +19,7 @@ export class Game extends Component {
     }
 
     return (
-      <div className={`player player-${player.role}`} key={`${player.team}-${player.role}`}>
+      <div className={`player player-${player.role}`} key={`${player.id}`}>
         {user.username}: {player.team ? `Team ${player.team}` : ''} {player.role ? `${player.role}` : ''} {pickTeam} {pickRole}
       </div>
     );
@@ -63,7 +63,7 @@ export class Game extends Component {
 }
 
 function mapStateToProps({ session, games }, { match: { params: { id }}}) {
-  if (!Object.keys(games).length) return { loading: true };
+  if (!games) return { loading: true };
   else return { session, ...games[id] };
 }
 
