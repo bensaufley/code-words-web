@@ -1,6 +1,7 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import { routerMiddleware } from 'react-router-redux';
 import thunk from 'redux-thunk';
+import Cookies from 'js-cookie';
 import createHistory from 'history/createBrowserHistory';
 import rootReducer from './reducers';
 
@@ -9,8 +10,8 @@ export const history = createHistory();
 export function generateStore(hist, init = {}) {
   const initialState = {
           session: {
-            apiToken: null,
-            apiUser: {}
+            apiToken: Cookies.get('apiToken'),
+            apiUser: Cookies.getJSON('apiUser')
           },
           ...init
         },

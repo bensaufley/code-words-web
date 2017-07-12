@@ -1,0 +1,7 @@
+.game-board {
+  display: grid;
+  grid-gap: 1rem; }
+  @media screen and (min-width: 30em) {
+    .game-board {
+      grid-template-columns: repeat(5, 1fr);
+      grid-template-rows: repeat(5, 1fr); } }

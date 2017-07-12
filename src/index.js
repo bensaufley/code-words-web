@@ -12,6 +12,7 @@ import AppHeader from './containers/AppHeader';
 import Home from './containers/Home';
 import SignUp from './containers/SignUp';
 import SignIn from './containers/SignIn';
+import Game from './containers/Game';
 import Modal from './containers/Modal';
 import FourOhFour from './components/FourOhFour';
 import LoadingIndicator from './containers/LoadingIndicator';
@@ -27,6 +28,7 @@ render((
             <Route exact path="/" component={Home} />
             <Route path="/sign-up/" component={SignUp} />
             <Route path="/sign-in/" component={SignIn} />
+            <Route path="/games/:id([0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12})/" component={Game} />
             <Route component={FourOhFour} />
           </Switch>
         </main>
