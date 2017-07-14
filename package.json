@@ -82,9 +82,9 @@
     "start-js": "node scripts/start.js",
     "start": "npm-run-all -p watch-css start-js",
     "build": "npm run build-css && node scripts/build.js",
-    "test": "NODE_ENV=test mocha --compilers js:babel-core/register",
+    "test": "mocha --compilers js:babel-core/register",
     "test:watch": "npm test -- -w",
-    "cov": "NODE_ENV=test ./node_modules/.bin/babel-node ./node_modules/.bin/babel-istanbul cover ./node_modules/.bin/_mocha"
+    "cov": "babel-node ./node_modules/.bin/babel-istanbul cover _mocha"
   },
   "babel": {
     "presets": [

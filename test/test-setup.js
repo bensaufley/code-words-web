@@ -4,6 +4,8 @@ import sinonChai from 'sinon-chai';
 import { WebSocketStub as WebSocket } from './support/websocket-helper';
 import { receivedDispatch } from './support/dispatch-helper';
 
+process.env.NODE_ENV = 'test';
+
 chai.use(sinonChai);
 
 Assertion.addMethod('receivedDispatch', receivedDispatch);

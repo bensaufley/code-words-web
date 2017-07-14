@@ -4,7 +4,7 @@ import { LOADING_START, LOADING_END } from '../../src/actions/loading';
 
 describe('(Reducer) loadingReducer', () => {
   describe(LOADING_START, () => {
-    it('returns false', () => {
+    it('returns true', () => {
       expect(loadingReducer(undefined, { type: LOADING_START })).to.be.true;
     });
   });
