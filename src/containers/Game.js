@@ -55,7 +55,7 @@ export class Game extends Component {
         <h1>Game {game.id}</h1>
         {this.renderTeams()}
         <div className="game-board">
-          {[].concat(...game.board).map((tile, i) => <Tile key={i} {...tile} />)}
+          {game.board.map((tile, i) => <Tile key={i} {...tile} />)}
         </div>
       </div>
     );
