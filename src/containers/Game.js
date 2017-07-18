@@ -19,7 +19,7 @@ export class Game extends Component {
     }
 
     return (
-      <div className={`player player-${player.role}`} key={`${player.id}`}>
+      <div className={`player player-${player.role}`} key={player.id}>
         {user.username}: {player.team ? `Team ${player.team}` : ''} {player.role ? `${player.role}` : ''} {pickTeam} {pickRole}
       </div>
     );

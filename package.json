@@ -76,7 +76,7 @@
     "whatwg-fetch": "2.0.3"
   },
   "scripts": {
-    "lint": "eslint .",
+    "lint": "eslint . && scss-lint",
     "build-css": "node-sass-chokidar src/sass -o src/styles --include-path node_modules/normalize-scss/sass",
     "watch-css": "npm run build-css && npm run build-css -- --watch --recursive",
     "start-js": "node scripts/start.js",
