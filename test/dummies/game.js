@@ -13,8 +13,8 @@ export default class GameDummy {
         word: Faker.hacker.noun()
       };
     });
-    this.users = new Array(players).fill('').map(() => new UserDummy().serialize());
-    this.players = this.users.map((u) => new PlayerDummy({ user: u, game: this }).serialize());
+    let users = new Array(players).fill('').map(() => new UserDummy());
+    this.players = users.map((u) => new PlayerDummy({ user: u, game: this }));
   }
 
   serialize() {
@@ -26,8 +26,7 @@ export default class GameDummy {
         completed: false,
         started: false
       },
-      players: this.players,
-      users: this.users
+      players: this.players.map((p) => p.serialize())
     };
   }
 }

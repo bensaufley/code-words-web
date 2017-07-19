@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { redirectIfUnauthenticated } from '../helpers/auth';
 import Tile from '../components/Tile';
+import Player from '../components/Player';
 
 import '../styles/Game.css';
 
@@ -25,23 +26,38 @@ export class Game extends Component {
     );
   }
 
+  renderTeam(team, name) {
+    if (team.length === 0) return null;
+    let undecided = name === 'null',
+        className = undecided ? 'undecided' : `team-${name}`;
+    return (
+      <div className={`team ${className}`} key={className}>
+        <h3>{undecided ? 'Undecided' : `Team ${name.toUpperCase()}`}</h3>
+        <div className="players">
+          {team.map((player) => <Player key={player.id} {...player} />)}
+        </div>
+      </div>
+    );
+  }
+
   renderTeams() {
-    let { players } = this.props,
-        teams = players.reduce((t, player) => {
-          (t[player.team] = t[player.team] || []).push(player);
-          return t;
-        }, {});
+    const { game, players, activePlayerId, session: { apiUser: { id: currentUserId }} } = this.props,
+          teams = players.reduce((obj, player) => {
+            let isUser = player.user.id === currentUserId;
+            obj[`${player.team}`].push({
+              ...player,
+              isUser,
+              editable: isUser && !game.started,
+              isTurn: player.id === activePlayerId
+            });
+            return obj;
+          }, { a: [], b: [], null: [] });
 
     return (
-      <div className="teams">
-        {Object.keys(teams).map((team) => {
-          return (
-            <div className={`team team-${team}`} key={`team-${team}`}>
-              {teams[team].map((player) => this.renderPlayer(player))}
-            </div>
-          );
-        })}
-      </div>
+      <section className="teams">
+        <h2>Teams</h2>
+        {['null', 'a', 'b'].map((team) => this.renderTeam(teams[team], team))}
+      </section>
     );
   }
 
