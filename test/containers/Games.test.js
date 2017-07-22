@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 import { findRenderedDOMComponentWithTag, scryRenderedDOMComponentsWithTag } from 'react-dom/test-utils';
 import { wrapContainer } from '../support/container-helper';
+import GameDummy from '../dummies/game';
 
 import GamesContainer from '../../src/containers/Games';
 
@@ -25,8 +26,8 @@ describe('(Container) Games', () => {
           apiUser: { username: 'test-user' }
         },
         games: [
-          { game: { id: '510924' }, players: [ {} ], users: [ {} ] },
-          { game: { id: '812470' }, players: [ {} ], users: [ {} ] }
+          new GameDummy().serialize(),
+          new GameDummy().serialize()
         ]
       };
       const wrapper = wrapContainer({ initialState })(GamesContainer);

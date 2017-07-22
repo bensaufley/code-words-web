@@ -18,11 +18,11 @@ export const Games = (props) => {
       <h1>{apiUser.username}’s Games</h1>
       <ul>
         {!games || !Object.keys(games).length ? '' : Object.keys(games).map((id) => {
-          let { game, users } = games[id];
+          let { game, players } = games[id];
           return (
             <li key={game.id}>
               <Link to={`/games/${game.id}/`}>
-                Game {game.id} ({users.length} player{users.length > 1 ? 's' : ''})
+                Game {game.id} ({players.length} player{players.length > 1 ? 's' : ''})
               </Link>
             </li>
           );
