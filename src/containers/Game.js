@@ -9,24 +9,6 @@ import Player from '../components/Player';
 import '../styles/Game.css';
 
 export class Game extends Component {
-  renderPlayer(player) {
-    let user = this.props.users.find((u) => u.id === player.userId),
-        currentUserId = this.props.session.apiUser.id,
-        pickTeam = '',
-        pickRole = '';
-
-    if (!this.props.game.started && user.id === currentUserId) {
-      pickTeam = 'Team A : Team B';
-      pickRole = 'Transmitter : Decoder';
-    }
-
-    return (
-      <div className={`player player-${player.role}`} key={player.id}>
-        {user.username}: {player.team ? `Team ${player.team}` : ''} {player.role ? `${player.role}` : ''} {pickTeam} {pickRole}
-      </div>
-    );
-  }
-
   renderTeam(team, name) {
     if (team.length === 0) return null;
     let undecided = name === 'null',
