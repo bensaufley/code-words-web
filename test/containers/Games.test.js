@@ -32,7 +32,7 @@ describe('(Container) Games', () => {
       };
       const wrapper = wrapContainer({ initialState })(GamesContainer);
 
-      expect(scryRenderedDOMComponentsWithTag(wrapper, 'li')).to.have.lengthOf(3);
+      expect(scryRenderedDOMComponentsWithTag(wrapper, 'li')).to.have.lengthOf(2);
     });
   });
 });

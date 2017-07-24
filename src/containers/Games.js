@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { Button, Icon, Loader } from 'semantic-ui-react';
 
 import { createGame } from '../actions/games';
 
@@ -17,7 +18,7 @@ export const Games = (props) => {
     <div>
       <h1>{apiUser.username}’s Games</h1>
       <ul>
-        {!games || !Object.keys(games).length ? '' : Object.keys(games).map((id) => {
+        {!games || !Object.keys(games).length ? <Loader active inline /> : Object.keys(games).map((id) => {
           let { game, players } = games[id];
           return (
             <li key={game.id}>
@@ -27,8 +28,11 @@ export const Games = (props) => {
             </li>
           );
         })}
-        <li><button type='button' onClick={createGame.bind(this)}>New Game</button></li>
       </ul>
+      <Button primary icon type='button' onClick={createGame.bind(this)}>
+        <Icon name="plus" />
+        New Game
+      </Button>
     </div>
   );
 };

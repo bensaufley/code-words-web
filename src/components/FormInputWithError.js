@@ -1,17 +1,18 @@
 import React from 'react';
+import { Form } from 'semantic-ui-react';
 
 export default function FormInputWithError({ input, placeholder, type, meta: { touched, error } }) {
   let errorMessage = touched && error ? (<small className="error">{error}</small>) : null;
 
   return (
-    <div>
+    <Form.Field error={!!errorMessage}>
+      <label>{placeholder}</label>
       <input
         {...input}
-        className={errorMessage ? 'error' : ''}
-        placeholder={placeholder}
+        label={placeholder}
         type={type}
         />
       {errorMessage}
-    </div>
+    </Form.Field>
   );
 }

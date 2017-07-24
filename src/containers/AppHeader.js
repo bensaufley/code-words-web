@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { Menu } from 'semantic-ui-react';
 
 import '../styles/AppHeader.css';
 
@@ -15,27 +16,27 @@ export class AppHeader extends Component {
 
   loggedInLinks() {
     return (
-      <nav>
-        <a href="/" className="log-out" onClick={this.logOut.bind(this)}>Log Out</a>
-      </nav>
+      <Menu.Menu position="right">
+        <Menu.Item href="/" className="log-out" onClick={this.logOut.bind(this)}>Log Out</Menu.Item>
+      </Menu.Menu>
     );
   }
 
   loggedOutLinks() {
     return (
-      <nav>
-        <NavLink to="/sign-up/">Sign Up</NavLink>
-        <NavLink to="/sign-in/">Sign In</NavLink>
-      </nav>
+      <Menu.Menu position="right">
+        <Menu.Item as={NavLink} to="/sign-up/">Sign Up</Menu.Item>
+        <Menu.Item as={NavLink} to="/sign-in/">Sign In</Menu.Item>
+      </Menu.Menu>
     );
   }
 
   render() {
     return (
-      <header className="page-header">
-        <h2><NavLink exact to="/">Code Words</NavLink></h2>
+      <Menu>
+        <Menu.Item header as={NavLink} to="/">Code Words</Menu.Item>
         {this.props.session.apiToken ? this.loggedInLinks() : this.loggedOutLinks()}
-      </header>
+      </Menu>
     );
   }
 }

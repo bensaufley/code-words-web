@@ -6,8 +6,11 @@ import { Switch, Route } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import store, { history } from './store';
 import registerServiceWorker from './registerServiceWorker';
+
+import 'semantic-ui-css/semantic.min.css';
 import './styles/index.css';
 
+import { Container } from 'semantic-ui-react';
 import AppHeader from './containers/AppHeader';
 import Home from './containers/Home';
 import SignUp from './containers/SignUp';
@@ -23,7 +26,7 @@ render((
     <ConnectedRouter history={history}>
       <div className="page-container">
         <AppHeader />
-        <main>
+        <Container as='main'>
           <Switch>
             <Route exact path="/" component={Home} />
             <Route path="/sign-up/" component={SignUp} />
@@ -31,7 +34,7 @@ render((
             <Route path="/games/:id([0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12})/" component={Game} />
             <Route component={FourOhFour} />
           </Switch>
-        </main>
+        </Container>
         <footer className="page-footer">
           Copyright ©{new Date().getFullYear()} <a href="http://bensaufley.com">Ben Saufley</a>
         </footer>

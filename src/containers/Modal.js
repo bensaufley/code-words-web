@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { closeModal } from '../actions/modal';
+import { Modal as SemanticModal } from 'semantic-ui-react';
 
 import '../styles/Modal.css';
 
@@ -9,12 +10,11 @@ export class Modal extends Component {
     if (!this.props.shown) return null;
 
     return (
-      <div className="modal-overlay" onClick={this.props.closeModal}>
-        <div className={`modal ${this.props.type}`} onClick={(e) => e.stopPropagation()}>
-          <a className="modal-close" onClick={this.props.closeModal}>&times;</a>
+      <SemanticModal basic size="small" onClose={this.props.closeModal} closeIcon="close" open={true}>
+        <SemanticModal.Content className={this.props.type}>
           <p>{this.props.content}</p>
-        </div>
-      </div>
+        </SemanticModal.Content>
+      </SemanticModal>
     );
   }
 }

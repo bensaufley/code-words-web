@@ -14,7 +14,9 @@
     "react-router-redux": "next",
     "redux": "^3.6.0",
     "redux-form": "^6.8.0",
-    "redux-thunk": "^2.2.0"
+    "redux-thunk": "^2.2.0",
+    "semantic-ui-css": "^2.2.11",
+    "semantic-ui-react": "^0.71.1"
   },
   "devDependencies": {
     "autoprefixer": "7.1.0",

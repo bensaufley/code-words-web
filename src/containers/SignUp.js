@@ -1,6 +1,7 @@
 import React from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { redirectIfAuthenticated } from '../helpers/auth';
+import { Form, Button } from 'semantic-ui-react';
 
 import { signUp } from '../actions/session';
 import FormInputWithError from '../components/FormInputWithError';
@@ -12,7 +13,7 @@ export let SignUp = (props) => {
   let { handleSubmit, invalid, submitting } = props;
 
   return (
-    <form onSubmit={handleSubmit}>
+    <Form onSubmit={handleSubmit}>
       <h1>Sign Up</h1>
       <Field
         component={FormInputWithError}
@@ -35,8 +36,8 @@ export let SignUp = (props) => {
         minLength={7}
         maxLength={50}
         placeholder="Password Confirmation" />
-      <button type="submit" disabled={invalid || submitting}>Sign Up</button>
-    </form>
+      <Button primary type="submit" disabled={invalid || submitting}>Sign Up</Button>
+    </Form>
   );
 };
 

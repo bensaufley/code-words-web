@@ -3,6 +3,7 @@ import chai, { Assertion } from 'chai';
 import sinonChai from 'sinon-chai';
 import { WebSocketStub as WebSocket } from './support/websocket-helper';
 import { receivedDispatch } from './support/dispatch-helper';
+import polyfillRaf from './support/request-animation-frame-polyfill';
 
 process.env.NODE_ENV = 'test';
 
@@ -17,6 +18,7 @@ global.navigator = {
   userAgent: 'node.js'
 };
 global.WebSocket = WebSocket;
+polyfillRaf();
 
 function noop() {
   return {};

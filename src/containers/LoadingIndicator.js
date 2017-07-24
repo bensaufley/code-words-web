@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
+import { Dimmer, Loader } from 'semantic-ui-react';
 
 import { startLoading, endLoading } from '../actions/loading';
 
@@ -37,13 +38,11 @@ export class LoadingIndicator extends Component {
   }
 
   render() {
-    if (this.props.loading) {
-      return (
-        <div className="loading-indicator">Loading…</div>
-      );
-    } else {
-      return null;
-    }
+    return (
+      <Dimmer page active={this.props.loading}>
+        <Loader active={this.props.loading} />
+      </Dimmer>
+    );
   }
 }
 

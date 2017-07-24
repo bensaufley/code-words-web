@@ -1,35 +1,19 @@
 import React, { Component } from 'react';
+import { Button, Card } from 'semantic-ui-react';
 
 import '../styles/Player.css';
 
 export default class Player extends Component {
-  buttonOrText(text, type, val) {
-    let { editable } = this.props,
-        lcType = type.toLowerCase();
-    if (editable) {
-      return (
-        <button type="button" className={`pick-${lcType}`}>{text || `Pick ${type}`}</button>
-      );
-    } else {
-      return (
-        <div className={`${lcType} ${lcType}-${val}`}>{text}</div>
-      );
-    }
-  }
-
-  role() {
-    let roleText,
-        { role } = this.props;
-    if (role) roleText = role.substr(0,1).toUpperCase() + role.substr(1);
-    return this.buttonOrText(roleText, 'Role', role);
-  }
-
-
-  team() {
-    let teamText,
-        { team } = this.props;
-    if (team) team = `Team ${team.toUpperCase()}`;
-    return this.buttonOrText(teamText, 'Team', team);
+  actions() {
+    if (!this.props.editable) return;
+    return (
+      <Card.Content extra>
+        <Button.Group fluid size="tiny">
+          <Button basic color="blue">Pick Team</Button>
+          <Button basic color="green">Pick Role</Button>
+        </Button.Group>
+      </Card.Content>
+    );
   }
 
   render() {
@@ -37,11 +21,17 @@ export default class Player extends Component {
         className = ['player', team, role, isUser ? 'current-user' : ''].filter(Boolean).join(' ');
 
     return (
-      <div className={className}>
-        <strong className="username">{username}</strong>
-        {this.team()}
-        {this.role()}
-      </div>
+      <Card className={className}>
+        <Card.Content>
+          <Card.Header>{username}</Card.Header>
+          <Card.Meta>
+            {team ? `Team ${team.toUpperCase()}` : 'No Team Selected'}
+            —
+            {role ? role.substr(0,1).toUpperCase() + role.substr(1) : 'No Role Selected'}
+          </Card.Meta>
+        </Card.Content>
+        {this.actions()}
+      </Card>
     );
   }
 }

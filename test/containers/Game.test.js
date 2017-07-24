@@ -1,8 +1,9 @@
 import { expect } from 'chai';
 import { Redirect } from 'react-router-dom';
-import { findRenderedComponentWithType, findRenderedDOMComponentWithTag, findRenderedDOMComponentWithClass } from 'react-dom/test-utils';
+import { findRenderedComponentWithType, findRenderedDOMComponentWithClass, scryRenderedComponentsWithType } from 'react-dom/test-utils';
 import { wrapContainer } from '../support/container-helper';
 import GameDummy from '../dummies/game';
+import Tile from '../../src/components/Tile';
 
 import GameContainer from '../../src/containers/Game';
 
@@ -32,7 +33,7 @@ describe('(Container) Games', () => {
         it('renders a loading div', () => {
           let wrapper = wrapContainer({ initialState })(GameContainer, ownProps);
 
-          expect(findRenderedDOMComponentWithTag(wrapper, 'div').textContent).to.eq('Loading…');
+          expect(findRenderedDOMComponentWithClass(wrapper, 'loader')).to.exist;
         });
       });
 
@@ -52,7 +53,7 @@ describe('(Container) Games', () => {
           initialState.games = { '98765': game };
           let wrapper = wrapContainer({ initialState })(GameContainer, ownProps);
 
-          expect(findRenderedDOMComponentWithClass(wrapper, 'game-board')).to.exist;
+          expect(scryRenderedComponentsWithType(wrapper, Tile)).to.exist.and.have.lengthOf(25);
         });
       });
     });
