@@ -7,7 +7,7 @@ import Cookies from 'js-cookie';
 import store, { history } from './store';
 import registerServiceWorker from './registerServiceWorker';
 
-import 'semantic-ui-css/semantic.min.css';
+import './semantic/semantic.min.css';
 import './styles/index.css';
 
 import { Container } from 'semantic-ui-react';
