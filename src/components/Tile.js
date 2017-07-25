@@ -6,7 +6,7 @@ import '../styles/Tile.css';
 export default class Tile extends Component {
   render() {
     return (
-      <Grid.Column className="tile" textAlign='center' verticalAlign='middle' mobile={5} tablet={1}>
+      <Grid.Column className="tile" textAlign='center' verticalAlign='middle'>
         {this.props.word}
       </Grid.Column>
     );

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import { Grid, Loader } from 'semantic-ui-react';
+import { Grid, Loader, Menu, Sidebar } from 'semantic-ui-react';
 import { redirectIfUnauthenticated } from '../helpers/auth';
 import Tile from '../components/Tile';
 import Player from '../components/Player';
@@ -50,17 +50,15 @@ export class Game extends Component {
 
     let { game } = this.props;
     return (
-      <Grid columns={5}>
-        <Grid.Column mobile={5} computer={1}>
-          <h1>Game {game.id}</h1>
-          {this.renderTeams()}
-        </Grid.Column>
-        <Grid.Column mobile={5} computer={4}>
-          <Grid columns={5} celled centered>
-            {game.board.map((tile, i) => <Tile key={i} {...tile} />)}
-          </Grid>
-        </Grid.Column>
-      </Grid>
+      <div>
+        <Sidebar animation='overlay' visible={true}>
+          <Menu.Item>{this.renderTeams()}</Menu.Item>
+        </Sidebar>
+        <h1>Game {game.id}</h1>
+        <Grid columns={5} celled centered>
+          {game.board.map((tile, i) => <Tile key={i} {...tile} />)}
+        </Grid>
+      </div>
     );
   }
 }
