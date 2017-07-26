@@ -6,6 +6,11 @@ import { push } from 'react-router-redux';
 import { showModal } from './modal';
 import { gameActions } from './games';
 
+const SIGNUP_URL = `http://${process.env.REACT_APP_API_URL}/signup`,
+      LOGIN_URL = `http://${process.env.REACT_APP_API_URL}/login`,
+      SIGNUP_SUCCESS_MESSAGE = 'Welcome! You have successfully created an account.',
+      LOGIN_SUCCESS_MESSAGE = 'You have successfully logged in.';
+
 export const LOGGED_IN = 'LOGGED_IN',
       LOGGED_OUT = 'LOGGED_OUT',
       WEBSOCKET_OPENED = 'WEBSOCKET_OPENED',
@@ -52,26 +57,18 @@ export function signUp(username, password) {
 }
 
 function createSessionCallback(username, password, createUser = false) {
-  let url, successMessage;
-  if (createUser) {
-    url = `http://${process.env.REACT_APP_API_URL}/signup`;
-    successMessage = 'Welcome! You have successfully created an account.';
-  } else {
-    url = `http://${process.env.REACT_APP_API_URL}/login`;
-    successMessage = 'You have successfully logged in.';
-  }
+  let url = createUser ? SIGNUP_URL : LOGIN_URL,
+      successMessage = createUser ? SIGNUP_SUCCESS_MESSAGE : LOGIN_SUCCESS_MESSAGE;
 
   return (dispatch) => {
     return axios.post(url, { username, password })
       .then(({ data: { token, user } }) => {
-        return dispatch(loggedIn(token, user));
+        dispatch(loggedIn(token, user));
       })
-      .then(() => {
-        return Promise.all([
-          dispatch(push('/')),
-          dispatch(showModal(successMessage, 'success'))
-        ]);
-      })
+      .then(() => Promise.all([
+        dispatch(push('/')),
+        dispatch(showModal(successMessage, 'success'))
+      ]))
       .catch((err) => {
         let message;
         try { message = err.response.data.message; }

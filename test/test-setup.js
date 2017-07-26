@@ -4,8 +4,11 @@ import sinonChai from 'sinon-chai';
 import { WebSocketStub as WebSocket } from './support/websocket-helper';
 import { receivedDispatch } from './support/dispatch-helper';
 import polyfillRaf from './support/request-animation-frame-polyfill';
+import getClientEnvironment from '../config/env';
 
 process.env.NODE_ENV = 'test';
+
+getClientEnvironment('');
 
 chai.use(sinonChai);
 
