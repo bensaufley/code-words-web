@@ -1,49 +1,57 @@
 {
-    "env": {
-        "es6": true,
-        "node": true
-    },
-    "extends": ["eslint:recommended", "react-app"],
-    "rules": {
-        "comma-dangle": [
-            "error",
-            "never"
-        ],
-        "complexity": [
-            "warn",
-            10
-        ],
-        "indent": [
-            "warn",
-            2,
-            {
-                "SwitchCase": 1,
-                "VariableDeclarator": {
-                    "var": 2,
-                    "let": 2,
-                    "const": 3
-                }
-            }
-        ],
-        "keyword-spacing": "warn",
-        "linebreak-style": [
-            "error",
-            "unix"
-        ],
-        "no-console": "off",
-        "no-unused-vars": [
-            "warn",
-            {
-                "argsIgnorePattern": "^_"
-            }
-        ],
-        "quotes": [
-            "warn",
-            "single"
-        ],
-        "semi": [
-            "error",
-            "always"
-        ]
-    }
+  "env": {
+    "browser": true,
+    "es6": true,
+    "node": true
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended"
+  ],
+  "parser": "babel-eslint",
+  "parserOptions": {
+    "sourceType": "module"
+  },
+  "rules": {
+    "comma-dangle": [
+      "error",
+      "never"
+    ],
+    "complexity": [
+      "warn",
+      10
+    ],
+    "indent": [
+      "warn",
+      2,
+      {
+        "SwitchCase": 1,
+        "VariableDeclarator": {
+          "var": 2,
+          "let": 2,
+          "const": 3
+        }
+      }
+    ],
+    "keyword-spacing": "warn",
+    "linebreak-style": [
+      "error",
+      "unix"
+    ],
+    "no-console": "off",
+    "no-unused-vars": [
+      "warn",
+      {
+        "argsIgnorePattern": "^_"
+      }
+    ],
+    "quotes": [
+      "warn",
+      "single"
+    ],
+    "semi": [
+      "error",
+      "always"
+    ]
+  }
 }
