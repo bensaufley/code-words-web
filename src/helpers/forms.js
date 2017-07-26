@@ -3,17 +3,14 @@ export const USERNAME_REGEX = /^[A-Za-z][A-Za-z0-9.\-_]{7,24}$/,
       PASSWORD_REGEX = /^.{7,50}$/i,
       PASSWORD_PATTERN_DESC = 'must be between 7 and fifty characters in length.';
 
-export function validateUsername(values, errors) {
-  return validateWithRegex(values, 'username', USERNAME_REGEX, `Username ${USERNAME_PATTERN_DESC}`, errors);
-}
+export const validateUsername = regExValidator('username', USERNAME_REGEX, `Username ${USERNAME_PATTERN_DESC}`);
+export const validatePassword = regExValidator('password', PASSWORD_REGEX, `Password ${PASSWORD_PATTERN_DESC}`);
 
-export function validatePassword(values, errors) {
-  return validateWithRegex(values, 'password', PASSWORD_REGEX, `Password ${PASSWORD_PATTERN_DESC}`, errors);
-}
-
-function validateWithRegex(values, key, regex, error, errors) {
-  if (!regex.test(values[key] || '')) return { ...errors, [key]: error };
-  else return errors;
+function regExValidator(key, regex, error) {
+  return (values, errors) => {
+    if (!regex.test(values[key] || '')) return { ...errors, [key]: error };
+    else return errors;
+  };
 }
 
 export function validatePasswordConfirmation(values, errors) {
