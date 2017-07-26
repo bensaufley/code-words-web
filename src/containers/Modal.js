@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { closeModal } from '../actions/modal';
 import { Modal as SemanticModal } from 'semantic-ui-react';
@@ -6,6 +7,13 @@ import { Modal as SemanticModal } from 'semantic-ui-react';
 import '../styles/Modal.css';
 
 export class Modal extends Component {
+  static propTypes = {
+    closeModal: PropTypes.func.isRequired,
+    content: PropTypes.string,
+    shown: PropTypes.bool,
+    type: PropTypes.string
+  }
+
   render() {
     if (!this.props.shown) return null;
 

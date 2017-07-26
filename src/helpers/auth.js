@@ -7,13 +7,13 @@ function  mapAuthStateToProps({ session: { apiToken } }) {
 }
 
 export function redirectIfAuthenticated(Component) {
-  return connect(mapAuthStateToProps)((props) => {
-    return props.apiToken ? <Redirect to="/" /> : <Component {...props} />;
+  return connect(mapAuthStateToProps)(({ apiToken, ...others }) => {
+    return apiToken ? <Redirect to="/" /> : <Component {...others} />;
   });
 }
 
 export function redirectIfUnauthenticated(Component) {
-  return connect(mapAuthStateToProps)((props) => {
-    return props.apiToken ? <Component {...props} /> : <Redirect to="/" />;
+  return connect(mapAuthStateToProps)(({ apiToken, ...others }) => {
+    return apiToken ? <Component {...others} /> : <Redirect to="/" />;
   });
 }

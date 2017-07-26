@@ -24,7 +24,7 @@ describe('(Container) AppHeader', () => {
       sandbox = sinon.sandbox.create();
       session = { apiToken: jwt.sign({ userId: '1234567' }, 'big secret', { expiresIn: '7 days' }) };
       logOutStub = sinon.stub();
-      wrapper = shallow(<AppHeader session={session} logOut={logOutStub} />);
+      wrapper = shallow(<AppHeader location={{}} session={session} logOut={logOutStub} />);
     });
 
     afterEach(() => {

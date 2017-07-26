@@ -1,5 +1,6 @@
 import { JSDOM } from 'jsdom';
 import chai, { Assertion } from 'chai';
+import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
 import { WebSocketStub as WebSocket } from './support/websocket-helper';
 import { receivedDispatch } from './support/dispatch-helper';
@@ -30,6 +31,15 @@ function noop() {
 process.on('unhandledRejection', (reason, p) => {
   console.log('Unhandled Rejection at: Promise', p, 'reason:', reason);
   process.exit();
+});
+
+let consoleError = console.error;
+sinon.stub(console, 'error').callsFake((warning, ...rest) => {
+  if (warning && warning.indexOf('Warning: Failed prop type:') >= 0) {
+    throw new Error(warning);
+  } else {
+    consoleError(warning, ...rest);
+  }
 });
 
 // prevent mocha tests from breaking when trying to require a css file

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Menu } from 'semantic-ui-react';
@@ -8,6 +9,12 @@ import '../styles/AppHeader.css';
 import { logOut } from '../actions/session';
 
 export class AppHeader extends Component {
+  static propTypes = {
+    session: PropTypes.object.isRequired,
+    location: PropTypes.object.isRequired,
+    logOut: PropTypes.func.isRequired
+  }
+
   logOut(e) {
     e.preventDefault();
     if (!window.confirm('Are you sure you want to log out?')) return;

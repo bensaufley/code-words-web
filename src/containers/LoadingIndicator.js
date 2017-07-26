@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import { Dimmer, Loader } from 'semantic-ui-react';
@@ -8,6 +9,10 @@ import { startLoading, endLoading } from '../actions/loading';
 import '../styles/LoadingIndicator.css';
 
 export class LoadingIndicator extends Component {
+  static propTypes = {
+    loading: PropTypes.bool.isRequired
+  }
+
   interceptHandler(callback) {
     return (data) => {
       callback();

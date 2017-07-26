@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Field, reduxForm } from 'redux-form';
 import { redirectIfAuthenticated } from '../helpers/auth';
 import { Form, Button } from 'semantic-ui-react';
@@ -32,6 +33,12 @@ export let SignIn = (props) => {
       <Button type="submit" primary disabled={invalid || submitting}>Sign In</Button>
     </Form>
   );
+};
+
+SignIn.propTypes = {
+  handleSubmit: PropTypes.func.isRequired,
+  invalid: PropTypes.bool.isRequired,
+  submitting: PropTypes.bool.isRequired
 };
 
 let SignInForm = reduxForm({

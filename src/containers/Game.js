@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { Grid, Loader, Menu, Sidebar } from 'semantic-ui-react';
@@ -9,6 +10,13 @@ import Player from '../components/Player';
 import '../styles/Game.css';
 
 export class Game extends Component {
+  static propTypes = {
+    activePlayerId: PropTypes.string,
+    loading: PropTypes.bool,
+    players: PropTypes.array,
+    session: PropTypes.object
+  }
+
   renderTeam(team, name) {
     if (team.length === 0) return null;
     let undecided = name === 'null',

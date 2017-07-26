@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Button, Icon, Loader } from 'semantic-ui-react';
@@ -35,6 +36,12 @@ export const Games = (props) => {
       </Button>
     </div>
   );
+};
+
+Games.propTypes = {
+  games: PropTypes.array,
+  apiToken: PropTypes.string.isRequired,
+  apiUser: PropTypes.object.isRequired
 };
 
 function mapStateToProps({ games, session: { apiToken, apiUser } }) {
