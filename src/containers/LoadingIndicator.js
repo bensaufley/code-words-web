@@ -10,7 +10,9 @@ import '../styles/LoadingIndicator.css';
 
 export class LoadingIndicator extends Component {
   static propTypes = {
-    loading: PropTypes.bool.isRequired
+    endLoading: PropTypes.func.isRequired,
+    loading: PropTypes.bool.isRequired,
+    startLoading: PropTypes.func.isRequired
   }
 
   interceptHandler(callback) {

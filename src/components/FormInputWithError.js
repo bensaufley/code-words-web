@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Form } from 'semantic-ui-react';
 
 export default function FormInputWithError({ input, placeholder, type, meta: { touched, error } }) {
@@ -16,3 +17,10 @@ export default function FormInputWithError({ input, placeholder, type, meta: { t
     </Form.Field>
   );
 }
+
+FormInputWithError.propTypes = {
+  input: PropTypes.object.isRequired,
+  meta: PropTypes.object.isRequired,
+  placeholder: PropTypes.string,
+  type: PropTypes.string.isRequired
+};

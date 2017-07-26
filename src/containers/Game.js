@@ -12,6 +12,7 @@ import '../styles/Game.css';
 export class Game extends Component {
   static propTypes = {
     activePlayerId: PropTypes.string,
+    game: PropTypes.object,
     loading: PropTypes.bool,
     players: PropTypes.array,
     session: PropTypes.object
