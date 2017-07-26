@@ -1,6 +1,12 @@
 exclude_paths:
-  - "semantic/" # Generated files
-  - "src/styles/" # These are compiled
+  # Auto-generated files
+  - "semantic/"
+  - "scripts/**.js"
+  - "src/registerServiceWorker.js"
+  - "**/*.config.*"
+  - "config/**.js"
+  # Compiled files
+  - "src/styles/"
 engines:
   duplication:
     enabled: true
