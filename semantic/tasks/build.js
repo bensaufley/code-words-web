@@ -42,7 +42,6 @@ module.exports = function(callback) {
     tasks.push('build-rtl');
   }
 
-  tasks.push('build-javascript');
   tasks.push('build-css');
   tasks.push('build-assets');
 

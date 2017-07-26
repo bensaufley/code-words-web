@@ -10,10 +10,10 @@
       "themes": "semantic/themes/"
     },
     "output": {
-      "packaged": "src/semantic/",
-      "uncompressed": "src/semantic/components/",
-      "compressed": "src/semantic/components/",
-      "themes": "src/semantic/themes/"
+      "packaged": "src/styles/semantic/",
+      "uncompressed": "src/styles/semantic/components/",
+      "compressed": "src/styles/semantic/components/",
+      "themes": "src/styles/semantic/themes/"
     },
     "clean": "src/semantic/"
   },
