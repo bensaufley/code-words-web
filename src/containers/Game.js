@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import { Grid, Loader } from 'semantic-ui-react';
+import { Icon, Loader, Menu } from 'semantic-ui-react';
 import { redirectIfUnauthenticated } from '../helpers/auth';
 import Tile from '../components/Tile';
 import GameMenu from '../components/GameMenu';
@@ -26,12 +26,18 @@ export class Game extends Component {
     };
   }
 
-  showMenu() {
-    this.setState({ menuOpen: true });
+  headerDisplay() {
+    if (this.props.game.completed) return 'Completed Game';
+    if (this.props.game.started) return 'Game in Progress';
+    return 'New Game';
   }
 
   hideMenu() {
     this.setState({ menuOpen: false });
+  }
+
+  toggleMenu() {
+    this.setState({ menuOpen: !this.state.menuOpen });
   }
 
   render() {
@@ -47,11 +53,20 @@ export class Game extends Component {
           menuOpen={this.state.menuOpen}
           {...menuParams}
           />
-          <h1>Game {game.id}</h1>
-          <a onClick={this.showMenu.bind(this)}>Menu</a>
-          <Grid columns={5} celled centered>
+          <Menu>
+            <Menu.Item header>
+              {this.headerDisplay()}
+            </Menu.Item>
+            <Menu.Menu position="right">
+              <Menu.Item onClick={this.toggleMenu.bind(this)}>
+                <Icon name="bars" />
+                Menu
+              </Menu.Item>
+            </Menu.Menu>
+          </Menu>
+          <div className="game">
             {game.board.map((tile, i) => <Tile key={i} {...tile} />)}
-          </Grid>
+          </div>
       </div>
     );
   }

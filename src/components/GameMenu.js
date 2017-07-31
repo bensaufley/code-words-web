@@ -57,8 +57,8 @@ export default class GameMenu extends Component {
     return (
       <Sidebar animation='overlay' as={Menu} visible={this.props.menuOpen} vertical>
         <Menu.Item onClick={this.props.hideMenu}>
-          <Icon name="close" />
           Close Menu
+          <Icon name="close" />
         </Menu.Item>
         <Menu.Item>{this.renderTeams()}</Menu.Item>
       </Sidebar>

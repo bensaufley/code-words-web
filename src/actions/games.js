@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { push } from 'react-router-redux';
 
 import { showModal } from './modal';
 
@@ -27,6 +28,7 @@ export function createGame(token) {
     return axios.post(`http://${process.env.REACT_APP_API_URL}/api/v1/games/`, null, config)
       .then(({ data }) => {
         dispatch({ type: GAME_CREATED, payload: data });
+        dispatch(push(`/games/${data.game.id}/`));
       })
       .catch((err) => {
         dispatch(showModal(err.message, 'error'));

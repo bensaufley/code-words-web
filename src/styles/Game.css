@@ -1,0 +1,12 @@
+.game {
+  display: grid;
+  grid-gap: 1em;
+  perspective: 1200px; }
+  @media screen and (min-width: 30em) {
+    .game {
+      grid-template-columns: repeat(5, 1fr);
+      grid-template-rows: repeat(5, 1fr);
+      height: 85vh; } }
+  @media screen and (min-width: 30em) and (orientation: portrait) {
+    .game {
+      height: 100vw; } }

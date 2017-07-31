@@ -1,0 +1,26 @@
+.game-tile {
+  background: #efe9dd;
+  border-radius: 3px;
+  box-shadow: 0 1px 3px transparent;
+  cursor: pointer;
+  font-size: .75em;
+  font-weight: bold;
+  line-height: 2.666em;
+  text-align: center;
+  transition: .2s transform, .2s box-shadow; }
+  @media screen and (min-width: 30em) {
+    .game-tile {
+      font-size: 1em;
+      line-height: calc((85vh - 10px - 4em) / 5); }
+      .game-tile:hover {
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        transform: scale(1.1); } }
+  @media screen and (min-width: 60em) {
+    .game-tile {
+      font-size: 1.25em; } }
+  .game-tile:active {
+    -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+    transform: rotateX(45deg); }
+    @media screen and (min-width: 30em) {
+      .game-tile:active {
+        transform: scale(1.1) rotateX(25deg); } }

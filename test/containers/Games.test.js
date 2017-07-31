@@ -1,5 +1,6 @@
 import { expect } from 'chai';
-import { findRenderedDOMComponentWithTag, scryRenderedDOMComponentsWithTag } from 'react-dom/test-utils';
+import { findRenderedComponentWithType, scryRenderedComponentsWithType } from 'react-dom/test-utils';
+import { Menu } from 'semantic-ui-react';
 import { wrapContainer } from '../support/container-helper';
 import GameDummy from '../dummies/game';
 
@@ -15,24 +16,28 @@ describe('(Container) Games', () => {
     };
     const wrapper = wrapContainer({ initialState })(GamesContainer);
 
-    expect(findRenderedDOMComponentWithTag(wrapper, 'ul')).to.exist;
+    expect(findRenderedComponentWithType(wrapper, Menu)).to.exist;
   });
 
   context('with games', () => {
     it('renders without exploding', () => {
-      let initialState = {
-        session: {
-          apiToken: '12345',
-          apiUser: { username: 'test-user' }
-        },
-        games: [
-          new GameDummy().serialize(),
-          new GameDummy().serialize()
-        ]
-      };
+      let newGame = new GameDummy(),
+          startedGame = new GameDummy({ started: true }),
+          completedGame = new GameDummy({ completed: true }),
+          initialState = {
+            session: {
+              apiToken: '12345',
+              apiUser: { username: 'test-user' }
+            },
+            games: {
+              [newGame.id]: newGame.serialize(),
+              [startedGame.id]: startedGame.serialize(),
+              [completedGame.id]: completedGame.serialize()
+            }
+          };
       const wrapper = wrapContainer({ initialState })(GamesContainer);
 
-      expect(scryRenderedDOMComponentsWithTag(wrapper, 'li')).to.have.lengthOf(2);
+      expect(scryRenderedComponentsWithType(wrapper, Menu.Item)).to.have.lengthOf(4);
     });
   });
 });

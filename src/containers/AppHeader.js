@@ -41,7 +41,7 @@ export class AppHeader extends Component {
   render() {
     return (
       <Menu>
-        <Menu.Item header as={NavLink} to="/">Code Words</Menu.Item>
+        <Menu.Item header as={NavLink} exact to="/">Code Words</Menu.Item>
         {this.props.session.apiToken ? this.loggedInLinks() : this.loggedOutLinks()}
       </Menu>
     );

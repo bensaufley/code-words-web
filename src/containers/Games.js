@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { Button, Icon, Loader } from 'semantic-ui-react';
+import { Button, Icon, Loader, Menu } from 'semantic-ui-react';
 
 import { createGame } from '../actions/games';
 
@@ -18,28 +18,30 @@ export const Games = (props) => {
   return (
     <div>
       <h1>{apiUser.username}’s Games</h1>
-      <ul>
+      <Menu vertical fluid>
         {!games || !Object.keys(games).length ? <Loader active inline /> : Object.keys(games).map((id) => {
           let { game, players } = games[id];
           return (
-            <li key={game.id}>
+            <Menu.Item key={game.id}>
               <Link to={`/games/${game.id}/`}>
-                Game {game.id} ({players.length} player{players.length > 1 ? 's' : ''})
+                Game with {players.filter((p) => p.user.id !== apiUser.id).map((p) => p.user.username).join(', ') || 'nobody'}
               </Link>
-            </li>
+            </Menu.Item>
           );
         })}
-      </ul>
-      <Button primary icon type='button' onClick={createGame.bind(this)}>
-        <Icon name="plus" />
-        New Game
-      </Button>
+        <Menu.Item fitted>
+          <Button fluid primary icon type='button' onClick={createGame.bind(this)}>
+            <Icon name="plus" />
+            New Game
+          </Button>
+        </Menu.Item>
+      </Menu>
     </div>
   );
 };
 
 Games.propTypes = {
-  games: PropTypes.array,
+  games: PropTypes.object,
   apiToken: PropTypes.string.isRequired,
   apiUser: PropTypes.object.isRequired
 };
