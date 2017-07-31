@@ -25,7 +25,7 @@ describe('(Container) Games', () => {
       let initialState, ownProps;
 
       beforeEach(() => {
-        initialState = { session: { apiToken: '12345', apiUser: { username: 'test-user' } } };
+        initialState = { session: { apiToken: '12345', apiUser: { id: '29841', username: 'test-user' } } };
         ownProps = { match: { params: { id: '98765' } } };
       });
 
@@ -53,7 +53,7 @@ describe('(Container) Games', () => {
           initialState.games = { '98765': game };
           let wrapper = wrapContainer({ initialState })(GameContainer, ownProps);
 
-          expect(scryRenderedComponentsWithType(wrapper, Tile)).to.exist.and.have.lengthOf(25);
+          expect(scryRenderedComponentsWithType(wrapper, Tile)).have.lengthOf(25);
         });
       });
     });

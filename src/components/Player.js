@@ -18,8 +18,8 @@ export default class Player extends Component {
     return (
       <Card.Content extra>
         <Button.Group fluid size="tiny">
-          <Button basic color="blue">Pick Team</Button>
-          <Button basic color="green">Pick Role</Button>
+          <Button color="blue">Pick Team</Button>
+          <Button color="green">Pick Role</Button>
         </Button.Group>
       </Card.Content>
     );

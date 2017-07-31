@@ -1,10 +1,13 @@
 import UUID from 'uuid';
 import Faker from 'faker';
+import Dummy from './dummy';
 
-export default class UserDummy {
+export default class UserDummy extends Dummy {
   constructor() {
-    this.id = new UUID.v4();
+    super(arguments);
+    this.id = UUID.v4();
     this.username = Faker.internet.userName();
+    this.processTraits(arguments[0]);
   }
 
   serialize() {

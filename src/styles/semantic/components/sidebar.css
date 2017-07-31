@@ -626,3 +626,6 @@ body.pushable > .pusher {
          Site Overrides
 *******************************/
 
+.ui.sidebar {
+  background: #FFFFFF;
+}

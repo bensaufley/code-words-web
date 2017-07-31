@@ -7,7 +7,7 @@ import FormInputWithError from '../../src/components/FormInputWithError';
 describe('(Component) FormInputWithError', () => {
   context('without error', () => {
     it('renders without exploding', () => {
-      let wrapper = render(<FormInputWithError meta={{}} />);
+      let wrapper = render(<FormInputWithError input={{}} type='text' meta={{}} />);
 
       expect(wrapper).to.have.lengthOf(1);
     });
@@ -15,7 +15,7 @@ describe('(Component) FormInputWithError', () => {
 
   context('with error', () => {
     it('renders without exploding', () => {
-      let wrapper = render(<FormInputWithError meta={{ touched: true, error: 'Bad!' }} />);
+      let wrapper = render(<FormInputWithError input={{}} type='text' meta={{ touched: true, error: 'Bad!' }} />);
 
       expect(wrapper).to.have.lengthOf(1);
     });

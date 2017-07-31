@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import { Grid, Loader, Menu, Sidebar } from 'semantic-ui-react';
+import { Grid, Loader } from 'semantic-ui-react';
 import { redirectIfUnauthenticated } from '../helpers/auth';
 import Tile from '../components/Tile';
-import Player from '../components/Player';
+import GameMenu from '../components/GameMenu';
 
 import '../styles/Game.css';
 
@@ -18,55 +18,40 @@ export class Game extends Component {
     session: PropTypes.object
   }
 
-  renderTeam(team, name) {
-    if (team.length === 0) return null;
-    let undecided = name === 'null',
-        className = undecided ? 'undecided' : `team-${name}`;
-    return (
-      <div className={`team ${className}`} key={className}>
-        <h3>{undecided ? 'Undecided' : `Team ${name.toUpperCase()}`}</h3>
-        <div className="players">
-          {team.map((player) => <Player key={player.id} {...player} />)}
-        </div>
-      </div>
-    );
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      menuOpen: !props.activePlayerId
+    };
   }
 
-  renderTeams() {
-    const { game, players, activePlayerId, session: { apiUser: { id: currentUserId }} } = this.props,
-          teams = players.reduce((obj, player) => {
-            let isUser = player.user.id === currentUserId;
-            obj[`${player.team}`].push({
-              ...player,
-              isUser,
-              editable: isUser && !game.started,
-              isTurn: player.id === activePlayerId
-            });
-            return obj;
-          }, { a: [], b: [], null: [] });
+  showMenu() {
+    this.setState({ menuOpen: true });
+  }
 
-    return (
-      <section className="teams">
-        <h2>Teams</h2>
-        {['null', 'a', 'b'].map((team) => this.renderTeam(teams[team], team))}
-      </section>
-    );
+  hideMenu() {
+    this.setState({ menuOpen: false });
   }
 
   render() {
     if (this.props.loading) return (<Loader active inline />);
     else if (!this.props.game) return (<Redirect to="/" />);
 
-    let { game } = this.props;
+    let { game, players, activePlayerId, session } = this.props,
+        menuParams = { game, players, activePlayerId, session };
     return (
       <div>
-        <Sidebar animation='overlay' visible={true}>
-          <Menu.Item>{this.renderTeams()}</Menu.Item>
-        </Sidebar>
-        <h1>Game {game.id}</h1>
-        <Grid columns={5} celled centered>
-          {game.board.map((tile, i) => <Tile key={i} {...tile} />)}
-        </Grid>
+        <GameMenu
+          hideMenu={this.hideMenu.bind(this)}
+          menuOpen={this.state.menuOpen}
+          {...menuParams}
+          />
+          <h1>Game {game.id}</h1>
+          <a onClick={this.showMenu.bind(this)}>Menu</a>
+          <Grid columns={5} celled centered>
+            {game.board.map((tile, i) => <Tile key={i} {...tile} />)}
+          </Grid>
       </div>
     );
   }
