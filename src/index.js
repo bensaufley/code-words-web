@@ -11,15 +11,15 @@ import './styles/semantic/semantic.min.css';
 import './styles/index.css';
 
 import { Container } from 'semantic-ui-react';
-import AppHeader from './containers/AppHeader';
-import Home from './containers/Home';
-import SignUp from './containers/SignUp';
-import SignIn from './containers/SignIn';
-import Game from './containers/Game';
-import Modal from './containers/Modal';
-import FourOhFour from './components/FourOhFour';
-import LoadingIndicator from './containers/LoadingIndicator';
-import { loggedIn } from './actions/session';
+import AppHeader from './modules/AppHeader';
+import Home from './modules/Home';
+import SignUp from './modules/SignUp';
+import SignIn from './modules/SignIn';
+import Game from './modules/Game';
+import Modal from './modules/Modal';
+import FourOhFour from './modules/FourOhFour';
+import LoadingIndicator from './modules/LoadingIndicator';
+import { loggedIn } from './reducers/session';
 
 render((
   <Provider store={store}>

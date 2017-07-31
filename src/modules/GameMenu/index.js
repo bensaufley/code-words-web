@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Player from '../components/Player';
+import Player from '../Player';
 import { Icon, Menu, Sidebar } from 'semantic-ui-react';
 
 

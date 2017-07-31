@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Button, Card } from 'semantic-ui-react';
 
-import '../styles/Player.css';
+import '../../styles/Player.css';
 
 export default class Player extends Component {
   static propTypes = {

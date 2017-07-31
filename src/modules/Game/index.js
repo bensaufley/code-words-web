@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { Icon, Loader, Menu } from 'semantic-ui-react';
-import { redirectIfUnauthenticated } from '../helpers/auth';
-import Tile from '../components/Tile';
-import GameMenu from '../components/GameMenu';
+import { redirectIfUnauthenticated } from '../../helpers/auth';
+import Tile from '../Tile';
+import GameMenu from '../GameMenu';
 
-import '../styles/Game.css';
+import '../../styles/Game.css';
 
 export class Game extends Component {
   static propTypes = {

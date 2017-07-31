@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Button, Icon, Loader, Menu } from 'semantic-ui-react';
 
-import { createGame } from '../actions/games';
+import { createGame } from '../Games/ducks';
 
 export const Games = (props) => {
   let { apiToken, apiUser, games } = props;

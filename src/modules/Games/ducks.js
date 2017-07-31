@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { push } from 'react-router-redux';
 
-import { showModal } from './modal';
+import { showModal } from '../Modal/ducks';
 
 export const GAME_CREATED = 'GAME_CREATED',
       GAME_TRANSMIT = 'GAME_TRANSMIT',
@@ -16,6 +16,24 @@ export const gameActions = [
   GAMES_INDEXED,
   GAME_UPDATED
 ];
+
+export default function gamesReducer(state = null, action) {
+  switch (action.type) {
+    case GAMES_INDEXED:
+      return action.payload.games.reduce((obj, g) => {
+        obj[g.game.id] = g;
+        return obj;
+      }, {});
+    case GAME_CREATED:
+    case GAME_UPDATED:
+      return {
+        ...state,
+        [action.payload.game.id]: action.payload
+      };
+    default:
+      return state;
+  }
+}
 
 export function createGame(token) {
   return (dispatch) => {

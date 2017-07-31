@@ -4,9 +4,9 @@ import axios from 'axios';
 import { connect } from 'react-redux';
 import { Dimmer, Loader } from 'semantic-ui-react';
 
-import { startLoading, endLoading } from '../actions/loading';
+import { startLoading, endLoading } from './ducks';
 
-import '../styles/LoadingIndicator.css';
+import '../../styles/LoadingIndicator.css';
 
 export class LoadingIndicator extends Component {
   static propTypes = {

@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { closeModal } from '../actions/modal';
 import { Modal as SemanticModal } from 'semantic-ui-react';
+import { closeModal } from '../Modal/ducks';
 
-import '../styles/Modal.css';
+import '../../styles/Modal.css';
 
 export class Modal extends Component {
   static propTypes = {

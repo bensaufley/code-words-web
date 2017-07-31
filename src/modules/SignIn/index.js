@@ -1,14 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Field, reduxForm } from 'redux-form';
-import { redirectIfAuthenticated } from '../helpers/auth';
+import { redirectIfAuthenticated } from '../../helpers/auth';
 import { Form, Button } from 'semantic-ui-react';
 
-import { logIn } from '../actions/session';
-import FormInputWithError from '../components/FormInputWithError';
-import { USERNAME_REGEX, USERNAME_PATTERN_DESC, validateWith, validateUsername, validatePassword } from '../helpers/forms';
+import { logIn } from '../../reducers/session';
+import FormInputWithError from '../FormInputWithError';
+import { USERNAME_REGEX, USERNAME_PATTERN_DESC, validateWith, validateUsername, validatePassword } from '../../helpers/forms';
 
-import '../styles/SignIn.css';
+import '../../styles/SignIn.css';
 
 export let SignIn = (props) => {
   let { handleSubmit, invalid, submitting } = props;

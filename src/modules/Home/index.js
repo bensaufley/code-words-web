@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import Games from './Games';
-import ExternalHome from '../components/ExternalHome';
+import Games from '../Games';
+import ExternalHome from '../ExternalHome';
 
-import '../styles/Home.css';
+import '../../styles/Home.css';
 
 export const Home = (props) => {
   let { apiToken } = props;

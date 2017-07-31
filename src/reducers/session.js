@@ -3,8 +3,8 @@ import Cookies from 'js-cookie';
 import jwtDecode from 'jwt-decode';
 import { push } from 'react-router-redux';
 
-import { showModal } from './modal';
-import { gameActions } from './games';
+import { showModal } from '../modules/Modal/ducks';
+import { gameActions } from '../modules/Games/ducks';
 
 const SIGNUP_URL = `http://${process.env.REACT_APP_API_URL}/signup`,
       LOGIN_URL = `http://${process.env.REACT_APP_API_URL}/login`,
@@ -15,6 +15,35 @@ export const LOGGED_IN = 'LOGGED_IN',
       LOGGED_OUT = 'LOGGED_OUT',
       WEBSOCKET_OPENED = 'WEBSOCKET_OPENED',
       WEBSOCKET_CLOSED = 'WEBSOCKET_CLOSED';
+
+let initialState = {
+  apiToken: null,
+  apiUser: {}
+};
+
+export default function(state = initialState, action) {
+  switch (action.type) {
+    case LOGGED_IN:
+      return {
+        apiToken: action.payload.token,
+        apiUser: action.payload.user
+      };
+    case LOGGED_OUT:
+      return initialState;
+    case WEBSOCKET_OPENED:
+      return {
+        ...state,
+        webSocket: action.payload.webSocket
+      };
+    case WEBSOCKET_CLOSED: {
+      let { webSocket, ...others } = state;
+      if (webSocket && webSocket.readyState === WebSocket.OPEN) webSocket.close();
+      return { ...others };
+    }
+    default:
+      return state;
+  }
+}
 
 export function loggedIn(token, user) {
   return (dispatch) => {

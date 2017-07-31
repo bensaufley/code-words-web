@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import '../styles/Tile.css';
+import '../../styles/Tile.css';
 
 export default class Tile extends Component {
   static propTypes = {

@@ -1,4 +1,5 @@
-import { MODAL_SHOW, MODAL_HIDE } from '../actions/modal';
+export const MODAL_SHOW = 'MODAL_SHOW',
+      MODAL_HIDE = 'MODAL_HIDE';
 
 let initialState = {
   content: '',
@@ -19,4 +20,21 @@ export default function modalReducer(state = initialState, action) {
     default:
       return state;
   }
+}
+
+export function showModal(message, type = 'notice') {
+  return {
+    type: MODAL_SHOW,
+    payload: {
+      message,
+      type
+    }
+  };
+}
+
+export function closeModal() {
+  return {
+    type: MODAL_HIDE,
+    payload: {}
+  };
 }

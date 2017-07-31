@@ -4,9 +4,9 @@ import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Menu } from 'semantic-ui-react';
 
-import '../styles/AppHeader.css';
+import '../../styles/AppHeader.css';
 
-import { logOut } from '../actions/session';
+import { logOut } from '../../reducers/session';
 
 export class AppHeader extends Component {
   static propTypes = {
