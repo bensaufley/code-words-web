@@ -1,9 +1,9 @@
 import { expect } from 'chai';
 import { findRenderedComponentWithType, findRenderedDOMComponentWithClass } from 'react-dom/test-utils';
-import { wrapContainer } from '../support/container-helper';
+import { wrapContainer } from '../../support/container-helper';
 
-import HomeContainer from '../../src/containers/Home';
-import Games from '../../src/containers/Games';
+import HomeContainer from '../../../src/modules/Home';
+import Games from '../../../src/modules/Games';
 
 describe('(Container) Home', () => {
   context('when unauthenticated', () => {

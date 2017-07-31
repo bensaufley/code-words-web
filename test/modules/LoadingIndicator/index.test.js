@@ -5,9 +5,9 @@ import { mount } from 'enzyme';
 import axios from 'axios';
 
 import { findRenderedComponentWithType } from 'react-dom/test-utils';
-import { wrapContainer } from '../support/container-helper';
+import { wrapContainer } from '../../support/container-helper';
 
-import LoadingIndicatorContainer, { LoadingIndicator } from '../../src/containers/LoadingIndicator';
+import LoadingIndicatorContainer, { LoadingIndicator } from '../../../src/modules/LoadingIndicator';
 
 describe('(Container) LoadingIndicator', () => {
   describe('component', () => {

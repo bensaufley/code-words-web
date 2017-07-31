@@ -1,10 +1,10 @@
 import { expect } from 'chai';
 import { findRenderedComponentWithType, scryRenderedComponentsWithType } from 'react-dom/test-utils';
 import { Menu } from 'semantic-ui-react';
-import { wrapContainer } from '../support/container-helper';
-import GameDummy from '../dummies/game';
+import { wrapContainer } from '../../support/container-helper';
+import GameDummy from '../../dummies/game';
 
-import GamesContainer from '../../src/containers/Games';
+import GamesContainer from '../../../src/modules/Games';
 
 describe('(Container) Games', () => {
   it('renders without exploding', () => {

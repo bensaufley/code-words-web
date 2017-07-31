@@ -1,9 +1,9 @@
 import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
-import TileDummy from '../dummies/tile';
+import TileDummy from '../../dummies/tile';
 
-import Tile from '../../src/components/Tile';
+import Tile from '../../../src/modules/Tile';
 
 describe('(component) Tile', () => {
   it('renders without exploding', () => {

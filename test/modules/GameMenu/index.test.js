@@ -1,8 +1,8 @@
 import React from 'react';
 import { expect } from 'chai';
 import { render } from 'enzyme';
-import GameMenu from '../../src/components/GameMenu';
-import GameDummy from '../dummies/game';
+import GameMenu from '../../../src/modules/GameMenu';
+import GameDummy from '../../dummies/game';
 
 describe('(Component) GameMenu', () => {
   context('closed', () => {

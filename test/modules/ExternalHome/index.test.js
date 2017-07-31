@@ -2,11 +2,11 @@ import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 
-import FourOhFour from '../../src/components/FourOhFour';
+import ExternalHome from '../../../src/modules/ExternalHome';
 
-describe('(component) FourOhFour', () => {
+describe('(component) ExternalHome', () => {
   it('renders without exploding', () => {
-    let wrapper = shallow(<FourOhFour />);
+    let wrapper = shallow(<ExternalHome />);
 
     expect(wrapper).to.have.lengthOf(1);
   });

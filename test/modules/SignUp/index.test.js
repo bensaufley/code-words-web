@@ -1,12 +1,12 @@
 import { expect } from 'chai';
 import { findRenderedDOMComponentWithTag } from 'react-dom/test-utils';
-import { wrapContainer } from '../support/container-helper';
+import { wrapContainer } from '../../support/container-helper';
 
-import SignInContainer from '../../src/containers/SignIn';
+import SignUpContainer from '../../../src/modules/SignUp';
 
-describe('(Container) SignIn', () => {
+describe('(Container) SignUp', () => {
   it('renders without exploding', () => {
-    const wrapper = wrapContainer()(SignInContainer);
+    const wrapper = wrapContainer()(SignUpContainer);
     expect(findRenderedDOMComponentWithTag(wrapper, 'form')).to.exist;
   });
 });

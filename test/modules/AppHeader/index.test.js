@@ -4,9 +4,9 @@ import { shallow } from 'enzyme';
 import { findRenderedComponentWithType } from 'react-dom/test-utils';
 import sinon from 'sinon';
 import jwt from 'jsonwebtoken';
-import { wrapContainer } from '../support/container-helper';
+import { wrapContainer } from '../../support/container-helper';
 
-import AppHeaderContainer, { AppHeader } from '../../src/containers/AppHeader';
+import AppHeaderContainer, { AppHeader } from '../../../src/modules/AppHeader';
 
 describe('(Container) AppHeader', () => {
   context('when logged out', () => {

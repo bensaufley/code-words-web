@@ -1,8 +1,8 @@
 import { expect } from 'chai';
 import { findRenderedComponentWithType } from 'react-dom/test-utils';
-import { wrapContainer } from '../support/container-helper';
+import { wrapContainer } from '../../support/container-helper';
 
-import ModalContainer, { Modal } from '../../src/containers/Modal';
+import ModalContainer, { Modal } from '../../../src/modules/Modal';
 
 describe('(Container) Modal', () => {
   context('inactive', () => {
