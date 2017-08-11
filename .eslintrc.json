@@ -24,6 +24,10 @@
       "warn",
       10
     ],
+    "import/extensions": [
+      "warn",
+      "never"
+    ],
     "indent": [
       "warn",
       2,
