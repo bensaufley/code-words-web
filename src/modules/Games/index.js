@@ -4,12 +4,14 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Button, Icon, Loader, Menu } from 'semantic-ui-react';
 
+import { gameShape, userShape } from '../../helpers/prop-types';
+
 import { createGame } from '../Games/ducks';
 
 export const Games = (props) => {
-  let { apiToken, apiUser, games } = props;
+  const { apiToken, apiUser, games } = props;
 
-  let createGame = (e) => {
+  const newGameClickHandler = (e) => {
     e.preventDefault();
 
     props.createGame(apiToken);
@@ -20,7 +22,7 @@ export const Games = (props) => {
       <h1>{apiUser.username}’s Games</h1>
       <Menu vertical fluid>
         {!games || !Object.keys(games).length ? <Loader active inline /> : Object.keys(games).map((id) => {
-          let { game, players } = games[id];
+          const { game, players } = games[id];
           return (
             <Menu.Item key={game.id}>
               <Link to={`/games/${game.id}/`}>
@@ -30,7 +32,7 @@ export const Games = (props) => {
           );
         })}
         <Menu.Item fitted>
-          <Button fluid primary icon type='button' onClick={createGame.bind(this)}>
+          <Button fluid primary icon type="button" onClick={newGameClickHandler.bind(this)}>
             <Icon name="plus" />
             New Game
           </Button>
@@ -40,14 +42,20 @@ export const Games = (props) => {
   );
 };
 
+Games.defaultProps = {
+  games: {}
+};
+
 Games.propTypes = {
-  games: PropTypes.object,
+  games: PropTypes.objectOf(gameShape),
   apiToken: PropTypes.string.isRequired,
-  apiUser: PropTypes.object.isRequired
+  apiUser: userShape.isRequired
 };
 
 function mapStateToProps({ games, session: { apiToken, apiUser } }) {
   return { apiToken, apiUser, games };
 }
 
-export default connect(mapStateToProps, { createGame })(Games);
+const GamesContainer = connect(mapStateToProps, { createGame })(Games);
+
+export default GamesContainer;

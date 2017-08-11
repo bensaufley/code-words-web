@@ -4,11 +4,17 @@
   "private": true,
   "dependencies": {
     "axios": "^0.16.2",
+    "dotenv": "4.0.0",
     "history": "^4.6.1",
     "js-cookie": "^2.1.4",
     "jwt-decode": "^2.2.0",
+    "object-assign": "4.1.1",
+    "promise": "7.1.1",
+    "prop-types": "^15.5.10",
     "react": "^15.5.4",
+    "react-dev-utils": "^3.0.0",
     "react-dom": "^15.5.4",
+    "react-error-overlay": "^1.0.7",
     "react-redux": "^5.0.5",
     "react-router-dom": "^4.1.1",
     "react-router-redux": "next",
@@ -16,7 +22,8 @@
     "redux-form": "^6.8.0",
     "redux-thunk": "^2.2.0",
     "semantic-ui-css": "^2.2.11",
-    "semantic-ui-react": "^0.71.1"
+    "semantic-ui-react": "^0.71.1",
+    "whatwg-fetch": "2.0.3"
   },
   "devDependencies": {
     "autoprefixer": "7.1.0",
@@ -39,9 +46,9 @@
     "codeclimate-test-reporter": "^0.5.0",
     "cross-env": "^5.0.1",
     "css-loader": "0.28.1",
-    "dotenv": "4.0.0",
     "enzyme": "^2.9.1",
     "eslint": "3.19.0",
+    "eslint-config-airbnb": "^15.1.0",
     "eslint-config-react-app": "^1.0.4",
     "eslint-loader": "1.7.1",
     "eslint-plugin-flowtype": "2.33.0",
@@ -59,14 +66,10 @@
     "node-sass-chokidar": "^0.0.3",
     "normalize-scss": "^7.0.0",
     "npm-run-all": "^4.0.2",
-    "object-assign": "4.1.1",
     "postcss-flexbugs-fixes": "3.0.0",
     "postcss-loader": "2.0.5",
-    "promise": "7.1.1",
     "pryjs": "^1.0.3",
     "react-addons-test-utils": "^15.6.0",
-    "react-dev-utils": "^3.0.0",
-    "react-error-overlay": "^1.0.7",
     "semantic-ui": "^2.2.11",
     "sinon": "^2.3.5",
     "sinon-chai": "^2.11.0",
@@ -76,8 +79,7 @@
     "uuid": "^3.1.0",
     "webpack": "2.6.1",
     "webpack-dev-server": "2.4.5",
-    "webpack-manifest-plugin": "1.1.0",
-    "whatwg-fetch": "2.0.3"
+    "webpack-manifest-plugin": "1.1.0"
   },
   "scripts": {
     "lint": "eslint . && scss-lint",

@@ -2,7 +2,7 @@ import { JSDOM } from 'jsdom';
 import chai, { Assertion } from 'chai';
 import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
-import { WebSocketStub as WebSocket } from './support/websocket-helper';
+import WebSocketStub from './support/websocket-helper';
 import { receivedDispatch } from './support/dispatch-helper';
 import polyfillRaf from './support/request-animation-frame-polyfill';
 import getClientEnvironment from '../config/env';
@@ -21,7 +21,7 @@ global.document = global.window.document;
 global.navigator = {
   userAgent: 'node.js'
 };
-global.WebSocket = WebSocket;
+global.WebSocket = WebSocketStub;
 polyfillRaf();
 
 function noop() {
@@ -33,10 +33,10 @@ process.on('unhandledRejection', (reason, p) => {
   process.exit();
 });
 
-let consoleError = console.error;
+const consoleError = console.error;
 sinon.stub(console, 'error').callsFake((warning, ...rest) => {
   if (warning && warning.indexOf('Warning: Failed prop type:') >= 0) {
-    throw new Error(warning);
+    chai.expect.fail(null, null, warning);
   } else {
     consoleError(warning, ...rest);
   }

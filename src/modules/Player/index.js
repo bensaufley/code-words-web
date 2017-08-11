@@ -2,11 +2,20 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Button, Card } from 'semantic-ui-react';
 
+import { userShape } from '../../helpers/prop-types';
+
 import '../../styles/Player.css';
 
 export default class Player extends Component {
+  static defaultProps = {
+    editable: false,
+    team: null,
+    role: null,
+    isUser: false
+  }
+
   static propTypes = {
-    user: PropTypes.object.isRequired,
+    user: userShape.isRequired,
     editable: PropTypes.bool,
     team: PropTypes.string,
     role: PropTypes.string,
@@ -14,7 +23,8 @@ export default class Player extends Component {
   }
 
   actions() {
-    if (!this.props.editable) return;
+    if (!this.props.editable) return null;
+
     return (
       <Card.Content extra>
         <Button.Group fluid size="tiny">
@@ -26,8 +36,8 @@ export default class Player extends Component {
   }
 
   render() {
-    let { team, role, user: { username }, isUser } = this.props,
-        className = ['player', team, role, isUser ? 'current-user' : ''].filter(Boolean).join(' ');
+    const { team, role, user: { username }, isUser } = this.props,
+          className = ['player', team, role, isUser ? 'current-user' : ''].filter(Boolean).join(' ');
 
     return (
       <Card className={className}>
@@ -36,7 +46,7 @@ export default class Player extends Component {
           <Card.Meta>
             {team ? `Team ${team.toUpperCase()}` : 'No Team Selected'}
             —
-            {role ? role.substr(0,1).toUpperCase() + role.substr(1) : 'No Role Selected'}
+            {role ? role.substr(0, 1).toUpperCase() + role.substr(1) : 'No Role Selected'}
           </Card.Meta>
         </Card.Content>
         {this.actions()}

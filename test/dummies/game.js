@@ -6,7 +6,7 @@ import TileDummy from './tile';
 
 export default class GameDummy extends Dummy {
   static TRAITS = {
-    started: function (started) {
+    started(started) {
       this.started = started;
       if (started) {
         const teams = ['a', 'a', 'b', 'b'],
@@ -20,22 +20,23 @@ export default class GameDummy extends Dummy {
         this.activePlayerId = this.players[Math.floor(Math.random() * 4)].id;
       }
     },
-    completed: function (completed) {
+    completed(completed) {
       if (completed) this.processTraits({ started: true });
       this.completed = completed;
     }
   }
 
-  constructor({ players = 4 } = {}) {
-    super(arguments);
+  constructor(params = {}, ...rest) {
+    const { players = 4 } = params;
+    super(params, ...rest);
     this.id = UUID.v4();
     this.board = new Array(25).fill('').map(() => new TileDummy().serialize());
-    let users = new Array(players).fill('').map(() => new UserDummy());
+    const users = new Array(players).fill('').map(() => new UserDummy());
     this.players = users.map((u) => new PlayerDummy({ user: u, game: this }));
     this.activePlayerId = null;
     this.completed = false;
     this.started = false;
-    this.processTraits(arguments[0]);
+    this.processTraits(params);
   }
 
   serialize() {

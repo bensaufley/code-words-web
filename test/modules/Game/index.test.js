@@ -15,7 +15,7 @@ describe('(Container) Games', () => {
   describe('container', () => {
     context('logged out', () => {
       it('renders a Redirect', () => {
-        let wrapper = wrapContainer()(GameContainer);
+        const wrapper = wrapContainer()(GameContainer);
 
         expect(findRenderedComponentWithType(wrapper, Redirect).props.to).to.eq('/');
       });
@@ -31,7 +31,7 @@ describe('(Container) Games', () => {
 
       context('without games', () => {
         it('renders a loading div', () => {
-          let wrapper = wrapContainer({ initialState })(GameContainer, ownProps);
+          const wrapper = wrapContainer({ initialState })(GameContainer, ownProps);
 
           expect(findRenderedDOMComponentWithClass(wrapper, 'loader')).to.exist;
         });
@@ -40,7 +40,7 @@ describe('(Container) Games', () => {
       context('without matching game', () => {
         it('renders a Redirect', () => {
           initialState.games = {};
-          let wrapper = wrapContainer({ initialState })(GameContainer, ownProps);
+          const wrapper = wrapContainer({ initialState })(GameContainer, ownProps);
 
           expect(findRenderedComponentWithType(wrapper, Redirect).props.to).to.eq('/');
         });
@@ -49,10 +49,10 @@ describe('(Container) Games', () => {
       context('with game', () => {
         context('in a new state', () => {
           it('renders without exploding', () => {
-            let game = new GameDummy().serialize();
+            const game = new GameDummy().serialize();
             game.game.id = '98765';
-            initialState.games = { '98765': game };
-            let wrapper = wrapContainer({ initialState })(GameContainer, ownProps);
+            initialState.games = { 98765: game };
+            const wrapper = wrapContainer({ initialState })(GameContainer, ownProps);
 
             expect(scryRenderedComponentsWithType(wrapper, Tile)).have.lengthOf(25);
           });
@@ -60,10 +60,10 @@ describe('(Container) Games', () => {
 
         context('started', () => {
           it('renders without exploding', () => {
-            let game = new GameDummy({ started: true }).serialize();
+            const game = new GameDummy({ started: true }).serialize();
             game.game.id = '98765';
-            initialState.games = { '98765': game };
-            let wrapper = wrapContainer({ initialState })(GameContainer, ownProps);
+            initialState.games = { 98765: game };
+            const wrapper = wrapContainer({ initialState })(GameContainer, ownProps);
 
             expect(scryRenderedComponentsWithType(wrapper, Tile)).have.lengthOf(25);
           });
@@ -71,10 +71,10 @@ describe('(Container) Games', () => {
 
         context('after complete', () => {
           it('renders without exploding', () => {
-            let game = new GameDummy({ completed: true }).serialize();
+            const game = new GameDummy({ completed: true }).serialize();
             game.game.id = '98765';
-            initialState.games = { '98765': game };
-            let wrapper = wrapContainer({ initialState })(GameContainer, ownProps);
+            initialState.games = { 98765: game };
+            const wrapper = wrapContainer({ initialState })(GameContainer, ownProps);
 
             expect(scryRenderedComponentsWithType(wrapper, Tile)).have.lengthOf(25);
           });

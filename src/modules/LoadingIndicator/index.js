@@ -8,6 +8,11 @@ import { startLoading, endLoading } from './ducks';
 
 import '../../styles/LoadingIndicator.css';
 
+const interceptHandler = (callback) => (data) => {
+  callback();
+  return data;
+};
+
 export class LoadingIndicator extends Component {
   static propTypes = {
     endLoading: PropTypes.func.isRequired,
@@ -15,26 +20,14 @@ export class LoadingIndicator extends Component {
     startLoading: PropTypes.func.isRequired
   }
 
-  interceptHandler(callback) {
-    return (data) => {
-      callback();
-      return data;
-    };
-  }
-
-  interceptErrorHandler(error) {
-    this.props.endLoading();
-    return Promise.reject(error);
-  }
-
   componentDidMount() {
     this.axiosRequestInterceptor = axios.interceptors.request.use(
-      this.interceptHandler(this.props.startLoading),
+      interceptHandler(this.props.startLoading),
       this.interceptErrorHandler.bind(this)
     );
 
     this.axiosResponseInterceptor = axios.interceptors.response.use(
-      this.interceptHandler(this.props.endLoading),
+      interceptHandler(this.props.endLoading),
       this.interceptErrorHandler.bind(this)
     );
   }
@@ -42,6 +35,11 @@ export class LoadingIndicator extends Component {
   componentWillUnmount() {
     axios.interceptors.request.eject(this.axiosRequestInterceptor);
     axios.interceptors.response.eject(this.axiosResponseInterceptor);
+  }
+
+  interceptErrorHandler(error) {
+    this.props.endLoading();
+    return Promise.reject(error);
   }
 
   render() {

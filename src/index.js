@@ -4,48 +4,49 @@ import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'react-router-redux';
 import { Switch, Route } from 'react-router-dom';
 import Cookies from 'js-cookie';
+import { Container } from 'semantic-ui-react';
+
 import store, { history } from './store';
 import registerServiceWorker from './registerServiceWorker';
 
 import './styles/semantic/semantic.min.css';
 import './styles/index.css';
 
-import { Container } from 'semantic-ui-react';
-import AppHeader from './modules/AppHeader';
-import Home from './modules/Home';
-import SignUp from './modules/SignUp';
-import SignIn from './modules/SignIn';
-import Game from './modules/Game';
-import Modal from './modules/Modal';
+import AppHeaderContainer from './modules/AppHeader';
+import HomeContainer from './modules/Home';
+import SignUpContainer from './modules/SignUp';
+import SignInContainer from './modules/SignIn';
+import GameContainer from './modules/Game';
+import ModalContainer from './modules/Modal';
 import FourOhFour from './modules/FourOhFour';
-import LoadingIndicator from './modules/LoadingIndicator';
+import LoadingIndicatorContainer from './modules/LoadingIndicator';
 import { loggedIn } from './reducers/session';
 
 render((
   <Provider store={store}>
     <ConnectedRouter history={history}>
       <div className="page-container">
-        <AppHeader />
-        <Container as='main'>
+        <AppHeaderContainer />
+        <Container as="main">
           <Switch>
-            <Route exact path="/" component={Home} />
-            <Route path="/sign-up/" component={SignUp} />
-            <Route path="/sign-in/" component={SignIn} />
-            <Route path="/games/:id([0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12})/" component={Game} />
+            <Route exact path="/" component={HomeContainer} />
+            <Route path="/sign-up/" component={SignUpContainer} />
+            <Route path="/sign-in/" component={SignInContainer} />
+            <Route path="/games/:id([0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12})/" component={GameContainer} />
             <Route component={FourOhFour} />
           </Switch>
         </Container>
         <footer className="page-footer">
           Copyright ©{new Date().getFullYear()} <a href="http://bensaufley.com">Ben Saufley</a>
         </footer>
-        <Modal />
-        <LoadingIndicator />
+        <ModalContainer />
+        <LoadingIndicatorContainer />
       </div>
     </ConnectedRouter>
   </Provider>
 ), document.getElementById('root'), () => {
-  let apiToken = Cookies.get('apiToken'),
-      apiUser = Cookies.getJSON('apiUser');
+  const apiToken = Cookies.get('apiToken'),
+        apiUser = Cookies.getJSON('apiUser');
   if (apiToken && apiUser) {
     store.dispatch(loggedIn(apiToken, apiUser));
   } else {

@@ -12,12 +12,12 @@ describe('(Ducks) session', () => {
   describe('reducer', () => {
     describe(LOGGED_IN, () => {
       it('returns state populated from payload', () => {
-        let action = { type: LOGGED_IN, payload: { token: '98765', user: { username: 'flarg' } } };
+        const action = { type: LOGGED_IN, payload: { token: '98765', user: { username: 'flarg' } } };
         expect(sessionReducer({ apiToken: '12345', apiUser: { username: 'bloop' } }, action)).to.eql({ apiToken: '98765', apiUser: { username: 'flarg' } });
       });
     });
 
-    describe (LOGGED_OUT, () => {
+    describe(LOGGED_OUT, () => {
       it('resets to initial state', () => {
         expect(sessionReducer({ apiToken: '12345', apiUser: { username: 'bloop' } }, { type: LOGGED_OUT })).to.eql({ apiToken: null, apiUser: {} });
       });
@@ -26,7 +26,7 @@ describe('(Ducks) session', () => {
     describe('other actions', () => {
       context('with state passed', () => {
         it('returns passed state', () => {
-          let initialState = { apiToken: 'blah', apiUser: { username: 'bloop' } };
+          const initialState = { apiToken: 'blah', apiUser: { username: 'bloop' } };
           expect(sessionReducer(initialState, { type: 'ANOTHER_ACTION', payload: { foo: 'bar' } })).to.eql(initialState);
         });
       });
@@ -46,7 +46,7 @@ describe('(Ducks) session', () => {
       beforeEach(() => {
         sandbox = sinon.sandbox.create();
         token = jwt.sign({ userId: '12345' }, 'super-secret', { expiresIn: '7 days' });
-        expires = new Date(Math.floor(new Date().getTime()/1000) * 1000 + 7 * 24 * 60 * 60 * 1000);
+        expires = new Date(Math.floor(new Date().getTime() / 1000) * 1000 + 7 * 24 * 60 * 60 * 1000);
       });
 
       afterEach(() => {
@@ -63,11 +63,11 @@ describe('(Ducks) session', () => {
       });
 
       it(`returns action with type ${LOGGED_IN} and proper payload`, () => {
-        let stub = new DispatchStub(),
-            { dispatch } = stub;
+        const stub = new DispatchStub(),
+              { dispatch } = stub;
         loggedIn(token, { username: 'test-user' })(dispatch);
 
-        expect(stub).to.have.receivedDispatch({ type: LOGGED_IN, payload: { token, user: { username: 'test-user'} } });
+        expect(stub).to.have.receivedDispatch({ type: LOGGED_IN, payload: { token, user: { username: 'test-user' } } });
       });
     });
 
@@ -92,7 +92,7 @@ describe('(Ducks) session', () => {
       });
 
       it(`returns action with type ${LOGGED_OUT}`, () => {
-        let action = loggedOut();
+        const action = loggedOut();
 
         expect(action.type).to.eq(LOGGED_OUT);
       });
@@ -130,8 +130,8 @@ describe('(Ducks) session', () => {
         });
 
         it('dispatches loggedIn event', () => {
-          let stub = new DispatchStub(),
-              { dispatch } = stub;
+          const stub = new DispatchStub(),
+                { dispatch } = stub;
 
           return logIn('test-user', 'test-password')(dispatch).then(() => {
             expect(stub).to.have.receivedDispatch({ type: LOGGED_IN, payload: { token, user } });
@@ -139,7 +139,7 @@ describe('(Ducks) session', () => {
         });
 
         it('redirects and generates modal action', () => {
-          let dispatch = sandbox.stub();
+          const dispatch = sandbox.stub();
 
           return logIn('test-user', 'test-password')(dispatch).then(() => {
             expect(dispatch).to.have.been.calledWith({ type: '@@router/CALL_HISTORY_METHOD', payload: { args: ['/'], method: 'push' } });
@@ -150,10 +150,8 @@ describe('(Ducks) session', () => {
 
       context('error', () => {
         it('emits the returned error message to Modal if present', () => {
-          let dispatch = sandbox.stub();
-          sandbox.stub(axios, 'post').callsFake(() => {
-            return Promise.reject({ response: { data: { message: 'Invalid credentials' } }});
-          });
+          const dispatch = sandbox.stub();
+          sandbox.stub(axios, 'post').callsFake(() => Promise.reject({ response: { data: { message: 'Invalid credentials' } } }));
 
           return logIn({ username: 'blah', password: '' })(dispatch).then(() => {
             expect(dispatch).to.have.been.calledWith({ type: MODAL_SHOW, payload: { message: 'Invalid credentials', type: 'error' } });
@@ -161,10 +159,8 @@ describe('(Ducks) session', () => {
         });
 
         it('emits Error.message to Modal if nothing returned from API', () => {
-          let dispatch = sandbox.stub();
-          sandbox.stub(axios, 'post').callsFake(() => {
-            return Promise.reject(new Error('Something went wrong'));
-          });
+          const dispatch = sandbox.stub();
+          sandbox.stub(axios, 'post').callsFake(() => Promise.reject(new Error('Something went wrong')));
 
           return logIn({ username: 'blah', password: '' })(dispatch).then(() => {
             expect(dispatch).to.have.been.calledWith({ type: MODAL_SHOW, payload: { message: 'Something went wrong', type: 'error' } });
@@ -175,14 +171,14 @@ describe('(Ducks) session', () => {
 
     describe('logOut', () => {
       it(`dispatches ${LOGGED_OUT} action`, () => {
-        let dispatch = sinon.stub();
+        const dispatch = sinon.stub();
         logOut()(dispatch);
 
         expect(dispatch).to.have.been.calledWith(sinon.match.has('type', LOGGED_OUT));
       });
 
       it('redirects to root', () => {
-        let dispatch = sinon.stub();
+        const dispatch = sinon.stub();
         logOut()(dispatch);
 
         expect(dispatch).to.have.been.calledWith(sinon.match({ type: '@@router/CALL_HISTORY_METHOD', payload: { args: ['/'], method: 'push' } }));
@@ -221,8 +217,8 @@ describe('(Ducks) session', () => {
         });
 
         it('dispatches loggedIn event', () => {
-          let stub = new DispatchStub(),
-              { dispatch } = stub;
+          const stub = new DispatchStub(),
+                { dispatch } = stub;
 
           return signUp('test-user', 'test-password')(dispatch).then(() => {
             expect(stub).to.have.receivedDispatch({ type: LOGGED_IN, payload: { token, user: { username: 'test-user' } } });
@@ -230,7 +226,7 @@ describe('(Ducks) session', () => {
         });
 
         it('redirects and generates modal action', () => {
-          let dispatch = sandbox.stub();
+          const dispatch = sandbox.stub();
 
           return signUp('test-user', 'test-password')(dispatch).then(() => {
             expect(dispatch).to.have.been.calledWith({ type: '@@router/CALL_HISTORY_METHOD', payload: { args: ['/'], method: 'push' } });
@@ -241,10 +237,8 @@ describe('(Ducks) session', () => {
 
       context('error', () => {
         it('emits the returned error message to Modal if present', () => {
-          let dispatch = sandbox.stub();
-          sandbox.stub(axios, 'post').callsFake(() => {
-            return Promise.reject({ response: { data: { message: 'Invalid credentials' } }});
-          });
+          const dispatch = sandbox.stub();
+          sandbox.stub(axios, 'post').callsFake(() => Promise.reject({ response: { data: { message: 'Invalid credentials' } } }));
 
           return signUp({ username: 'blah', password: '' })(dispatch).then(() => {
             expect(dispatch).to.have.been.calledWith({ type: MODAL_SHOW, payload: { message: 'Invalid credentials', type: 'error' } });
@@ -252,10 +246,8 @@ describe('(Ducks) session', () => {
         });
 
         it('emits Error.message to Modal if nothing returned from API', () => {
-          let dispatch = sandbox.stub();
-          sandbox.stub(axios, 'post').callsFake(() => {
-            return Promise.reject(new Error('Something went wrong'));
-          });
+          const dispatch = sandbox.stub();
+          sandbox.stub(axios, 'post').callsFake(() => Promise.reject(new Error('Something went wrong')));
 
           return signUp({ username: 'blah', password: '' })(dispatch).then(() => {
             expect(dispatch).to.have.been.calledWith({ type: MODAL_SHOW, payload: { message: 'Something went wrong', type: 'error' } });

@@ -2,10 +2,7 @@ export default class Dummy {
   static TRAITS = {}
 
   attrs(...attrs) {
-    return attrs.reduce((obj, attr) => {
-      obj[attr] = this[attr];
-      return obj;
-    }, {});
+    return attrs.reduce((obj, attr) => ({ ...obj, [attr]: this[attr] }), {});
   }
 
   processTraits(obj = {}) {

@@ -3,7 +3,7 @@ import { findRenderedComponentWithType, findRenderedDOMComponentWithClass } from
 import { wrapContainer } from '../../support/container-helper';
 
 import HomeContainer from '../../../src/modules/Home';
-import Games from '../../../src/modules/Games';
+import GamesContainer from '../../../src/modules/Games';
 
 describe('(Container) Home', () => {
   context('when unauthenticated', () => {
@@ -16,7 +16,7 @@ describe('(Container) Home', () => {
   context('when authenticated', () => {
     it('renders without exploding', () => {
       const wrapper = wrapContainer({ initialState: { session: { apiToken: '12345', apiUser: { username: 'blah' } } } })(HomeContainer);
-      expect(findRenderedComponentWithType(wrapper, Games)).to.exist;
+      expect(findRenderedComponentWithType(wrapper, GamesContainer)).to.exist;
     });
   });
 });

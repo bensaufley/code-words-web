@@ -5,14 +5,17 @@
     "node": true
   },
   "extends": [
-    "eslint:recommended",
-    "plugin:react/recommended"
+    "airbnb"
   ],
   "parser": "babel-eslint",
   "parserOptions": {
     "sourceType": "module"
   },
   "rules": {
+    "arrow-parens": [
+      "warn",
+      "always"
+    ],
     "comma-dangle": [
       "error",
       "never"
@@ -34,21 +37,38 @@
       }
     ],
     "keyword-spacing": "warn",
-    "linebreak-style": [
+    "max-len": [
       "error",
-      "unix"
+      120,
+      2, {
+        "ignoreUrls": true,
+        "ignoreComments": false,
+        "ignoreRegExpLiterals": true,
+        "ignoreStrings": true,
+        "ignoreTemplateLiterals": true
+      }
     ],
-    "no-console": "off",
+    "no-alert": "off",
+    "no-mixed-operators": "off",
+    "no-plusplus": "off",
+    "no-underscore-dangle": "off",
     "no-unused-vars": [
       "warn",
       {
         "argsIgnorePattern": "^_"
       }
     ],
+    "one-var": "off",
+    "one-var-declaration-per-line": [
+      "warn",
+      "initializations"
+    ],
     "quotes": [
       "warn",
       "single"
     ],
+    "react/jsx-filename-extension": "off",
+    "react/jsx-no-bind": "off",
     "semi": [
       "error",
       "always"

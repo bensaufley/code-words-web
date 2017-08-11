@@ -7,10 +7,15 @@ import { closeModal } from '../Modal/ducks';
 import '../../styles/Modal.css';
 
 export class Modal extends Component {
+  static defaultProps = {
+    content: '',
+    type: 'notice'
+  }
+
   static propTypes = {
     closeModal: PropTypes.func.isRequired,
     content: PropTypes.string,
-    shown: PropTypes.bool,
+    shown: PropTypes.bool.isRequired,
     type: PropTypes.string
   }
 
@@ -18,7 +23,7 @@ export class Modal extends Component {
     if (!this.props.shown) return null;
 
     return (
-      <SemanticModal basic size="small" onClose={this.props.closeModal} closeIcon="close" open={true}>
+      <SemanticModal basic size="small" onClose={this.props.closeModal} closeIcon="close" open>
         <SemanticModal.Content className={this.props.type}>
           <p>{this.props.content}</p>
         </SemanticModal.Content>

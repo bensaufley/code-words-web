@@ -18,13 +18,13 @@ describe('(Ducks) loadingReducer', () => {
     context('unrelated action', () => {
       describe('without state', () => {
         it('returns false', () => {
-          expect(loadingReducer(undefined,  { type: 'ANOTHER_ACTION' })).to.be.false;
+          expect(loadingReducer(undefined, { type: 'ANOTHER_ACTION' })).to.be.false;
         });
       });
 
       describe('with state', () => {
         it('returns the state', () => {
-          expect(loadingReducer(true,  { type: 'ANOTHER_ACTION' })).to.be.true;
+          expect(loadingReducer(true, { type: 'ANOTHER_ACTION' })).to.be.true;
         });
       });
     });

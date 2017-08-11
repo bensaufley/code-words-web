@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Field, reduxForm } from 'redux-form';
-import { redirectIfAuthenticated } from '../../helpers/auth';
 import { Form, Button } from 'semantic-ui-react';
+
+import { redirectIfAuthenticated } from '../../helpers/auth';
 
 import { logIn } from '../../reducers/session';
 import FormInputWithError from '../FormInputWithError';
@@ -10,8 +11,8 @@ import { USERNAME_REGEX, USERNAME_PATTERN_DESC, validateWith, validateUsername, 
 
 import '../../styles/SignIn.css';
 
-export let SignIn = (props) => {
-  let { handleSubmit, invalid, submitting } = props;
+export const SignIn = (props) => {
+  const { handleSubmit, invalid, submitting } = props;
 
   return (
     <Form onSubmit={handleSubmit}>
@@ -22,14 +23,16 @@ export let SignIn = (props) => {
         name="username"
         pattern={USERNAME_REGEX}
         title={USERNAME_PATTERN_DESC}
-        placeholder="Username" />
+        placeholder="Username"
+      />
       <Field
         component={FormInputWithError}
         type="password"
         name="password"
         minLength={7}
         maxLength={50}
-        placeholder="Password" />
+        placeholder="Password"
+      />
       <Button type="submit" primary disabled={invalid || submitting}>Sign In</Button>
     </Form>
   );
@@ -41,7 +44,7 @@ SignIn.propTypes = {
   submitting: PropTypes.bool.isRequired
 };
 
-let SignInForm = reduxForm({
+const SignInForm = reduxForm({
   form: 'signIn',
   onSubmit: ({ username, password }, dispatch) => { dispatch(logIn(username, password)); },
   validate: validateWith(validateUsername, validatePassword)

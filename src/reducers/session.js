@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import jwtDecode from 'jwt-decode';
@@ -16,12 +17,12 @@ export const LOGGED_IN = 'LOGGED_IN',
       WEBSOCKET_OPENED = 'WEBSOCKET_OPENED',
       WEBSOCKET_CLOSED = 'WEBSOCKET_CLOSED';
 
-let initialState = {
+const initialState = {
   apiToken: null,
   apiUser: {}
 };
 
-export default function(state = initialState, action) {
+export default function (state = initialState, action) {
   switch (action.type) {
     case LOGGED_IN:
       return {
@@ -36,7 +37,7 @@ export default function(state = initialState, action) {
         webSocket: action.payload.webSocket
       };
     case WEBSOCKET_CLOSED: {
-      let { webSocket, ...others } = state;
+      const { webSocket, ...others } = state;
       if (webSocket && webSocket.readyState === WebSocket.OPEN) webSocket.close();
       return { ...others };
     }
@@ -45,9 +46,54 @@ export default function(state = initialState, action) {
   }
 }
 
+export function openWebSocket(token) {
+  return (dispatch) => {
+    const webSocketUrl = `ws://${process.env.REACT_APP_API_URL}/api/v1/?access_token=${token}`;
+    let webSocket = new WebSocket(webSocketUrl);
+
+    webSocket.onopen = () => {
+      dispatch({
+        type: WEBSOCKET_OPENED,
+        payload: { webSocket }
+      });
+    };
+
+    webSocket.onmessage = ({ data }) => {
+      try {
+        const { event: type, payload } = JSON.parse(data);
+        if (type && gameActions.includes(type)) {
+          dispatch({ type, payload });
+        } else {
+          throw new Error(`Unrecognized action of type '${type}' with payload:`, payload);
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    };
+
+    webSocket.onclose = (e) => {
+      if (e !== 1000) {
+        const reconnectInterval = setInterval(() => {
+          if (webSocket.readyState === WebSocket.CLOSED) {
+            webSocket = new WebSocket(webSocketUrl);
+          } else {
+            clearInterval(reconnectInterval);
+          }
+        }, 1000);
+      } else {
+        dispatch({ type: WEBSOCKET_CLOSED });
+      }
+    };
+  };
+}
+
+export function closeWebSocket() {
+  return { type: WEBSOCKET_CLOSED };
+}
+
 export function loggedIn(token, user) {
   return (dispatch) => {
-    let expires = new Date(jwtDecode(token).exp * 1000);
+    const expires = new Date(jwtDecode(token).exp * 1000);
     Cookies.set('apiToken', token, { expires });
     Cookies.set('apiUser', user, { expires });
 
@@ -70,6 +116,25 @@ export function loggedOut() {
   };
 }
 
+function createSessionCallback(username, password, createUser = false) {
+  const url = createUser ? SIGNUP_URL : LOGIN_URL,
+        successMessage = createUser ? SIGNUP_SUCCESS_MESSAGE : LOGIN_SUCCESS_MESSAGE;
+
+  return (dispatch) => axios.post(url, { username, password })
+      .then(({ data: { token, user } }) => {
+        dispatch(loggedIn(token, user));
+      })
+      .then(() => Promise.all([
+        dispatch(push('/')),
+        dispatch(showModal(successMessage, 'success'))
+      ]))
+      .catch((err) => {
+        let message;
+        try { message = err.response.data.message; } catch (_) { message = err.message; }
+        dispatch(showModal(message, 'error'));
+      });
+}
+
 export function logIn(username, password) {
   return createSessionCallback(username, password);
 }
@@ -83,71 +148,4 @@ export function logOut() {
 
 export function signUp(username, password) {
   return createSessionCallback(username, password, true);
-}
-
-function createSessionCallback(username, password, createUser = false) {
-  let url = createUser ? SIGNUP_URL : LOGIN_URL,
-      successMessage = createUser ? SIGNUP_SUCCESS_MESSAGE : LOGIN_SUCCESS_MESSAGE;
-
-  return (dispatch) => {
-    return axios.post(url, { username, password })
-      .then(({ data: { token, user } }) => {
-        dispatch(loggedIn(token, user));
-      })
-      .then(() => Promise.all([
-        dispatch(push('/')),
-        dispatch(showModal(successMessage, 'success'))
-      ]))
-      .catch((err) => {
-        let message;
-        try { message = err.response.data.message; }
-        catch (_) { message = err.message; }
-        dispatch(showModal(message, 'error'));
-      });
-  };
-}
-
-export function openWebSocket(token) {
-  return (dispatch) => {
-    let webSocketUrl = `ws://${process.env.REACT_APP_API_URL}/api/v1/?access_token=${token}`,
-        webSocket = new WebSocket(webSocketUrl);
-
-    webSocket.onopen = () => {
-      dispatch({
-        type: WEBSOCKET_OPENED,
-        payload: { webSocket }
-      });
-    };
-
-    webSocket.onmessage = ({ data }) => {
-      try {
-        let { event: type, payload } = JSON.parse(data);
-        if (type && gameActions.includes(type)) {
-          dispatch({ type, payload });
-        } else {
-          throw new Error(`Unrecognized action of type '${type}' with payload:`, payload);
-        }
-      } catch (e) {
-        console.log(e);
-      }
-    };
-
-    webSocket.onclose = (e) => {
-      if (e !== 1000) {
-        let reconnectInterval = setInterval(() => {
-          if (webSocket.readyState === WebSocket.CLOSED) {
-            webSocket = new WebSocket(webSocketUrl);
-          } else {
-            clearInterval(reconnectInterval);
-          }
-        }, 1000);
-      } else {
-        dispatch({ type: WEBSOCKET_CLOSED });
-      }
-    };
-  };
-}
-
-export function closeWebSocket() {
-  return { type: WEBSOCKET_CLOSED };
 }

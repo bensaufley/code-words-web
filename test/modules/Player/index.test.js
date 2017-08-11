@@ -8,18 +8,18 @@ import Player from '../../../src/modules/Player';
 describe('(component) Player', () => {
   context('before game - editable', () => {
     it('renders without exploding', () => {
-      let player = new PlayerDummy().serialize(),
-          wrapper = shallow(<Player {...player} editable={true} isUser={true} />);
+      const player = new PlayerDummy().serialize(),
+            wrapper = shallow(<Player {...player} editable isUser />);
 
       expect(wrapper).to.have.lengthOf(1);
     });
 
     context('with role and team', () => {
       it('renders without exploding', () => {
-        let player = new PlayerDummy().serialize();
+        const player = new PlayerDummy().serialize();
         player.team = 'a';
         player.role = 'transmitter';
-        let wrapper = shallow(<Player {...player} editable={true} isUser={true} />);
+        const wrapper = shallow(<Player {...player} editable isUser />);
 
         expect(wrapper).to.have.lengthOf(1);
       });
@@ -28,10 +28,10 @@ describe('(component) Player', () => {
 
   context('during/after game - not editable', () => {
     it('renders without exploding', () => {
-      let player = new PlayerDummy().serialize();
+      const player = new PlayerDummy().serialize();
       player.team = 'a';
       player.role = 'transmitter';
-      let wrapper = shallow(<Player {...player} editable={false} isUser={false} />);
+      const wrapper = shallow(<Player {...player} editable={false} isUser={false} />);
 
       expect(wrapper).to.have.lengthOf(1);
     });

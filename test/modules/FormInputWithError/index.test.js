@@ -5,9 +5,11 @@ import { render } from 'enzyme';
 import FormInputWithError from '../../../src/modules/FormInputWithError';
 
 describe('(Component) FormInputWithError', () => {
+  const input = { name: 'test-input' };
+
   context('without error', () => {
     it('renders without exploding', () => {
-      let wrapper = render(<FormInputWithError input={{}} type='text' meta={{}} />);
+      const wrapper = render(<FormInputWithError input={input} type="text" meta={{}} />);
 
       expect(wrapper).to.have.lengthOf(1);
     });
@@ -15,7 +17,7 @@ describe('(Component) FormInputWithError', () => {
 
   context('with error', () => {
     it('renders without exploding', () => {
-      let wrapper = render(<FormInputWithError input={{}} type='text' meta={{ touched: true, error: 'Bad!' }} />);
+      const wrapper = render(<FormInputWithError input={input} type="text" meta={{ touched: true, error: 'Bad!' }} />);
 
       expect(wrapper).to.have.lengthOf(1);
     });

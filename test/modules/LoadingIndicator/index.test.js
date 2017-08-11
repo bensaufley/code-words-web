@@ -71,7 +71,7 @@ describe('(Container) LoadingIndicator', () => {
 
     describe('unmounting', () => {
       it('unsets axios request interceptor', () => {
-        let loadingIndicator = mount(<LoadingIndicator {...props} />);
+        const loadingIndicator = mount(<LoadingIndicator {...props} />);
         sandbox.stub(axios.interceptors.request, 'eject');
         loadingIndicator.unmount();
 
@@ -79,7 +79,7 @@ describe('(Container) LoadingIndicator', () => {
       });
 
       it('unsets axios response interceptor', () => {
-        let loadingIndicator = mount(<LoadingIndicator {...props} />);
+        const loadingIndicator = mount(<LoadingIndicator {...props} />);
         sandbox.stub(axios.interceptors.response, 'eject');
         loadingIndicator.unmount();
 

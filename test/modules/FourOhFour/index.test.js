@@ -6,7 +6,7 @@ import FourOhFour from '../../../src/modules/FourOhFour';
 
 describe('(component) FourOhFour', () => {
   it('renders without exploding', () => {
-    let wrapper = shallow(<FourOhFour />);
+    const wrapper = shallow(<FourOhFour />);
 
     expect(wrapper).to.have.lengthOf(1);
   });

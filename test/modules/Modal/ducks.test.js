@@ -18,20 +18,20 @@ describe('(Ducks) modalReducer', () => {
       });
 
       it('sets shown to true', () => {
-        let newState = modalReducer(initialState, action);
+        const newState = modalReducer(initialState, action);
 
         expect(newState).not.to.equal(initialState);
         expect(newState.shown).to.be.true;
       });
 
       it('sets content to the passed value', () => {
-        let newState = modalReducer(initialState, action);
+        const newState = modalReducer(initialState, action);
 
         expect(newState.content).to.eq('Test message');
       });
 
       it('sets content to the passed value', () => {
-        let newState = modalReducer(initialState, action);
+        const newState = modalReducer(initialState, action);
 
         expect(newState.type).to.eq('notice');
       });
@@ -46,20 +46,20 @@ describe('(Ducks) modalReducer', () => {
       });
 
       it('sets shown to false', () => {
-        let newState = modalReducer(initialState, action);
+        const newState = modalReducer(initialState, action);
 
         expect(newState).not.to.equal(initialState);
         expect(newState.shown).to.be.false;
       });
 
       it('sets content to a blank string', () => {
-        let newState = modalReducer(initialState, action);
+        const newState = modalReducer(initialState, action);
 
         expect(newState.content).to.eq('');
       });
 
       it('sets type to undefined', () => {
-        let newState = modalReducer(initialState, action);
+        const newState = modalReducer(initialState, action);
 
         expect(newState.type).to.be.undefined;
       });
@@ -74,7 +74,7 @@ describe('(Ducks) modalReducer', () => {
       });
 
       it('returns the current state', () => {
-        let newState = modalReducer(initialState, action);
+        const newState = modalReducer(initialState, action);
 
         expect(newState).to.equal(initialState);
         expect(newState).to.deep.equal(initialState);
@@ -89,7 +89,7 @@ describe('(Ducks) modalReducer', () => {
       });
 
       it('returns the current state', () => {
-        let newState = modalReducer(undefined, action);
+        const newState = modalReducer(undefined, action);
 
         expect(newState).to.deep.equal({ content: '', shown: false });
       });
@@ -100,25 +100,25 @@ describe('(Ducks) modalReducer', () => {
     describe('(Actions) modal', () => {
       describe('showModal action creator', () => {
         it('returns an action of type MODAL_SHOW', () => {
-          let action = showModal('Test message');
+          const action = showModal('Test message');
 
           expect(action.type).to.eq(MODAL_SHOW);
         });
 
         it('returns the provided message', () => {
-          let action = showModal('Test message');
+          const action = showModal('Test message');
 
           expect(action.payload.message).to.eq('Test message');
         });
 
         it('defaults to a type of notice', () => {
-          let action = showModal('Test message');
+          const action = showModal('Test message');
 
           expect(action.payload.type).to.eq('notice');
         });
 
         it('passes along type if given', () => {
-          let action = showModal('Test message', 'error');
+          const action = showModal('Test message', 'error');
 
           expect(action.payload.type).to.eq('error');
         });
@@ -126,13 +126,13 @@ describe('(Ducks) modalReducer', () => {
 
       describe('closeModal action creator', () => {
         it('returns an action of type MODAL_SHOW', () => {
-          let action = closeModal();
+          const action = closeModal();
 
           expect(action.type).to.eq(MODAL_HIDE);
         });
 
         it('returns an empty payload', () => {
-          let action = closeModal();
+          const action = closeModal();
 
           expect(action.payload).to.deep.eq({});
         });

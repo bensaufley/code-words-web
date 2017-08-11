@@ -6,32 +6,32 @@ import createHistory from 'history/createMemoryHistory';
 import { generateStore } from '../../src/store';
 
 export function wrapContainer(providerProps = {}, routerProps = {}, appendToBody = false) {
-  let initialState = Object.assign({
-    session: {}
-  }, providerProps.initialState || {});
-  delete providerProps.initialState;
+  const { initialState, ...pProps } = providerProps,
+        state = Object.assign({
+          session: {}
+        }, initialState || {});
 
-  return (ContainerComponent, props = {}) => {
+  return (ContainerComponent, containerProps = {}) => {
     const history = createHistory(),
-          store = generateStore(history, initialState);
-    let div = document.createElement('div'),
-        wrapper = render(
-      <Provider
-        store={store}
-        {...providerProps}
-      >
-        <ConnectedRouter
-          history={history}
-          {...routerProps}
-        >
-          <ContainerComponent
-            {...props}
-            id="wrapped-component"
-            />
-        </ConnectedRouter>
-      </Provider>,
-      div
-    );
+          store = generateStore(history, state),
+          div = document.createElement('div'),
+          wrapper = render(
+            <Provider
+              store={store}
+              {...pProps}
+            >
+              <ConnectedRouter
+                history={history}
+                {...routerProps}
+              >
+                <ContainerComponent
+                  {...containerProps}
+                  id="wrapped-component"
+                />
+              </ConnectedRouter>
+            </Provider>,
+            div
+          );
 
     if (appendToBody) document.body.appendChild(div);
     return wrapper;
@@ -46,7 +46,7 @@ export function getWrappedComponent() {
 }
 
 export function unmountContainer(container) {
-  let parentNode = findDOMNode(container).parentNode;
+  const parentNode = findDOMNode(container).parentNode;
   unmountComponentAtNode(parentNode);
   document.body.removeChild(parentNode);
 }

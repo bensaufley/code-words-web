@@ -8,7 +8,7 @@ import GamesContainer from '../../../src/modules/Games';
 
 describe('(Container) Games', () => {
   it('renders without exploding', () => {
-    let initialState = {
+    const initialState = {
       session: {
         apiToken: '12345',
         apiUser: { username: 'test-user' }
@@ -21,20 +21,20 @@ describe('(Container) Games', () => {
 
   context('with games', () => {
     it('renders without exploding', () => {
-      let newGame = new GameDummy(),
-          startedGame = new GameDummy({ started: true }),
-          completedGame = new GameDummy({ completed: true }),
-          initialState = {
-            session: {
-              apiToken: '12345',
-              apiUser: { username: 'test-user' }
-            },
-            games: {
-              [newGame.id]: newGame.serialize(),
-              [startedGame.id]: startedGame.serialize(),
-              [completedGame.id]: completedGame.serialize()
-            }
-          };
+      const newGame = new GameDummy(),
+            startedGame = new GameDummy({ started: true }),
+            completedGame = new GameDummy({ completed: true }),
+            initialState = {
+              session: {
+                apiToken: '12345',
+                apiUser: { username: 'test-user' }
+              },
+              games: {
+                [newGame.id]: newGame.serialize(),
+                [startedGame.id]: startedGame.serialize(),
+                [completedGame.id]: completedGame.serialize()
+              }
+            };
       const wrapper = wrapContainer({ initialState })(GamesContainer);
 
       expect(scryRenderedComponentsWithType(wrapper, Menu.Item)).to.have.lengthOf(4);

@@ -6,7 +6,7 @@ import ExternalHome from '../../../src/modules/ExternalHome';
 
 describe('(component) ExternalHome', () => {
   it('renders without exploding', () => {
-    let wrapper = shallow(<ExternalHome />);
+    const wrapper = shallow(<ExternalHome />);
 
     expect(wrapper).to.have.lengthOf(1);
   });

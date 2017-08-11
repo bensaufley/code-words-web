@@ -20,10 +20,7 @@ export const gameActions = [
 export default function gamesReducer(state = null, action) {
   switch (action.type) {
     case GAMES_INDEXED:
-      return action.payload.games.reduce((obj, g) => {
-        obj[g.game.id] = g;
-        return obj;
-      }, {});
+      return action.payload.games.reduce((games, g) => ({ ...games, [g.game.id]: g }), {});
     case GAME_CREATED:
     case GAME_UPDATED:
       return {
@@ -37,7 +34,7 @@ export default function gamesReducer(state = null, action) {
 
 export function createGame(token) {
   return (dispatch) => {
-    let config = {
+    const config = {
       headers: {
         Authorization: `Bearer ${token}`
       }

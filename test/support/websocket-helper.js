@@ -1,4 +1,4 @@
-export class WebSocketStub {
+export default class WebSocketStub {
   constructor(url) {
     this.url = url;
 

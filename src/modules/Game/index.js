@@ -3,19 +3,30 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { Icon, Loader, Menu } from 'semantic-ui-react';
+
+import { gameShape, playerShape, userShape } from '../../helpers/prop-types';
 import { redirectIfUnauthenticated } from '../../helpers/auth';
+
 import Tile from '../Tile';
 import GameMenu from '../GameMenu';
 
 import '../../styles/Game.css';
 
 export class Game extends Component {
+  static defaultProps = {
+    activePlayerId: null,
+    game: null,
+    players: []
+  }
+
   static propTypes = {
     activePlayerId: PropTypes.string,
-    game: PropTypes.object,
-    loading: PropTypes.bool,
-    players: PropTypes.array,
-    session: PropTypes.object
+    game: gameShape,
+    loading: PropTypes.bool.isRequired,
+    players: PropTypes.arrayOf(playerShape),
+    session: PropTypes.shape({
+      apiUser: userShape.isRequired
+    }).isRequired
   }
 
   constructor(props) {
@@ -44,39 +55,39 @@ export class Game extends Component {
     if (this.props.loading) return (<Loader active inline />);
     else if (!this.props.game) return (<Redirect to="/" />);
 
-    let { game, players, activePlayerId, session } = this.props,
-        menuParams = { game, players, activePlayerId, session };
+    const { game, players, activePlayerId, session } = this.props,
+          menuParams = { game, players, activePlayerId, session };
     return (
       <div>
         <GameMenu
           hideMenu={this.hideMenu.bind(this)}
           menuOpen={this.state.menuOpen}
           {...menuParams}
-          />
-          <Menu>
-            <Menu.Item header>
-              {this.headerDisplay()}
-            </Menu.Item>
-            <Menu.Menu position="right">
-              <Menu.Item onClick={this.toggleMenu.bind(this)}>
-                <Icon name="bars" />
+        />
+        <Menu>
+          <Menu.Item header>
+            {this.headerDisplay()}
+          </Menu.Item>
+          <Menu.Menu position="right">
+            <Menu.Item onClick={this.toggleMenu.bind(this)}>
+              <Icon name="bars" />
                 Menu
               </Menu.Item>
-            </Menu.Menu>
-          </Menu>
-          <div className="game">
-            {game.board.map((tile, i) => <Tile key={i} {...tile} />)}
-          </div>
+          </Menu.Menu>
+        </Menu>
+        <div className="game">
+          {game.board.map((tile) => <Tile key={tile.word} {...tile} />)}
+        </div>
       </div>
     );
   }
 }
 
-function mapStateToProps({ session, games }, { match: { params: { id }}}) {
-  if (!games) return { loading: true };
-  else return { session, ...games[id] };
+function mapStateToProps({ session, games }, { match: { params: { id } } }) {
+  if (!games) return { session, loading: true };
+  return { session, loading: false, ...games[id] };
 }
 
-let GameContainer = connect(mapStateToProps, {})(Game);
+const GameContainer = connect(mapStateToProps, {})(Game);
 
 export default redirectIfUnauthenticated(GameContainer);

@@ -32,9 +32,9 @@ describe('(Container) AppHeader', () => {
     });
 
     it('renders Container without exploding', () => {
-      const wrapper = wrapContainer({ initialState: { session } })(AppHeaderContainer);
+      const containerWrapper = wrapContainer({ initialState: { session } })(AppHeaderContainer);
 
-      expect(findRenderedComponentWithType(wrapper, AppHeader)).to.exist;
+      expect(findRenderedComponentWithType(containerWrapper, AppHeader)).to.exist;
     });
 
     it('confirms logout attempt before processing', () => {

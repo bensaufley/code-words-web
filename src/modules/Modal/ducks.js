@@ -1,7 +1,7 @@
 export const MODAL_SHOW = 'MODAL_SHOW',
       MODAL_HIDE = 'MODAL_HIDE';
 
-let initialState = {
+const initialState = {
   content: '',
   shown: false
 };

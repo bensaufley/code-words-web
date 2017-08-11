@@ -7,8 +7,8 @@ import Tile from '../../../src/modules/Tile';
 
 describe('(component) Tile', () => {
   it('renders without exploding', () => {
-    let tile = new TileDummy().serialize(),
-        wrapper = shallow(<Tile {...tile} />);
+    const tile = new TileDummy().serialize(),
+          wrapper = shallow(<Tile {...tile} />);
 
     expect(wrapper).to.have.lengthOf(1);
   });
