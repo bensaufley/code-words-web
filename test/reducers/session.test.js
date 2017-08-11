@@ -6,7 +6,7 @@ import axios from 'axios';
 import { DispatchStub } from '../support/dispatch-helper';
 
 import sessionReducer, { LOGGED_IN, LOGGED_OUT, loggedIn, loggedOut, logIn, logOut, signUp } from '../../src/reducers/session';
-import { MODAL_SHOW } from '../../src/modules/Modal/ducks';
+import { MODAL_SHOW } from '../../src/ducks/Modal';
 
 describe('(Ducks) session', () => {
   describe('reducer', () => {

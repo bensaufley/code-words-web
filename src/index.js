@@ -12,14 +12,14 @@ import registerServiceWorker from './registerServiceWorker';
 import './styles/semantic/semantic.min.css';
 import './styles/index.css';
 
-import AppHeaderContainer from './modules/AppHeader';
-import HomeContainer from './modules/Home';
-import SignUpContainer from './modules/SignUp';
-import SignInContainer from './modules/SignIn';
-import GameContainer from './modules/Game';
-import ModalContainer from './modules/Modal';
-import FourOhFour from './modules/FourOhFour';
-import LoadingIndicatorContainer from './modules/LoadingIndicator';
+import AppHeaderContainer from './components/AppHeader';
+import HomeContainer from './components/Home';
+import SignUpContainer from './components/SignUp';
+import SignInContainer from './components/SignIn';
+import GameContainer from './components/Game';
+import ModalContainer from './components/Modal';
+import FourOhFour from './components/FourOhFour';
+import LoadingIndicatorContainer from './components/LoadingIndicator';
 import { loggedIn } from './reducers/session';
 
 render((
