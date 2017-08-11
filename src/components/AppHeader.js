@@ -6,7 +6,7 @@ import { Menu } from 'semantic-ui-react';
 
 import '../styles/AppHeader.css';
 
-import { logOut } from '../reducers/session';
+import { logOut } from '../ducks/session';
 
 export class AppHeader extends Component {
   static propTypes = {

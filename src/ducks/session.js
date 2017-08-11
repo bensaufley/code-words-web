@@ -4,8 +4,8 @@ import Cookies from 'js-cookie';
 import jwtDecode from 'jwt-decode';
 import { push } from 'react-router-redux';
 
-import { showModal } from '../ducks/Modal';
-import { gameActions } from '../ducks/Games';
+import { showModal } from './modal';
+import { gameActions } from './games';
 
 const SIGNUP_URL = `http://${process.env.REACT_APP_API_URL}/signup`,
       LOGIN_URL = `http://${process.env.REACT_APP_API_URL}/login`,

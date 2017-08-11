@@ -5,8 +5,8 @@ import jwt from 'jsonwebtoken';
 import axios from 'axios';
 import { DispatchStub } from '../support/dispatch-helper';
 
-import sessionReducer, { LOGGED_IN, LOGGED_OUT, loggedIn, loggedOut, logIn, logOut, signUp } from '../../src/reducers/session';
-import { MODAL_SHOW } from '../../src/ducks/Modal';
+import sessionReducer, { LOGGED_IN, LOGGED_OUT, loggedIn, loggedOut, logIn, logOut, signUp } from '../../src/ducks/session';
+import { MODAL_SHOW } from '../../src/ducks/modal';
 
 describe('(Ducks) session', () => {
   describe('reducer', () => {

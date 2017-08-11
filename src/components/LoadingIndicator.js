@@ -4,7 +4,7 @@ import axios from 'axios';
 import { connect } from 'react-redux';
 import { Dimmer, Loader } from 'semantic-ui-react';
 
-import { startLoading, endLoading } from '../ducks/LoadingIndicator';
+import { startLoading, endLoading } from '../ducks/loading';
 
 import '../styles/LoadingIndicator.css';
 

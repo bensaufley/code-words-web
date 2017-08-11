@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Modal as SemanticModal } from 'semantic-ui-react';
-import { closeModal } from '../ducks/Modal';
+import { closeModal } from '../ducks/modal';
 
 import '../styles/Modal.css';
 

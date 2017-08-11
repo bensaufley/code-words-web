@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { push } from 'react-router-redux';
 
-import { showModal } from './Modal';
+import { showModal } from './modal';
 
 export const GAME_CREATED = 'GAME_CREATED',
       GAME_TRANSMIT = 'GAME_TRANSMIT',

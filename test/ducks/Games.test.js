@@ -1,11 +1,11 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 import axios from 'axios';
-import { MODAL_SHOW } from '../../src/ducks/Modal';
+import { MODAL_SHOW } from '../../src/ducks/modal';
 import { DispatchStub } from '../support/dispatch-helper';
 import GameDummy from '../dummies/game';
 
-import { GAME_CREATED, /* GAME_TRANSMIT, GAME_DECODE, GAMES_INDEXED, GAME_UPDATED, */ createGame } from '../../src/ducks/Games';
+import { GAME_CREATED, /* GAME_TRANSMIT, GAME_DECODE, GAMES_INDEXED, GAME_UPDATED, */ createGame } from '../../src/ducks/games';
 
 describe('(Ducks) games', () => {
   describe('reducer', () => {

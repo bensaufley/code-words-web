@@ -5,7 +5,7 @@ import { Form, Button } from 'semantic-ui-react';
 
 import { redirectIfAuthenticated } from '../helpers/auth';
 
-import { signUp } from '../reducers/session';
+import { signUp } from '../ducks/session';
 import FormInputWithError from './FormInputWithError';
 import { USERNAME_REGEX, USERNAME_PATTERN_DESC, validateWith, validateUsername, validatePassword, validatePasswordConfirmation } from '../helpers/forms';
 

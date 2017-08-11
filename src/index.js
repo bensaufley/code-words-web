@@ -20,7 +20,7 @@ import GameContainer from './components/Game';
 import ModalContainer from './components/Modal';
 import FourOhFour from './components/FourOhFour';
 import LoadingIndicatorContainer from './components/LoadingIndicator';
-import { loggedIn } from './reducers/session';
+import { loggedIn } from './ducks/session';
 
 render((
   <Provider store={store}>

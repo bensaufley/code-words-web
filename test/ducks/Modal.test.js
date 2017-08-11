@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import modalReducer, { MODAL_SHOW, MODAL_HIDE, showModal, closeModal } from '../../src/ducks/Modal';
+import modalReducer, { MODAL_SHOW, MODAL_HIDE, showModal, closeModal } from '../../src/ducks/modal';
 
 describe('(Ducks) modalReducer', () => {
   describe('reducer', () => {

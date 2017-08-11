@@ -6,7 +6,7 @@ import { Button, Icon, Loader, Menu } from 'semantic-ui-react';
 
 import { gameShape, userShape } from '../helpers/prop-types';
 
-import { createGame } from '../ducks/Games';
+import { createGame } from '../ducks/games';
 
 export const Games = (props) => {
   const { apiToken, apiUser, games } = props;
