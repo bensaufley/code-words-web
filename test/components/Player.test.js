@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import PlayerDummy from '../dummies/player';
 
-import Player from '../../src/components/Player';
+import { Player } from '../../src/components/Player';
 
 describe('(component) Player', () => {
   context('before game - editable', () => {

@@ -3,6 +3,7 @@ import { push } from 'react-router-redux';
 
 import { showModal } from './modal';
 
+// For redux
 export const GAME_CREATED = 'GAME_CREATED',
       GAME_TRANSMIT = 'GAME_TRANSMIT',
       GAME_DECODE = 'GAME_DECODE',
@@ -16,6 +17,9 @@ export const gameActions = [
   GAMES_INDEXED,
   GAME_UPDATED
 ];
+
+// For react-dnd
+export const PLAYER_CARD = 'PLAYER_CARD';
 
 export default function gamesReducer(state = null, action) {
   switch (action.type) {
@@ -32,21 +36,45 @@ export default function gamesReducer(state = null, action) {
   }
 }
 
-export function createGame(token) {
-  return (dispatch) => {
-    const config = {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    };
-
-    return axios.post(`http://${process.env.REACT_APP_API_URL}/api/v1/games/`, null, config)
-      .then(({ data }) => {
-        dispatch({ type: GAME_CREATED, payload: data });
-        dispatch(push(`/games/${data.game.id}/`));
-      })
-      .catch((err) => {
-        dispatch(showModal(err.message, 'error'));
-      });
+export const createGame = (token) => (dispatch) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
   };
-}
+
+  return axios.post(`http://${process.env.REACT_APP_API_URL}/api/v1/games/`, null, config)
+    .then(({ data }) => {
+      dispatch({ type: GAME_CREATED, payload: data });
+      dispatch(push(`/games/${data.game.id}/`));
+    })
+    .catch((err) => {
+      dispatch(showModal(err.message, 'error'));
+    });
+};
+
+export const assignPlayer = (gameId, playerId, team, role) => (dispatch, getState) => {
+  const { session: { apiToken }, games: { [gameId]: { players } } } = getState(),
+        config = {
+          headers: {
+            Authorization: `Bearer ${apiToken}`
+          }
+        };
+  return new Promise((resolve, reject) => {
+    const conflictingPlayer = players.find((p) => p.team === team && p.role === role);
+    if (conflictingPlayer) {
+      axios.put(`http://${process.env.REACT_APP_API_URL}/api/v1/game/${gameId}/player/${conflictingPlayer.id}`, { team: null, role: null }, config)
+        .then(resolve)
+        .catch(reject);
+    } else {
+      resolve();
+    }
+  })
+    .then(() => axios.put(`http://${process.env.REACT_APP_API_URL}/api/v1/game/${gameId}/player/${playerId}`, { team, role }, config))
+    .then(({ data }) => {
+      dispatch({ type: GAME_UPDATED, payload: data });
+    })
+    .catch((err) => {
+      dispatch(showModal(err.message, 'error'));
+    });
+};

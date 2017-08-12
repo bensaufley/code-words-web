@@ -1,43 +1,72 @@
-import React from 'react';
 import { expect } from 'chai';
-import { render } from 'enzyme';
+import { findRenderedComponentWithType } from 'react-dom/test-utils';
+import { Sidebar } from 'semantic-ui-react';
+import { wrapContainer } from '../support/container-helper';
 import GameMenu from '../../src/components/GameMenu';
 import GameDummy from '../dummies/game';
 
 describe('(Component) GameMenu', () => {
-  context('closed', () => {
-    it('renders without exploding', () => {
-      const game = new GameDummy({ started: true }),
-            wrapper = render(
-              <GameMenu
-                game={game.serialize()}
-                players={game.players.map((p) => p.serialize())}
-                activePlayerId={game.players[0].id}
-                session={{ apiUser: { id: game.players[0].user.id } }}
-                hideMenu={() => {}}
-                menuOpen={false}
-              />
-            );
+  context('before game has started', () => {
+    let game, props;
 
-      expect(wrapper).to.have.lengthOf(1);
+    beforeEach(() => {
+      game = new GameDummy();
+      props = {
+        gameId: game.id,
+        players: game.players.map((p) => p.serialize()),
+        activePlayerId: null,
+        session: { apiUser: { id: game.players[0].user.id } },
+        hideMenu: () => {},
+        menuOpen: false
+      };
+    });
+
+    context('closed', () => {
+      it('renders without exploding', () => {
+        const wrapper = wrapContainer()(GameMenu, props);
+
+        expect(findRenderedComponentWithType(wrapper, Sidebar)).to.exist;
+      });
+    });
+
+    context('open', () => {
+      it('renders without exploding', () => {
+        const wrapper = wrapContainer()(GameMenu, props);
+
+        expect(findRenderedComponentWithType(wrapper, Sidebar)).to.exist;
+      });
     });
   });
 
-  context('open', () => {
-    it('renders without exploding', () => {
-      const game = new GameDummy(),
-            wrapper = render(
-              <GameMenu
-                game={game.serialize()}
-                players={game.players.map((p) => p.serialize())}
-                activePlayerId={game.players[0].id}
-                session={{ apiUser: { id: game.players[0].id } }}
-                hideMenu={() => {}}
-                menuOpen
-              />
-            );
+  context('after game has started', () => {
+    let game, props;
 
-      expect(wrapper).to.have.lengthOf(1);
+    beforeEach(() => {
+      game = new GameDummy({ started: true });
+      props = {
+        gameId: game.id,
+        players: game.players.map((p) => p.serialize()),
+        activePlayerId: game.players[0].id,
+        session: { apiUser: { id: game.players[0].user.id } },
+        hideMenu: () => {},
+        menuOpen: false
+      };
+    });
+
+    context('closed', () => {
+      it('renders without exploding', () => {
+        const wrapper = wrapContainer()(GameMenu, props);
+
+        expect(findRenderedComponentWithType(wrapper, Sidebar)).to.exist;
+      });
+    });
+
+    context('open', () => {
+      it('renders without exploding', () => {
+        const wrapper = wrapContainer()(GameMenu, props);
+
+        expect(findRenderedComponentWithType(wrapper, Sidebar)).to.exist;
+      });
     });
   });
 });

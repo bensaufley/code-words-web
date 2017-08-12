@@ -1,33 +1,22 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Icon, Menu, Sidebar } from 'semantic-ui-react';
+import { DragDropContext } from 'react-dnd';
+import HTML5Backend from 'react-dnd-html5-backend';
 
-import { gameShape, playerShape } from '../helpers/prop-types';
+import { playerShape } from '../helpers/prop-types';
 
-import Player from './Player';
+import { Player, DraggablePlayer } from './Player';
+import { PlayerSlot, DroppablePlayerSlot } from './PlayerSlot';
 
-const renderTeam = (team, name) => {
-  if (team.length === 0) return null;
-  const undecided = name === 'null',
-        className = undecided ? 'undecided' : `team-${name}`;
-  return (
-    <Menu.Item key={className}>
-      {undecided ? 'Undecided' : `Team ${name.toUpperCase()}`}
-      <Menu.Menu>
-        <Menu.Item>{team.map((player) => <Player key={player.id} {...player} />)}</Menu.Item>
-      </Menu.Menu>
-    </Menu.Item>
-  );
-};
-
-export default class GameMenu extends Component {
+class GameMenu extends Component {
   static defaultProps = {
     activePlayerId: null
   }
 
   static propTypes = {
-    game: gameShape.isRequired,
     players: PropTypes.arrayOf(playerShape).isRequired,
+    gameId: PropTypes.string.isRequired,
     activePlayerId: PropTypes.string,
     session: PropTypes.shape({
       apiUser: PropTypes.shape({
@@ -38,36 +27,62 @@ export default class GameMenu extends Component {
     menuOpen: PropTypes.bool.isRequired
   }
 
-  renderTeams() {
-    const { game, players, activePlayerId, session: { apiUser: { id: currentUserId } } } = this.props,
-          teams = players.reduce((obj, player) => {
-            const isUser = player.user.id === currentUserId;
-            obj[`${player.team}`].push({
-              ...player,
-              isUser,
-              editable: isUser && !game.started,
-              isTurn: player.id === activePlayerId
-            });
-            return obj;
-          }, { a: [], b: [], null: [] });
+  renderPlayerSlot(player, team, role) {
+    const { activePlayerId, gameId, session: { apiUser: { id: currentUserId } } } = this.props,
+          isUser = player && player.user && currentUserId === player.user.id,
+          isActive = player && activePlayerId === player.id,
+          props = { gameId, player, isUser, isActive, role, team };
 
-    return (
-      <Menu.Menu>
-        <Menu.Item header>Teams</Menu.Item>
-        {['null', 'a', 'b'].map((team) => renderTeam(teams[team], team))}
-      </Menu.Menu>
-    );
+    if (activePlayerId) return <PlayerSlot {...props} />;
+
+    return <DroppablePlayerSlot {...props} editable />;
   }
 
   render() {
+    const { players, activePlayerId } = this.props,
+          undecideds = players.filter((p) => p.team === null),
+          teamATransmitter = players.find((p) => p.team === 'a' && p.role === 'transmitter'),
+          teamADecoder = players.find((p) => p.team === 'a' && p.role === 'decoder'),
+          teamBTransmitter = players.find((p) => p.team === 'b' && p.role === 'transmitter'),
+          teamBDecoder = players.find((p) => p.team === 'b' && p.role === 'decoder');
+
     return (
       <Sidebar animation="overlay" as={Menu} visible={this.props.menuOpen} vertical>
         <Menu.Item onClick={this.props.hideMenu}>
           Close Menu
           <Icon name="close" />
         </Menu.Item>
-        <Menu.Item>{this.renderTeams()}</Menu.Item>
+        <Menu.Menu>
+          <Menu.Item header>Teams</Menu.Item>
+          {undecideds.length ? (
+            <Menu.Menu>
+              <Menu.Item header>Undecided</Menu.Item>
+              <Menu.Item>
+                {undecideds.map((player) => (activePlayerId ?
+                  <Player key={player.id} {...player} /> :
+                  <DraggablePlayer key={player.id} {...player} />)
+                )}
+              </Menu.Item>
+            </Menu.Menu>
+          ) : ''}
+          <Menu.Menu>
+            <Menu.Item header>Team A</Menu.Item>
+            <Menu.Item>
+              {this.renderPlayerSlot(teamATransmitter, 'a', 'transmitter')}
+              {this.renderPlayerSlot(teamADecoder, 'a', 'decoder')}
+            </Menu.Item>
+          </Menu.Menu>
+          <Menu.Menu>
+            <Menu.Item header>Team B</Menu.Item>
+            <Menu.Item>
+              {this.renderPlayerSlot(teamBTransmitter, 'b', 'transmitter')}
+              {this.renderPlayerSlot(teamBDecoder, 'b', 'decoder')}
+            </Menu.Item>
+          </Menu.Menu>
+        </Menu.Menu>
       </Sidebar>
     );
   }
 }
+
+export default DragDropContext(HTML5Backend)(GameMenu);

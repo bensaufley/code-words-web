@@ -56,7 +56,7 @@ export class Game extends Component {
     else if (!this.props.game) return (<Redirect to="/" />);
 
     const { game, players, activePlayerId, session } = this.props,
-          menuParams = { game, players, activePlayerId, session };
+          menuParams = { gameId: game.id, players, activePlayerId, session };
     return (
       <div>
         <GameMenu
