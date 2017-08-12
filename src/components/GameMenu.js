@@ -6,7 +6,7 @@ import HTML5Backend from 'react-dnd-html5-backend';
 
 import { playerShape } from '../helpers/prop-types';
 
-import { Player, DraggablePlayer } from './Player';
+import { DraggablePlayer } from './Player';
 import { PlayerSlot, DroppablePlayerSlot } from './PlayerSlot';
 
 class GameMenu extends Component {
@@ -39,7 +39,7 @@ class GameMenu extends Component {
   }
 
   renderUndecideds() {
-    const { activePlayerId, players } = this.props,
+    const { players } = this.props,
           undecideds = players.filter((p) => p.team === null);
 
     if (!undecideds.length) return null;
@@ -71,8 +71,6 @@ class GameMenu extends Component {
   }
 
   render() {
-    const { activePlayerId } = this.props;
-
     return (
       <Sidebar animation="overlay" as={Menu} visible={this.props.menuOpen} vertical>
         <Menu.Item onClick={this.props.hideMenu}>
