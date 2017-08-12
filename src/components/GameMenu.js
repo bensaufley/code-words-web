@@ -38,13 +38,40 @@ class GameMenu extends Component {
     return <DroppablePlayerSlot {...props} editable />;
   }
 
+  renderUndecideds() {
+    const { activePlayerId, players } = this.props,
+          undecideds = players.filter((p) => p.team === null);
+
+    if (!undecideds.length) return null;
+
+    return (
+      <Menu.Menu>
+        <Menu.Item header>Undecided</Menu.Item>
+        <Menu.Item>
+          {undecideds.map((player) => <DraggablePlayer key={player.id} {...player} />)}
+        </Menu.Item>
+      </Menu.Menu>
+    );
+  }
+
+  renderTeam(team) {
+    const { players } = this.props,
+          transmitter = players.find((p) => p.team === team && p.role === 'transmitter'),
+          decoder = players.find((p) => p.team === team && p.role === 'decoder');
+
+    return (
+      <Menu.Menu>
+        <Menu.Item header>Team {team.toUpperCase()}</Menu.Item>
+        <Menu.Item>
+          {this.renderPlayerSlot(transmitter, team, 'transmitter')}
+          {this.renderPlayerSlot(decoder, team, 'decoder')}
+        </Menu.Item>
+      </Menu.Menu>
+    );
+  }
+
   render() {
-    const { players, activePlayerId } = this.props,
-          undecideds = players.filter((p) => p.team === null),
-          teamATransmitter = players.find((p) => p.team === 'a' && p.role === 'transmitter'),
-          teamADecoder = players.find((p) => p.team === 'a' && p.role === 'decoder'),
-          teamBTransmitter = players.find((p) => p.team === 'b' && p.role === 'transmitter'),
-          teamBDecoder = players.find((p) => p.team === 'b' && p.role === 'decoder');
+    const { activePlayerId } = this.props;
 
     return (
       <Sidebar animation="overlay" as={Menu} visible={this.props.menuOpen} vertical>
@@ -54,31 +81,9 @@ class GameMenu extends Component {
         </Menu.Item>
         <Menu.Menu>
           <Menu.Item header>Teams</Menu.Item>
-          {undecideds.length ? (
-            <Menu.Menu>
-              <Menu.Item header>Undecided</Menu.Item>
-              <Menu.Item>
-                {undecideds.map((player) => (activePlayerId ?
-                  <Player key={player.id} {...player} /> :
-                  <DraggablePlayer key={player.id} {...player} />)
-                )}
-              </Menu.Item>
-            </Menu.Menu>
-          ) : ''}
-          <Menu.Menu>
-            <Menu.Item header>Team A</Menu.Item>
-            <Menu.Item>
-              {this.renderPlayerSlot(teamATransmitter, 'a', 'transmitter')}
-              {this.renderPlayerSlot(teamADecoder, 'a', 'decoder')}
-            </Menu.Item>
-          </Menu.Menu>
-          <Menu.Menu>
-            <Menu.Item header>Team B</Menu.Item>
-            <Menu.Item>
-              {this.renderPlayerSlot(teamBTransmitter, 'b', 'transmitter')}
-              {this.renderPlayerSlot(teamBDecoder, 'b', 'decoder')}
-            </Menu.Item>
-          </Menu.Menu>
+          {this.renderUndecideds()}
+          {this.renderTeam('a')}
+          {this.renderTeam('b')}
         </Menu.Menu>
       </Sidebar>
     );
