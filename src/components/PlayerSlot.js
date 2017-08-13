@@ -33,7 +33,17 @@ export class PlayerSlot extends Component {
   }
 
   render() {
-    const { canDrop, connectDropTarget, editable, isActive, isOver, isUser, role, team, player } = this.props,
+    const {
+            canDrop,
+            connectDropTarget,
+            editable,
+            isActive,
+            isOver,
+            isUser,
+            role,
+            team,
+            player
+          } = this.props,
           className = [
             player ? '' : 'empty',
             isActive ? 'active' : '',

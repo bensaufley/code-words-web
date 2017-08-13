@@ -49,16 +49,17 @@ export default function (state = initialState, action) {
 export function openWebSocket(token) {
   return (dispatch) => {
     const webSocketUrl = `ws://${process.env.REACT_APP_API_URL}/api/v1/?access_token=${token}`;
-    let webSocket = new WebSocket(webSocketUrl);
+    let initializeWebSocket,
+        webSocket = new WebSocket(webSocketUrl);
 
-    webSocket.onopen = () => {
+    const webSocketOnOpenCallback = () => {
       dispatch({
         type: WEBSOCKET_OPENED,
         payload: { webSocket }
       });
     };
 
-    webSocket.onmessage = ({ data }) => {
+    const webSocketOnMessageCallback = ({ data }) => {
       try {
         const { event: type, payload } = JSON.parse(data);
         if (type && gameActions.includes(type)) {
@@ -71,11 +72,11 @@ export function openWebSocket(token) {
       }
     };
 
-    webSocket.onclose = (e) => {
+    const webSocketOnCloseCallback = (e) => {
       if (e !== 1000) {
         const reconnectInterval = setInterval(() => {
           if (webSocket.readyState === WebSocket.CLOSED) {
-            webSocket = new WebSocket(webSocketUrl);
+            webSocket = initializeWebSocket();
           } else {
             clearInterval(reconnectInterval);
           }
@@ -84,6 +85,16 @@ export function openWebSocket(token) {
         dispatch({ type: WEBSOCKET_CLOSED });
       }
     };
+
+    initializeWebSocket = () => {
+      const ws = new WebSocket(webSocketUrl);
+      ws.onopen = webSocketOnOpenCallback;
+      ws.onmessage = webSocketOnMessageCallback;
+      ws.onclose = webSocketOnCloseCallback;
+      return ws;
+    };
+
+    webSocket = initializeWebSocket();
   };
 }
 

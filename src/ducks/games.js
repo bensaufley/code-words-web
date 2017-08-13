@@ -53,13 +53,25 @@ export const createGame = (token) => (dispatch) => {
     });
 };
 
+export const addPlayer = (gameId, username) => (dispatch, getState) => {
+  const { session: { apiToken } } = getState(),
+        config = { headers: { Authorization: `Bearer ${apiToken}` } };
+
+  return axios.post(`http://${process.env.REACT_APP_API_URL}/api/v1/game/${gameId}/players/`, { username }, config)
+    .then(({ data: game }) => {
+      dispatch({ type: GAME_UPDATED, payload: game });
+    })
+    .catch((err) => {
+      let message;
+      try { message = err.response.data.error || err.response.data.message; } catch (_) { message = err.message; }
+      dispatch(showModal(message, 'error'));
+    });
+};
+
 export const assignPlayer = (gameId, playerId, team, role) => (dispatch, getState) => {
   const { session: { apiToken }, games: { [gameId]: { players } } } = getState(),
-        config = {
-          headers: {
-            Authorization: `Bearer ${apiToken}`
-          }
-        };
+        config = { headers: { Authorization: `Bearer ${apiToken}` } };
+
   return new Promise((resolve, reject) => {
     const conflictingPlayer = players.find((p) => p.team === team && p.role === role);
     if (conflictingPlayer) {
@@ -75,6 +87,24 @@ export const assignPlayer = (gameId, playerId, team, role) => (dispatch, getStat
       dispatch({ type: GAME_UPDATED, payload: data });
     })
     .catch((err) => {
-      dispatch(showModal(err.message, 'error'));
+      let message;
+      try { message = err.response.data.error || err.response.data.message; } catch (_) { message = err.message; }
+      dispatch(showModal(message, 'error'));
+    });
+};
+
+export const removePlayer = (gameId, playerId) => (dispatch, getState) => {
+  const { session: { apiToken } } = getState(),
+        config = { headers: { Authorization: `Bearer ${apiToken}` } };
+
+  return axios.delete(`http://${process.env.REACT_APP_API_URL}/api/v1/game/${gameId}/player/${playerId}`, config)
+    .then((response) => {
+      if (response.data) dispatch({ type: GAME_UPDATED, payload: response.data });
+      else dispatch(push('/'));
+    })
+    .catch((err) => {
+      let message;
+      try { message = err.response.data.error || err.response.data.message; } catch (_) { message = err.message; }
+      dispatch(showModal(message, 'error'));
     });
 };

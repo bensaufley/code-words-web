@@ -3,12 +3,13 @@ import PropTypes from 'prop-types';
 import { Field, reduxForm } from 'redux-form';
 import { Button, Form, Icon } from 'semantic-ui-react';
 
+import { addPlayer } from '../ducks/games';
+
 const AddPlayerForm = (props) => {
-  const { gameId, handleSubmit } = props;
+  const { handleSubmit } = props;
 
   return (
     <Form onSubmit={handleSubmit}>
-      <input type="hidden" name="gameId" value={gameId} />
       <Form.Group>
         <Form.Field width={12}>
           <Field
@@ -30,11 +31,10 @@ const AddPlayerForm = (props) => {
 };
 
 AddPlayerForm.propTypes = {
-  gameId: PropTypes.string.isRequired,
   handleSubmit: PropTypes.func.isRequired
 };
 
 export default reduxForm({
   form: 'addPlayer',
-  handleSubmit: () => {}
+  onSubmit: (attrs, dispatch) => dispatch(addPlayer(attrs.gameId, attrs.username))
 })(AddPlayerForm);

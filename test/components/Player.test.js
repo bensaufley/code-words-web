@@ -9,7 +9,7 @@ describe('(component) Player', () => {
   context('before game - editable', () => {
     it('renders without exploding', () => {
       const player = new PlayerDummy().serialize(),
-            wrapper = shallow(<Player {...player} editable isUser />);
+            wrapper = shallow(<Player {...player} isUser />);
 
       expect(wrapper).to.have.lengthOf(1);
     });
@@ -19,7 +19,7 @@ describe('(component) Player', () => {
         const player = new PlayerDummy().serialize();
         player.team = 'a';
         player.role = 'transmitter';
-        const wrapper = shallow(<Player {...player} editable isUser />);
+        const wrapper = shallow(<Player {...player} isUser />);
 
         expect(wrapper).to.have.lengthOf(1);
       });
@@ -31,7 +31,7 @@ describe('(component) Player', () => {
       const player = new PlayerDummy().serialize();
       player.team = 'a';
       player.role = 'transmitter';
-      const wrapper = shallow(<Player {...player} editable={false} isUser={false} />);
+      const wrapper = shallow(<Player {...player} isUser={false} />);
 
       expect(wrapper).to.have.lengthOf(1);
     });

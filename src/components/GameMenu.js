@@ -50,7 +50,7 @@ class GameMenu extends Component {
       <Menu.Menu>
         <Menu.Item header>Undecided</Menu.Item>
         <Menu.Item>
-          {undecideds.map((player) => <DraggablePlayer key={player.id} {...player} />)}
+          {undecideds.map((player) => <div key={player.id}><DraggablePlayer {...player} /></div>)}
         </Menu.Item>
       </Menu.Menu>
     );
@@ -62,7 +62,7 @@ class GameMenu extends Component {
     return (
       <Menu.Menu>
         <Menu.Item>Add Player</Menu.Item>
-        <Menu.Item><AddPlayerForm gameId={this.props.game.id} /></Menu.Item>
+        <Menu.Item><AddPlayerForm initialValues={{ gameId: this.props.game.id }} /></Menu.Item>
       </Menu.Menu>
     );
   }

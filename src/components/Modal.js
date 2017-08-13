@@ -23,7 +23,7 @@ export class Modal extends Component {
     if (!this.props.shown) return null;
 
     return (
-      <SemanticModal basic size="small" onClose={this.props.closeModal} closeIcon="close" open>
+      <SemanticModal size="small" onClose={this.props.closeModal} closeIcon="close" open>
         <SemanticModal.Content className={this.props.type}>
           <p>{this.props.content}</p>
         </SemanticModal.Content>
