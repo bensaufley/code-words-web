@@ -4,9 +4,11 @@ import { Icon, Menu, Sidebar } from 'semantic-ui-react';
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 
-import { playerShape } from '../helpers/prop-types';
+import { gameShape, playerShape } from '../helpers/prop-types';
 
+import AddPlayerForm from './AddPlayerForm';
 import { DraggablePlayer } from './Player';
+import Turn from './Turn';
 import { PlayerSlot, DroppablePlayerSlot } from './PlayerSlot';
 
 class GameMenu extends Component {
@@ -16,7 +18,7 @@ class GameMenu extends Component {
 
   static propTypes = {
     players: PropTypes.arrayOf(playerShape).isRequired,
-    gameId: PropTypes.string.isRequired,
+    game: gameShape.isRequired,
     activePlayerId: PropTypes.string,
     session: PropTypes.shape({
       apiUser: PropTypes.shape({
@@ -28,7 +30,7 @@ class GameMenu extends Component {
   }
 
   renderPlayerSlot(player, team, role) {
-    const { activePlayerId, gameId, session: { apiUser: { id: currentUserId } } } = this.props,
+    const { activePlayerId, game: { id: gameId }, session: { apiUser: { id: currentUserId } } } = this.props,
           isUser = player && player.user && currentUserId === player.user.id,
           isActive = player && activePlayerId === player.id,
           props = { gameId, player, isUser, isActive, role, team };
@@ -54,6 +56,17 @@ class GameMenu extends Component {
     );
   }
 
+  renderAddPlayerButton() {
+    if (this.props.players.length === 4) return null;
+
+    return (
+      <Menu.Menu>
+        <Menu.Item>Add Player</Menu.Item>
+        <Menu.Item><AddPlayerForm gameId={this.props.game.id} /></Menu.Item>
+      </Menu.Menu>
+    );
+  }
+
   renderTeam(team) {
     const { players } = this.props,
           transmitter = players.find((p) => p.team === team && p.role === 'transmitter'),
@@ -61,13 +74,27 @@ class GameMenu extends Component {
 
     return (
       <Menu.Menu>
-        <Menu.Item header>Team {team.toUpperCase()}</Menu.Item>
+        <Menu.Item color={team === 'a' ? 'green' : 'blue'}>Team {team.toUpperCase()}</Menu.Item>
         <Menu.Item>
           {this.renderPlayerSlot(transmitter, team, 'transmitter')}
           {this.renderPlayerSlot(decoder, team, 'decoder')}
         </Menu.Item>
       </Menu.Menu>
     );
+  }
+
+  renderTurns() {
+    const { game: { id: gameId, turns } } = this.props;
+    if (!turns.length) return null;
+
+    /* eslint-disable react/no-array-index-key */
+    return (
+      <Menu.Menu>
+        <Menu.Item header>Turns</Menu.Item>
+        {turns.map((turn, i) => <Turn {...turn} gameId={gameId} key={i} />)}
+      </Menu.Menu>
+    );
+    /* eslint-enable react/no-array-index-key */
   }
 
   render() {
@@ -80,9 +107,11 @@ class GameMenu extends Component {
         <Menu.Menu>
           <Menu.Item header>Teams</Menu.Item>
           {this.renderUndecideds()}
+          {this.renderAddPlayerButton()}
           {this.renderTeam('a')}
           {this.renderTeam('b')}
         </Menu.Menu>
+        {this.renderTurns()}
       </Sidebar>
     );
   }

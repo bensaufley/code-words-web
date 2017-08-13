@@ -74,6 +74,7 @@ describe('(Container) Games', () => {
             const game = new GameDummy({ completed: true }).serialize();
             game.game.id = '98765';
             initialState.games = { 98765: game };
+            // console.log(initialState.games[98765]);
             const wrapper = wrapContainer({ initialState })(GameContainer, ownProps);
 
             expect(scryRenderedComponentsWithType(wrapper, Tile)).have.lengthOf(25);

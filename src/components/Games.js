@@ -21,7 +21,7 @@ export const Games = (props) => {
     <div>
       <h1>{apiUser.username}’s Games</h1>
       <Menu vertical fluid>
-        {!games || !Object.keys(games).length ? <Loader active inline /> : Object.keys(games).map((id) => {
+        {!games ? <Loader active inline /> : Object.keys(games).map((id) => {
           const { game, players } = games[id];
           return (
             <Menu.Item key={game.id}>
@@ -43,7 +43,7 @@ export const Games = (props) => {
 };
 
 Games.defaultProps = {
-  games: {}
+  games: null
 };
 
 Games.propTypes = {

@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import { findDOMNode } from 'react-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Card } from 'semantic-ui-react';
+import { Icon, Label } from 'semantic-ui-react';
 import { DropTarget } from 'react-dnd';
 
 import { PLAYER_CARD, assignPlayer } from '../ducks/games';
@@ -35,7 +34,6 @@ export class PlayerSlot extends Component {
 
   render() {
     const { canDrop, connectDropTarget, editable, isActive, isOver, isUser, role, team, player } = this.props,
-          titleizedRole = role.substr(0, 1).toUpperCase() + role.substr(1, 20),
           className = [
             player ? '' : 'empty',
             isActive ? 'active' : '',
@@ -53,20 +51,23 @@ export class PlayerSlot extends Component {
       } else {
         playerElement = <Player {...player} />;
       }
-    } else if (isOver && canDrop) {
-      playerElement = <Card><Card.Content><Card.Header>{'\u00A0'}</Card.Header></Card.Content></Card>;
+    } else {
+      const icon = role === 'transmitter' ? 'upload' : 'download';
+      playerElement = (
+        <Label color="grey">
+          <Icon name={icon} />
+          (Empty)
+          <Label.Detail>{role}</Label.Detail>
+        </Label>
+      );
     }
 
-    return (
-      <Card
+    return connectDropTarget(
+      <div
         className={className}
-        ref={(instance) => connectDropTarget(findDOMNode(instance))}
       >
-        <Card.Content>
-          {playerElement}
-          <p>{titleizedRole}</p>
-        </Card.Content>
-      </Card>
+        {playerElement}
+      </div>
     );
   }
 }

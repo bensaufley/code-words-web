@@ -1,5 +1,11 @@
 import PropTypes from 'prop-types';
 
+export const turnShape = PropTypes.shape({
+  revealed: PropTypes.bool,
+  type: PropTypes.string,
+  word: PropTypes.string
+});
+
 export const userShape = PropTypes.shape({
   id: PropTypes.string,
   username: PropTypes.string
@@ -20,5 +26,6 @@ export const gameShape = PropTypes.shape({
     word: PropTypes.string
   })),
   completed: PropTypes.bool,
-  started: PropTypes.bool
+  started: PropTypes.bool,
+  turns: PropTypes.arrayOf(turnShape)
 });

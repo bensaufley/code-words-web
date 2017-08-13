@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { findDOMNode } from 'react-dom';
 import PropTypes from 'prop-types';
-import { Card } from 'semantic-ui-react';
+import { Icon, Label } from 'semantic-ui-react';
 import { DragSource } from 'react-dnd';
 
 import { PLAYER_CARD } from '../ducks/games';
@@ -43,16 +43,28 @@ export class Player extends Component {
     const { connectDragSource, id, team, role, user: { username }, isUser } = this.props,
           className = ['player', team, role, isUser ? 'current-user' : ''].filter(Boolean).join(' ');
 
+    let color = 'grey',
+        icon = 'question';
+
+    if (team) {
+      color = team === 'a' ? 'green' : 'blue';
+    }
+
+    if (role) {
+      icon = role === 'transmitter' ? 'upload' : 'download';
+    }
+
     return (
-      <Card
+      <Label
         className={className}
         id={`player-${id}`}
         ref={(instance) => connectDragSource(findDOMNode(instance))}
+        color={color}
       >
-        <Card.Content>
-          <Card.Header>{username}</Card.Header>
-        </Card.Content>
-      </Card>
+        <Icon name={icon} />
+        {username}
+        {role ? <Label.Detail>{role}</Label.Detail> : ''}
+      </Label>
     );
   }
 }

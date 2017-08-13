@@ -21,7 +21,9 @@ export default class PlayerDummy extends Dummy {
   }
 
   serialize() {
-    const { id, gameId, role, team, user } = this;
-    return { id, gameId, role, team, user: user.serialize() };
+    return {
+      ...this.attrs('id', 'gameId', 'role', 'team'),
+      user: this.user.serialize()
+    };
   }
 }
