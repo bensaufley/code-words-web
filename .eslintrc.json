@@ -59,7 +59,9 @@
     "no-unused-vars": [
       "warn",
       {
-        "argsIgnorePattern": "^_"
+        "argsIgnorePattern": "^_",
+        "varsIgnorePattern": "^_",
+        "vars": "local"
       }
     ],
     "one-var": "off",

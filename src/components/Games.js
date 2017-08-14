@@ -9,13 +9,7 @@ import { gameShape, userShape } from '../helpers/prop-types';
 import { createGame } from '../ducks/games';
 
 export const Games = (props) => {
-  const { apiToken, apiUser, games } = props;
-
-  const newGameClickHandler = (e) => {
-    e.preventDefault();
-
-    props.createGame(apiToken);
-  };
+  const { apiToken, apiUser, createGame: createGameAction, games } = props;
 
   return (
     <div>
@@ -32,7 +26,7 @@ export const Games = (props) => {
           );
         })}
         <Menu.Item fitted>
-          <Button fluid primary icon type="button" onClick={newGameClickHandler.bind(this)}>
+          <Button fluid primary icon type="button" onClick={createGameAction(apiToken)}>
             <Icon name="plus" />
             New Game
           </Button>
@@ -49,7 +43,8 @@ Games.defaultProps = {
 Games.propTypes = {
   games: PropTypes.objectOf(gameShape),
   apiToken: PropTypes.string.isRequired,
-  apiUser: userShape.isRequired
+  apiUser: userShape.isRequired,
+  createGame: PropTypes.func.isRequired
 };
 
 function mapStateToProps({ games, session: { apiToken, apiUser } }) {
