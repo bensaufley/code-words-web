@@ -1,14 +1,16 @@
 import { Assertion } from 'chai';
+import sinon from 'sinon';
 
 export class DispatchStub {
-  constructor() {
+  constructor(getState) {
     this.calls = [];
     this.dispatch = this.dispatch.bind(this);
+    this.getState = getState || sinon.stub().callsFake(() => ({}));
   }
 
   dispatch(args) {
     if (typeof args === 'function') {
-      args(this.dispatch);
+      args(this.dispatch, this.getState);
     } else {
       this.calls.push(args);
     }

@@ -5,16 +5,12 @@ import { handleApiError } from '../helpers/requests';
 
 // For redux
 export const GAME_CREATED = 'GAME_CREATED',
-      GAME_TRANSMIT = 'GAME_TRANSMIT',
-      GAME_DECODE = 'GAME_DECODE',
       GAMES_INDEXED = 'GAMES_INDEXED',
       GAME_UPDATED = 'GAME_UPDATED',
       GAME_REMOVED = 'GAME_REMOVED';
 
 export const gameActions = [
   GAME_CREATED,
-  GAME_TRANSMIT,
-  GAME_DECODE,
   GAMES_INDEXED,
   GAME_UPDATED,
   GAME_REMOVED
