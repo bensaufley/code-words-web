@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Icon, Menu, Sidebar } from 'semantic-ui-react';
+import { Button, Icon, Menu, Sidebar } from 'semantic-ui-react';
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 
@@ -27,6 +27,11 @@ class GameMenu extends Component {
     }).isRequired,
     hideMenu: PropTypes.func.isRequired,
     menuOpen: PropTypes.bool.isRequired
+  }
+
+  startable() {
+    const { players } = this.props;
+    return players.length === 4 && players.filter((p) => p.team === null).length === 0;
   }
 
   renderPlayerSlot(player, team, role) {
@@ -111,6 +116,15 @@ class GameMenu extends Component {
           {this.renderTeam('a')}
           {this.renderTeam('b')}
         </Menu.Menu>
+        {this.props.game.activePlayerId ?
+          '' :
+          <Menu.Item>
+            <Button primary icon fluid disabled={!this.startable()}>
+              <Icon name="check" />
+              Start Game
+            </Button>
+          </Menu.Item>
+        }
         {this.renderTurns()}
       </Sidebar>
     );

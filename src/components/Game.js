@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
-import { Icon, Loader, Menu } from 'semantic-ui-react';
+import { Link, Redirect } from 'react-router-dom';
+import { Icon, Loader, Menu, Segment } from 'semantic-ui-react';
 
 import { gameShape, playerShape, userShape } from '../helpers/prop-types';
 import { redirectIfUnauthenticated } from '../helpers/auth';
@@ -40,7 +40,7 @@ export class Game extends Component {
   headerDisplay() {
     if (this.props.game.completed) return 'Completed Game';
     if (this.props.game.started) return 'Game in Progress';
-    return 'New Game';
+    return 'Unstarted Game';
   }
 
   hideMenu() {
@@ -52,33 +52,41 @@ export class Game extends Component {
   }
 
   render() {
-    if (this.props.loading) return (<Loader active inline />);
-    else if (!this.props.game) return (<Redirect to="/" />);
+    const { game, loading } = this.props;
 
-    const { game, players, activePlayerId, session } = this.props,
+    if (!loading && !game) return (<Redirect to="/" />);
+
+    const { players, activePlayerId, session } = this.props,
           menuParams = { game, players, activePlayerId, session };
     return (
-      <div>
-        <GameMenu
-          hideMenu={this.hideMenu.bind(this)}
-          menuOpen={this.state.menuOpen}
-          {...menuParams}
-        />
+      <Segment>
+        {loading ?
+          <Loader active /> :
+          <GameMenu
+            hideMenu={this.hideMenu.bind(this)}
+            menuOpen={this.state.menuOpen}
+            {...menuParams}
+          />
+        }
         <Menu>
-          <Menu.Item header>
-            {this.headerDisplay()}
+          <Menu.Item as={Link} to="/">
+            <Icon name="chevron left" />
+            All Games
           </Menu.Item>
-          <Menu.Menu position="right">
+          {loading ? '' : <Menu.Item header>
+            {this.headerDisplay()}
+          </Menu.Item>}
+          {loading ? '' : <Menu.Menu position="right">
             <Menu.Item onClick={this.toggleMenu.bind(this)}>
               <Icon name="bars" />
                 Menu
               </Menu.Item>
-          </Menu.Menu>
+          </Menu.Menu>}
         </Menu>
         <div className="game">
-          {game.board.map((tile) => <Tile key={tile.word} {...tile} />)}
+          {loading ? '' : game.board.map((tile) => <Tile key={tile.word} {...tile} />)}
         </div>
-      </div>
+      </Segment>
     );
   }
 }

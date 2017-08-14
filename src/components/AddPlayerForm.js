@@ -21,7 +21,7 @@ const AddPlayerForm = (props) => {
           />
         </Form.Field>
         <Form.Field width={4}>
-          <Button icon fluid primary type="submit" >
+          <Button icon fluid type="submit" >
             <Icon name="add user" />
           </Button>
         </Form.Field>

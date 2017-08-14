@@ -3,8 +3,8 @@ export const ACOLOR = 'green';
 export const BCOLOR = 'blue';
 export const XCOLOR = 'red';
 export const NULLCOLOR = 'grey';
-export const TRANSMITTER_ICON = 'upload';
-export const DECODER_ICON = 'download';
+export const TRANSMITTER_ICON = 'talk';
+export const DECODER_ICON = 'hand pointer';
 export const END_ICON = 'star';
 
 export const iconForRole = (role) => (role === 'transmitter' ? TRANSMITTER_ICON : DECODER_ICON);

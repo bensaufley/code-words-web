@@ -7,6 +7,7 @@ import { DragSource } from 'react-dnd';
 
 import { PLAYER_CARD, removePlayer } from '../ducks/games';
 import { userShape } from '../helpers/prop-types';
+import { colorForTeam, iconForRole } from '../helpers/style-dictionary';
 
 import '../styles/Player.css';
 
@@ -40,18 +41,20 @@ export class Player extends Component {
 
   render() {
     const { connectDragSource, editable, id, team, role, user: { username }, isUser } = this.props,
-          className = ['player', team, role, isUser ? 'current-user' : ''].filter(Boolean).join(' ');
+          className = [
+            'player',
+            'fluid',
+            team,
+            role,
+            editable ? 'draggable' : '',
+            isUser ? 'current-user' : ''
+          ].filter(Boolean).join(' ');
 
     let color = 'grey',
         icon = 'question';
 
-    if (team) {
-      color = team === 'a' ? 'green' : 'blue';
-    }
-
-    if (role) {
-      icon = role === 'transmitter' ? 'upload' : 'download';
-    }
+    if (team) color = colorForTeam(team);
+    if (role) icon = iconForRole(role);
 
     return (
       <Label

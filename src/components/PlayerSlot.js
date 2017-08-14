@@ -6,6 +6,7 @@ import { DropTarget } from 'react-dnd';
 
 import { PLAYER_CARD, assignPlayer } from '../ducks/games';
 import { playerShape } from '../helpers/prop-types';
+import { iconForRole } from '../helpers/style-dictionary';
 
 import { Player, DraggablePlayer } from './Player';
 
@@ -45,13 +46,14 @@ export class PlayerSlot extends Component {
             player
           } = this.props,
           className = [
+            'player-label-container',
             player ? '' : 'empty',
             isActive ? 'active' : '',
             isUser ? 'current-user' : '',
             team ? `team-${team}` : '',
             isOver ? 'over' : '',
             canDrop ? 'droppable' : ''
-          ].join(' ');
+          ].filter(Boolean).join(' ');
 
     let playerElement;
 
@@ -62,9 +64,9 @@ export class PlayerSlot extends Component {
         playerElement = <Player {...player} />;
       }
     } else {
-      const icon = role === 'transmitter' ? 'upload' : 'download';
+      const icon = iconForRole(role);
       playerElement = (
-        <Label color="grey">
+        <Label color="grey" className="fluid">
           <Icon name={icon} />
           (Empty)
           <Label.Detail>{role}</Label.Detail>

@@ -13,3 +13,17 @@
     }
   }
 }
+
+.player-label-container {
+  & + & {
+    margin-top: 10px;
+  }
+}
+
+.draggable {
+  cursor: grab;
+
+  &:active {
+    cursor: grabbing;
+  }
+}
