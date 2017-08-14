@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'react-router-redux';
 import { Switch, Route } from 'react-router-dom';
 import Cookies from 'js-cookie';
-import { Container } from 'semantic-ui-react';
+import { Container, Segment } from 'semantic-ui-react';
 
 import store, { history } from './store';
 import registerServiceWorker from './registerServiceWorker';
@@ -36,9 +36,9 @@ render((
             <Route component={FourOhFour} />
           </Switch>
         </Container>
-        <footer className="page-footer">
+        <Segment as="footer" className="page-footer">
           Copyright ©{new Date().getFullYear()} <a href="http://bensaufley.com">Ben Saufley</a>
-        </footer>
+        </Segment>
         <ModalContainer />
         <LoadingIndicatorContainer />
       </div>

@@ -37,7 +37,7 @@ describe('(Container) Games', () => {
             };
       const wrapper = wrapContainer({ initialState })(GamesContainer);
 
-      expect(scryRenderedComponentsWithType(wrapper, Menu.Item)).to.have.lengthOf(4);
+      expect(scryRenderedComponentsWithType(wrapper, Menu.Item)).to.have.lengthOf(3);
     });
   });
 });

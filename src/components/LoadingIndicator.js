@@ -44,7 +44,7 @@ export class LoadingIndicator extends Component {
 
   render() {
     return (
-      <Dimmer page active={this.props.loading}>
+      <Dimmer page inverted active={this.props.loading}>
         <Loader active={this.props.loading} />
       </Dimmer>
     );

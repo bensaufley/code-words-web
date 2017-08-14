@@ -1,7 +1,6 @@
 import axios from 'axios';
 import { push } from 'react-router-redux';
 
-import { showModal } from './modal';
 import { handleApiError } from '../helpers/requests';
 
 // For redux
@@ -51,7 +50,15 @@ export const createGame = (token) => () => (dispatch) => {
       dispatch({ type: GAME_CREATED, payload: data });
       dispatch(push(`/games/${data.game.id}/`));
     })
-    .catch(handleApiError);
+    .catch(handleApiError(dispatch));
+};
+
+export const deleteGame = (token, gameId) => (dispatch) => {
+  const config = { headers: { Authorization: `Bearer ${token}` } };
+
+  return axios.delete(`http://${process.env.REACT_APP_API_URL}/api/v1/game/${gameId}`, config)
+    .then(() => { dispatch({ type: GAME_REMOVED, payload: { gameId } }); })
+    .catch(handleApiError(dispatch));
 };
 
 export const addPlayer = (gameId, username) => (dispatch, getState) => {
@@ -60,7 +67,7 @@ export const addPlayer = (gameId, username) => (dispatch, getState) => {
 
   return axios.post(`http://${process.env.REACT_APP_API_URL}/api/v1/game/${gameId}/players/`, { username }, config)
     .then(({ data: game }) => { dispatch({ type: GAME_UPDATED, payload: game }); })
-    .catch(handleApiError);
+    .catch(handleApiError(dispatch));
 };
 
 export const assignPlayer = (gameId, playerId, team, role) => (dispatch, getState) => {
@@ -79,7 +86,7 @@ export const assignPlayer = (gameId, playerId, team, role) => (dispatch, getStat
   })
     .then(() => axios.put(`http://${process.env.REACT_APP_API_URL}/api/v1/game/${gameId}/player/${playerId}`, { team, role }, config))
     .then(({ data }) => { dispatch({ type: GAME_UPDATED, payload: data }); })
-    .catch(handleApiError);
+    .catch(handleApiError(dispatch));
 };
 
 export const removePlayer = (gameId, playerId) => (dispatch, getState) => {
@@ -91,5 +98,5 @@ export const removePlayer = (gameId, playerId) => (dispatch, getState) => {
       if (response.data) dispatch({ type: GAME_UPDATED, payload: response.data });
       else dispatch(push('/'));
     })
-    .catch(handleApiError);
+    .catch(handleApiError(dispatch));
 };

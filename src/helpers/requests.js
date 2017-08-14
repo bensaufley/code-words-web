@@ -1,5 +1,6 @@
 import { showModal } from '../ducks/modal';
 
+/* eslint-disable import/prefer-default-export */
 export const handleApiError = (dispatch) => (err) => {
   let message;
   try {
