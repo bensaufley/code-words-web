@@ -11,6 +11,7 @@ import gamesReducer, {
   GAME_UPDATED,
   GAME_REMOVED,
   createGame,
+  startGame,
   deleteGame,
   addPlayer,
   assignPlayer,
@@ -134,6 +135,34 @@ describe('(Ducks) games', () => {
             expect(stub).to.have.receivedDispatch({ type: GAME_CREATED, payload: { game } });
           });
         });
+      });
+    });
+
+    describe('startGame', () => {
+      let stub;
+
+      beforeEach(() => {
+        const getState = () => ({ session: { apiToken: '0984124' } });
+        stub = new DispatchStub(getState);
+      });
+
+      it('handles error', () => {
+        sandbox.stub(axios, 'post').rejects(new Error('It borked'));
+
+        return startGame('76543')(stub.dispatch, stub.getState)
+          .then(() => {
+            expect(stub).to.have.receivedDispatch({ type: MODAL_SHOW, payload: { message: 'It borked', type: 'error' } });
+          });
+      });
+
+      it(`dispatches ${GAME_UPDATED}`, () => {
+        const payload = { testData: 'came through' };
+        sandbox.stub(axios, 'post').resolves({ data: payload });
+
+        return startGame('76543')(stub.dispatch, stub.getState)
+          .then(() => {
+            expect(stub).to.have.receivedDispatch({ type: GAME_UPDATED, payload });
+          });
       });
     });
 

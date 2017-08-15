@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Link, Redirect } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import { Icon, Loader, Menu, Segment } from 'semantic-ui-react';
 
 import { gameShape, playerShape, userShape } from '../helpers/prop-types';
 import { redirectIfUnauthenticated } from '../helpers/auth';
 
+import { Player } from './Player';
 import Tile from './Tile';
 import GameMenu from './GameMenu';
 
@@ -14,13 +15,11 @@ import '../styles/Game.css';
 
 export class Game extends Component {
   static defaultProps = {
-    activePlayerId: null,
     game: null,
     players: []
   }
 
   static propTypes = {
-    activePlayerId: PropTypes.string,
     game: gameShape,
     loading: PropTypes.bool.isRequired,
     players: PropTypes.arrayOf(playerShape),
@@ -33,14 +32,8 @@ export class Game extends Component {
     super(props);
 
     this.state = {
-      menuOpen: !props.activePlayerId
+      menuOpen: !!(props.game && !props.game.activePlayerId)
     };
-  }
-
-  headerDisplay() {
-    if (this.props.game.completed) return 'Completed Game';
-    if (this.props.game.started) return 'Game in Progress';
-    return 'Unstarted Game';
   }
 
   hideMenu() {
@@ -56,35 +49,41 @@ export class Game extends Component {
 
     if (!loading && !game) return (<Redirect to="/" />);
 
-    const { players, activePlayerId, session } = this.props,
-          menuParams = { game, players, activePlayerId, session };
+    const { players, session } = this.props,
+          menuParams = { game, players, session };
+
+    if (loading) return (<Segment><Loader active /><Menu><Menu.Item><Icon name="bars" />Menu</Menu.Item><Menu.Item header>Loading Game…</Menu.Item></Menu></Segment>);
+
+    const activePlayer = game && game.activePlayerId && players.find((p) => p.id === game.activePlayerId),
+          isUser = game && game.activePlayerId && activePlayer.user.id === session.apiUser.id;
+    let activePlayerElement = '';
+    if (activePlayer) {
+      activePlayerElement = (
+        <Menu.Menu position="right">
+          <Menu.Item>
+            {isUser ? <strong>Current{'\xa0'}Player:</strong> : 'Current\xa0Player:' }
+            <Player {...activePlayer} isActive isUser={isUser} size="medium" />
+          </Menu.Item>
+        </Menu.Menu>
+      );
+    }
+
     return (
       <Segment>
-        {loading ?
-          <Loader active /> :
-          <GameMenu
-            hideMenu={this.hideMenu.bind(this)}
-            menuOpen={this.state.menuOpen}
-            {...menuParams}
-          />
-        }
+        <GameMenu
+          hideMenu={this.hideMenu.bind(this)}
+          menuOpen={this.state.menuOpen}
+          {...menuParams}
+        />
         <Menu>
-          <Menu.Item as={Link} to="/">
-            <Icon name="chevron left" />
-            All Games
+          <Menu.Item onClick={this.toggleMenu.bind(this)}>
+            <Icon name="bars" />
+            Menu
           </Menu.Item>
-          {loading ? '' : <Menu.Item header>
-            {this.headerDisplay()}
-          </Menu.Item>}
-          {loading ? '' : <Menu.Menu position="right">
-            <Menu.Item onClick={this.toggleMenu.bind(this)}>
-              <Icon name="bars" />
-                Menu
-              </Menu.Item>
-          </Menu.Menu>}
+          {activePlayerElement}
         </Menu>
         <div className="game">
-          {loading ? '' : game.board.map((tile) => <Tile key={tile.word} {...tile} />)}
+          {game.board.map((tile) => <Tile key={tile.word} {...tile} />)}
         </div>
       </Segment>
     );

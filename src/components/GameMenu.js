@@ -2,9 +2,11 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Button, Icon, Menu, Sidebar } from 'semantic-ui-react';
 import { DragDropContext } from 'react-dnd';
+import { connect } from 'react-redux';
 import HTML5Backend from 'react-dnd-html5-backend';
 
 import { gameShape, playerShape } from '../helpers/prop-types';
+import { startGame } from '../ducks/games';
 
 import AddPlayerForm from './AddPlayerForm';
 import { DraggablePlayer } from './Player';
@@ -12,21 +14,17 @@ import Turn from './Turn';
 import { PlayerSlot, DroppablePlayerSlot } from './PlayerSlot';
 
 class GameMenu extends Component {
-  static defaultProps = {
-    activePlayerId: null
-  }
-
   static propTypes = {
     players: PropTypes.arrayOf(playerShape).isRequired,
     game: gameShape.isRequired,
-    activePlayerId: PropTypes.string,
     session: PropTypes.shape({
       apiUser: PropTypes.shape({
         id: PropTypes.string.isRequired
       })
     }).isRequired,
     hideMenu: PropTypes.func.isRequired,
-    menuOpen: PropTypes.bool.isRequired
+    menuOpen: PropTypes.bool.isRequired,
+    startGame: PropTypes.func.isRequired
   }
 
   startable() {
@@ -35,7 +33,7 @@ class GameMenu extends Component {
   }
 
   renderPlayerSlot(player, team, role) {
-    const { activePlayerId, game: { id: gameId }, session: { apiUser: { id: currentUserId } } } = this.props,
+    const { game: { activePlayerId, id: gameId }, session: { apiUser: { id: currentUserId } } } = this.props,
           isUser = player && player.user && currentUserId === player.user.id,
           isActive = player && activePlayerId === player.id,
           props = { gameId, player, isUser, isActive, role, team };
@@ -103,9 +101,11 @@ class GameMenu extends Component {
   }
 
   render() {
+    const { game, hideMenu, menuOpen, startGame: startGameAction } = this.props;
+
     return (
-      <Sidebar animation="overlay" as={Menu} visible={this.props.menuOpen} vertical>
-        <Menu.Item onClick={this.props.hideMenu}>
+      <Sidebar animation="overlay" as={Menu} visible={menuOpen} vertical>
+        <Menu.Item onClick={hideMenu}>
           Close Menu
           <Icon name="close" />
         </Menu.Item>
@@ -116,10 +116,10 @@ class GameMenu extends Component {
           {this.renderTeam('a')}
           {this.renderTeam('b')}
         </Menu.Menu>
-        {this.props.game.activePlayerId ?
+        {game.activePlayerId ?
           '' :
           <Menu.Item>
-            <Button primary icon fluid disabled={!this.startable()}>
+            <Button primary icon fluid disabled={!this.startable()} onClick={() => startGameAction(game.id)}>
               <Icon name="check" />
               Start Game
             </Button>
@@ -131,4 +131,4 @@ class GameMenu extends Component {
   }
 }
 
-export default DragDropContext(HTML5Backend)(GameMenu);
+export default connect(null, { startGame })(DragDropContext(HTML5Backend)(GameMenu));

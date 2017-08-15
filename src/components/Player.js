@@ -15,6 +15,7 @@ export class Player extends Component {
   static defaultProps = {
     connectDragSource: (el) => el,
     editable: false,
+    isActive: false,
     team: null,
     removePlayer: () => {},
     role: null,
@@ -26,6 +27,7 @@ export class Player extends Component {
     editable: PropTypes.bool,
     gameId: PropTypes.string.isRequired,
     id: PropTypes.string.isRequired,
+    isActive: PropTypes.bool,
     user: userShape.isRequired,
     team: PropTypes.string,
     removePlayer: PropTypes.func,
@@ -40,7 +42,7 @@ export class Player extends Component {
   }
 
   render() {
-    const { connectDragSource, editable, id, team, role, user: { username }, isUser } = this.props,
+    const { connectDragSource, editable, id, isActive, isUser, role, team, user: { username } } = this.props,
           className = [
             'player',
             'fluid',
@@ -58,12 +60,14 @@ export class Player extends Component {
 
     return (
       <Label
+        basic={!isActive}
         className={className}
         id={`player-${id}`}
         ref={(instance) => connectDragSource(findDOMNode(instance))}
         color={color}
       >
         <Icon name={icon} />
+        {isUser ? <Icon name="user" /> : ''}
         {username}
         {role ? <Label.Detail>{role}</Label.Detail> : ''}
         {editable ? <Icon name="delete" onClick={this.removePlayer.bind(this)} /> : ''}

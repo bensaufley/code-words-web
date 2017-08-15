@@ -49,6 +49,14 @@ export const createGame = (token) => () => (dispatch) => {
     .catch(handleApiError(dispatch));
 };
 
+export const startGame = (gameId) => (dispatch, getState) => {
+  const config = { headers: { Authorization: `Bearer ${getState().session.apiToken}` } };
+
+  return axios.post(`http://${process.env.REACT_APP_API_URL}/api/v1/game/${gameId}/start`, null, config)
+    .then(({ data: game }) => { dispatch({ type: GAME_UPDATED, payload: game }); })
+    .catch(handleApiError(dispatch));
+};
+
 export const deleteGame = (token, gameId) => (dispatch) => {
   const config = { headers: { Authorization: `Bearer ${token}` } };
 

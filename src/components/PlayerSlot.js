@@ -59,9 +59,9 @@ export class PlayerSlot extends Component {
 
     if (player) {
       if (editable) {
-        playerElement = <DraggablePlayer {...player} />;
+        playerElement = <DraggablePlayer {...player} isActive={isActive} isUser={isUser} />;
       } else {
-        playerElement = <Player {...player} />;
+        playerElement = <Player {...player} isActive={isActive} isUser={isUser} />;
       }
     } else {
       const icon = iconForRole(role);

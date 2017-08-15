@@ -36,7 +36,7 @@ render((
             <Route component={FourOhFour} />
           </Switch>
         </Container>
-        <Segment as="footer" className="page-footer">
+        <Segment as="footer" textAlign="center" className="page-footer">
           Copyright ©{new Date().getFullYear()} <a href="http://bensaufley.com">Ben Saufley</a>
         </Segment>
         <ModalContainer />

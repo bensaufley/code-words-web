@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { Menu } from 'semantic-ui-react';
+import { Icon, Menu } from 'semantic-ui-react';
 
 import '../styles/AppHeader.css';
 
@@ -30,11 +30,16 @@ export class AppHeader extends Component {
     let links;
 
     if (this.props.session.apiToken) {
-      links = (
-        <Menu.Menu position="right">
+      links = [(
+        <Menu.Item key="my-games" as={NavLink} exact to="/">
+          <Icon name="list" />
+          My Games
+        </Menu.Item>
+      ), (
+        <Menu.Menu key="right-menu" position="right">
           <Menu.Item href="/" className="log-out" onClick={this.logOut.bind(this)}>Log Out</Menu.Item>
         </Menu.Menu>
-      );
+      )];
     } else {
       links = (
         <Menu.Menu position="right">

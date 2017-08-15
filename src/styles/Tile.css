@@ -1,17 +1,35 @@
 .game-tile {
   background: #efe9dd;
+  border: .5em solid gray;
   border-radius: 3px;
   box-shadow: 0 1px 3px transparent;
   cursor: pointer;
   font-size: .75em;
   font-weight: bold;
-  line-height: 2.666em;
+  line-height: 1.666em;
   text-align: center;
   transition: .2s transform, .2s box-shadow; }
+  .game-tile.redacted {
+    border-color: transparent; }
+  .game-tile.revealed {
+    background: gray; }
+  .game-tile.a {
+    border-color: green; }
+    .game-tile.a.revealed {
+      background: green; }
+  .game-tile.b {
+    border-color: blue; }
+    .game-tile.b.revealed {
+      background: blue; }
+  .game-tile.x {
+    border-color: red; }
+    .game-tile.x.revealed {
+      background: red;
+      color: #fff; }
   @media screen and (min-width: 30em) {
     .game-tile {
       font-size: 1em;
-      line-height: calc((85vh - 10px - 4em) / 5); }
+      line-height: calc((85vh - 10px - 4em) / 5 - 1em); }
       .game-tile:hover {
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
         transform: scale(1.1); } }
