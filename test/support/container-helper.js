@@ -1,11 +1,12 @@
 import React from 'react';
-import { render, findDOMNode, unmountComponentAtNode } from 'react-dom';
+import { render as reactRender, findDOMNode, unmountComponentAtNode } from 'react-dom';
+import { render as enzymeRender } from 'enzyme';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'react-router-redux';
 import createHistory from 'history/createMemoryHistory';
 import { generateStore } from '../../src/store';
 
-export function wrapContainer(providerProps = {}, routerProps = {}, appendToBody = false) {
+const renderContainerWith = (render) => (providerProps = {}, routerProps = {}, appendToBody = false) => {
   const { initialState, ...pProps } = providerProps,
         state = Object.assign({
           session: {}
@@ -36,7 +37,11 @@ export function wrapContainer(providerProps = {}, routerProps = {}, appendToBody
     if (appendToBody) document.body.appendChild(div);
     return wrapper;
   };
-}
+};
+
+export const wrapContainer = renderContainerWith(reactRender);
+
+export const renderContainer = renderContainerWith(enzymeRender);
 
 export function getWrappedComponent() {
   const wrappedComponentElement = document.body.querySelector('[data-reactroot]'),

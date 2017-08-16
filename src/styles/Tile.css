@@ -3,7 +3,7 @@
   border: .5em solid gray;
   border-radius: 3px;
   box-shadow: 0 1px 3px transparent;
-  cursor: pointer;
+  cursor: default;
   font-size: .75em;
   font-weight: bold;
   line-height: 1.666em;
@@ -16,11 +16,13 @@
   .game-tile.a {
     border-color: green; }
     .game-tile.a.revealed {
-      background: green; }
+      background: green;
+      color: #fff; }
   .game-tile.b {
     border-color: blue; }
     .game-tile.b.revealed {
-      background: blue; }
+      background: blue;
+      color: #fff; }
   .game-tile.x {
     border-color: red; }
     .game-tile.x.revealed {
@@ -30,15 +32,20 @@
     .game-tile {
       font-size: 1em;
       line-height: calc((85vh - 10px - 4em) / 5 - 1em); }
-      .game-tile:hover {
+      .game-tile:hover, .game-tile:focus {
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
         transform: scale(1.1); } }
   @media screen and (min-width: 60em) {
     .game-tile {
       font-size: 1.25em; } }
-  .game-tile:active {
+
+button.game-tile {
+  cursor: pointer; }
+  button.game-tile, button.game-tile:hover, button.game-tile:focus, button.game-tile:active {
+    outline: none; }
+  button.game-tile:active {
     -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
     transform: rotateX(45deg); }
     @media screen and (min-width: 30em) {
-      .game-tile:active {
+      button.game-tile:active {
         transform: scale(1.1) rotateX(25deg); } }

@@ -5,7 +5,7 @@
   border: .5em solid gray;
   border-radius: 3px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0);
-  cursor: pointer;
+  cursor: default;
   font-size: .75em;
   font-weight: bold;
   line-height: 1.666em;
@@ -25,6 +25,7 @@
 
     &.revealed {
       background: green;
+      color: #fff;
     };
   }
 
@@ -33,6 +34,7 @@
 
     &.revealed {
       background: blue;
+      color: #fff;
     }
   }
 
@@ -49,7 +51,8 @@
     font-size: 1em;
     line-height: calc((85vh - 10px - 4em) / 5 - 1em);
 
-    &:hover {
+    &:hover,
+    &:focus {
       box-shadow: 0 4px 6px rgba(0, 0, 0, .2);
       transform: scale(1.1);
     }
@@ -57,6 +60,17 @@
 
   @media screen and (min-width: 60em) {
     font-size: 1.25em;
+  }
+}
+
+button.game-tile {
+  cursor: pointer;
+
+  &,
+  &:hover,
+  &:focus,
+  &:active {
+    outline: none;
   }
 
   &:active {

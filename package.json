@@ -66,7 +66,6 @@
     "jsonwebtoken": "^7.4.1",
     "mocha": "^3.4.2",
     "node-sass-chokidar": "^0.0.3",
-    "normalize-scss": "^7.0.0",
     "npm-run-all": "^4.0.2",
     "postcss-flexbugs-fixes": "3.0.0",
     "postcss-loader": "2.0.5",
@@ -85,7 +84,7 @@
   },
   "scripts": {
     "lint": "eslint . && scss-lint",
-    "build-css": "node-sass-chokidar src/sass -o src/styles --include-path node_modules/normalize-scss/sass",
+    "build-css": "node-sass-chokidar src/sass -o src/styles",
     "watch-css": "npm run build-css && npm run build-css -- --watch --recursive",
     "build-semantic": "gulp --gulpfile ./semantic/gulpfile.js build",
     "watch-semantic": "npm run build-semantic && gulp --gulpfile ./semantic/gulpfile.js watch",

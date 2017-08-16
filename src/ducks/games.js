@@ -104,3 +104,12 @@ export const removePlayer = (gameId, playerId) => (dispatch, getState) => {
     })
     .catch(handleApiError(dispatch));
 };
+
+export const takeTurn = (gameId, turnType) => (data) => (dispatch, getState) => {
+  const { session: { apiToken } } = getState(),
+        config = { headers: { Authorization: `Bearer ${apiToken}` } };
+
+  return axios.put(`http://${process.env.REACT_APP_API_URL}/api/v1/game/${gameId}/${turnType}`, data, config)
+    .then(({ data: game }) => dispatch({ type: GAME_UPDATED, payload: game }))
+    .catch(handleApiError(dispatch));
+};

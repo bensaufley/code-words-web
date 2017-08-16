@@ -51,6 +51,7 @@ describe('(Container) Games', () => {
           it('renders without exploding', () => {
             const game = new GameDummy().serialize();
             game.game.id = '98765';
+            game.players[0].user.id = '29841';
             initialState.games = { 98765: game };
             const wrapper = wrapContainer({ initialState })(GameContainer, ownProps);
 
@@ -62,6 +63,7 @@ describe('(Container) Games', () => {
           it('renders without exploding', () => {
             const game = new GameDummy({ started: true }).serialize();
             game.game.id = '98765';
+            game.players[0].user.id = '29841';
             initialState.games = { 98765: game };
             const wrapper = wrapContainer({ initialState })(GameContainer, ownProps);
 
@@ -73,6 +75,7 @@ describe('(Container) Games', () => {
           it('renders without exploding', () => {
             const game = new GameDummy({ completed: true }).serialize();
             game.game.id = '98765';
+            game.players[0].user.id = '29841';
             initialState.games = { 98765: game };
             // console.log(initialState.games[98765]);
             const wrapper = wrapContainer({ initialState })(GameContainer, ownProps);
