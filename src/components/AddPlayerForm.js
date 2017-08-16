@@ -13,6 +13,8 @@ const AddPlayerForm = (props) => {
       <Form.Group>
         <Form.Field width={12}>
           <Field
+            autoComplete="off"
+            autoCapitalize="none"
             component="input"
             id="new-player-username"
             name="username"

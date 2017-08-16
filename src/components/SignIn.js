@@ -18,6 +18,8 @@ export const SignIn = (props) => {
     <Form onSubmit={handleSubmit}>
       <h1>Sign In</h1>
       <Field
+        autocapitalize="none"
+        autocorrect="off"
         component={FormInputWithError}
         type="text"
         name="username"

@@ -1,5 +1,5 @@
-export const USERNAME_REGEX = /^[A-Za-z][A-Za-z0-9.\-_]{7,24}$/,
-      USERNAME_PATTERN_DESC = 'must begin with a letter, be 7-24 characters long, and consist of letters, numbers, periods, dashes and underscores.',
+export const USERNAME_REGEX = /^[a-z][a-z0-9\-.]{6,23}[a-z]$/i,
+      USERNAME_PATTERN_DESC = 'must begin and end with a letter, be 7-24 characters long, and consist of only letters, numbers, periods, and dashes.',
       PASSWORD_REGEX = /^.{7,50}$/i,
       PASSWORD_PATTERN_DESC = 'must be between 7 and fifty characters in length.';
 
