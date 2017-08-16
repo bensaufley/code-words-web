@@ -38,7 +38,7 @@ export default function gamesReducer(state = null, action) {
   }
 }
 
-export const createGame = (token) => () => (dispatch) => {
+export const createGame = (token) => (dispatch) => {
   const config = { headers: { Authorization: `Bearer ${token}` } };
 
   return axios.post(`http://${process.env.REACT_APP_API_URL}/api/v1/games/`, null, config)

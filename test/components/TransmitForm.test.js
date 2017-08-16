@@ -1,7 +1,5 @@
 import { expect } from 'chai';
-import { findRenderedComponentWithType } from 'react-dom/test-utils';
-import { Form } from 'semantic-ui-react';
-import { wrapContainer, getWrappedComponent } from '../support/container-helper';
+import { wrapContainer } from '../support/container-helper';
 
 import TransmitFormContainer from '../../src/components/TransmitForm';
 

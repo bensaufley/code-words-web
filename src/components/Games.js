@@ -19,7 +19,7 @@ export const Games = (props) => {
 
   return (
     <div>
-      <Button floated="right" primary icon type="button" onClick={createGameAction(apiToken)}>
+      <Button floated="right" primary icon type="button" onClick={() => createGameAction(apiToken)}>
         <Icon name="plus" />
         New Game
       </Button>

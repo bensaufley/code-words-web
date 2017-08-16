@@ -120,7 +120,7 @@ describe('(Ducks) games', () => {
         it('creates a modal for AJAX failure', () => {
           const stub = new DispatchStub();
           sandbox.stub(axios, 'post').callsFake(() => Promise.reject(new Error('It borked')));
-          return callback()(stub.dispatch).then(() => {
+          return callback(stub.dispatch).then(() => {
             expect(stub).to.have.receivedDispatch({ type: MODAL_SHOW, payload: { message: 'It borked', type: 'error' } });
           });
         });
@@ -131,7 +131,7 @@ describe('(Ducks) games', () => {
           const stub = new DispatchStub(),
                 game = new GameDummy(1).serialize();
           sandbox.stub(axios, 'post').callsFake(() => Promise.resolve({ data: { game } }));
-          return callback()(stub.dispatch).then(() => {
+          return callback(stub.dispatch).then(() => {
             expect(stub).to.have.receivedDispatch({ type: GAME_CREATED, payload: { game } });
           });
         });
