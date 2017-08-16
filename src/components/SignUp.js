@@ -17,6 +17,12 @@ export const SignUp = (props) => {
   return (
     <Form onSubmit={handleSubmit}>
       <h1>Sign Up</h1>
+      <p>
+        Please do not reuse passwords, in general. More specifically, <strong>this
+        site is not yet on HTTPS</strong>, so if you’re on public or shared wifi, your
+        connection may be insecure. As such, please <strong>use a password that is unique
+        to this website.</strong>
+      </p>
       <Field
         autocapitalize="none"
         autocorrect="off"
