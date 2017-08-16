@@ -1,8 +1,10 @@
+@import 'shared';
+
 .game-tile {
   background: #efe9dd;
   // border: 1px solid;
   // border-color: rgba(255, 255, 255, .4) rgba(212, 212, 212, .7) rgba(0, 0, 0, .4);
-  border: .5em solid gray;
+  border: .5em solid $grey;
   border-radius: 3px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0);
   cursor: default;
@@ -17,32 +19,32 @@
   }
 
   &.revealed {
-    background: gray;
+    background: $grey;
   }
 
   &.a {
-    border-color: green;
+    border-color: $green;
 
     &.revealed {
-      background: green;
+      background: $green;
       color: #fff;
     };
   }
 
   &.b {
-    border-color: blue;
+    border-color: $blue;
 
     &.revealed {
-      background: blue;
+      background: $blue;
       color: #fff;
     }
   }
 
   &.x {
-    border-color: red;
+    border-color: $red;
 
     &.revealed {
-      background: red;
+      background: $red;
       color: #fff;
     }
   }

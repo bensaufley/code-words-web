@@ -1,6 +1,6 @@
 .game-tile {
   background: #efe9dd;
-  border: .5em solid gray;
+  border: 0.5em solid #767676;
   border-radius: 3px;
   box-shadow: 0 1px 3px transparent;
   cursor: default;
@@ -12,21 +12,21 @@
   .game-tile.redacted {
     border-color: transparent; }
   .game-tile.revealed {
-    background: gray; }
+    background: #767676; }
   .game-tile.a {
-    border-color: green; }
+    border-color: #21ba45; }
     .game-tile.a.revealed {
-      background: green;
+      background: #21ba45;
       color: #fff; }
   .game-tile.b {
-    border-color: blue; }
+    border-color: #2185d0; }
     .game-tile.b.revealed {
-      background: blue;
+      background: #2185d0;
       color: #fff; }
   .game-tile.x {
-    border-color: red; }
+    border-color: #db2828; }
     .game-tile.x.revealed {
-      background: red;
+      background: #db2828;
       color: #fff; }
   @media screen and (min-width: 30em) {
     .game-tile {
