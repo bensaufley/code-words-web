@@ -1,0 +1,17 @@
+{
+  "env": {
+    "browser": false,
+    "es6": true,
+    "node": true
+  },
+  "parserOptions": {
+    "sourceType": "script"
+  },
+  "rules": {
+    "no-console": "off",
+    "strict": [
+      "error",
+      "safe"
+    ]
+  }
+}
