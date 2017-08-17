@@ -1,4 +1,5 @@
 import UUID from 'uuid';
+import moment from 'moment';
 import Dummy from './dummy';
 import UserDummy from './user';
 import PlayerDummy from './player';
@@ -28,6 +29,12 @@ export default class GameDummy extends Dummy {
         this.turns = TurnDummy.generateCompleteGame(this);
       }
       this.completed = completed;
+    },
+    withUser(user, r, t) {
+      const role = r || ['transmitter', 'decoder'][Math.round(Math.random())],
+            team = t || ['a', 'b'][Math.round(Math.random())];
+      const playerIndex = this.players.findIndex((p) => p.role === role && p.team === team);
+      this.players[playerIndex] = new PlayerDummy({ user, team, role });
     }
   }
 
@@ -42,6 +49,7 @@ export default class GameDummy extends Dummy {
     this.completed = false;
     this.started = false;
     this.turns = [];
+    this.updatedAt = params.updatedAt || new Date().getTime();
     this.processTraits(params);
   }
 
@@ -49,6 +57,7 @@ export default class GameDummy extends Dummy {
     return {
       game: {
         ...this.attrs('id', 'board', 'activePlayerId', 'completed', 'started'),
+        updatedAt: moment(this.updatedAt),
         turns: this.turns.map((t) => t.serialize())
       },
       players: this.players.map((p) => p.serialize())

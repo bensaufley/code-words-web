@@ -94,7 +94,7 @@ class GameMenu extends Component {
     return (
       <Menu.Menu>
         <Menu.Item header>Turns</Menu.Item>
-        {turns.slice(0).reverse().map((turn, i) => <Turn {...turn} gameId={gameId} key={i} />)}
+        {turns.slice(0).reverse().map((turn, i) => <Menu.Item key={i}><Turn {...turn} gameId={gameId} /></Menu.Item>)}
       </Menu.Menu>
     );
     /* eslint-enable react/no-array-index-key */

@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import moment from 'moment';
 
 export const turnShape = PropTypes.shape({
   revealed: PropTypes.bool,
@@ -27,5 +28,6 @@ export const gameShape = PropTypes.shape({
   })),
   completed: PropTypes.bool,
   started: PropTypes.bool,
-  turns: PropTypes.arrayOf(turnShape)
+  turns: PropTypes.arrayOf(turnShape),
+  updatedAt: PropTypes.instanceOf(moment)
 });

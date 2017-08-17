@@ -21,6 +21,7 @@ export default class TurnDummy extends Dummy {
   constructor(params = {}) {
     super(params);
     const type = params.type || ['transmission', 'decoding', 'end'][Math.floor(Math.random() * 3)];
+    this.timestamp = params.timestamp || new Date().getTime();
     this.event = type;
 
     switch (type) {

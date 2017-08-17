@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -8,53 +8,92 @@ import { gameShape, userShape } from '../helpers/prop-types';
 
 import { createGame, deleteGame } from '../ducks/games';
 
-export const Games = (props) => {
-  const { apiToken, apiUser, createGame: createGameAction, deleteGame: deleteGameAction, games } = props;
+const activePlayerFor = ({ game, players }) => {
+  if (!game || !game.activePlayerId) return null;
 
-  const deleteGameHandler = (gameId) => (e) => {
-    e.preventDefault();
+  return players.find((p) => p.id === game.activePlayerId);
+};
 
-    if (confirm('Are you sure?')) deleteGameAction(apiToken, gameId);
+export class Games extends Component {
+  static defaultProps = {
+    games: null
   };
 
-  return (
-    <div>
-      <Button floated="right" primary icon type="button" onClick={() => createGameAction(apiToken)}>
-        <Icon name="plus" />
-        New Game
-      </Button>
-      <h1>{apiUser.username}’s Games</h1>
-      <Menu vertical fluid>
-        {!games ? <Loader active inline="centered" /> : Object.keys(games).map((id) => {
-          const { game, players } = games[id];
-          return (
-            <Menu.Item as={Link} key={game.id} to={`/games/${game.id}/`}>
-              Game with {players.filter((p) => p.user.id !== apiUser.id).map((p) => p.user.username).join(', ') || 'nobody'}
-              {!game.activePlayerId ?
-                <Icon name="delete" title="Delete Game" onClick={deleteGameHandler(game.id)} />
-                : ''}
-            </Menu.Item>
-          );
-        })}
-      </Menu>
-    </div>
-  );
-};
+  static propTypes = {
+    games: PropTypes.arrayOf(gameShape),
+    apiToken: PropTypes.string.isRequired,
+    apiUser: userShape.isRequired,
+    createGame: PropTypes.func.isRequired,
+    deleteGame: PropTypes.func.isRequired
+  };
 
-Games.defaultProps = {
-  games: null
-};
+  renderGameIcon({ game, players }) {
+    const activePlayer = activePlayerFor({ game, players });
+    if (!activePlayer) return null;
+    const { apiUser: { id: currentUserId } } = this.props;
 
-Games.propTypes = {
-  games: PropTypes.objectOf(gameShape),
-  apiToken: PropTypes.string.isRequired,
-  apiUser: userShape.isRequired,
-  createGame: PropTypes.func.isRequired,
-  deleteGame: PropTypes.func.isRequired
-};
+    if (game.completed) {
+      const userPlayer = players.find((p) => p.user.id === currentUserId);
+      if (userPlayer.team === game.turns[game.turns.length - 1].winner) return <Icon color="grey" name="trophy" />;
+      return <Icon color="grey" name="bomb" />;
+    }
+    if (activePlayer.user.id === currentUserId) return <Icon color="orange" name="star" />;
+    return <Icon color="grey" name="wait" />;
+  }
+
+  renderGameText({ game, players }) {
+    const { apiUser: { id: currentUserId } } = this.props,
+          gameText = `Game with ${players.filter((p) => p.user.id !== currentUserId).map((p) => p.user.username).join(', ') || 'nobody'}`,
+          activePlayer = activePlayerFor({ game, players });
+
+    return activePlayer && activePlayer.user.id === currentUserId ?
+      <span><strong>{gameText}</strong> (Your Turn)</span> :
+      <span>{gameText}</span>;
+  }
+
+  render() {
+    const { apiToken, apiUser, createGame: createGameAction, deleteGame: deleteGameAction, games } = this.props;
+
+    const deleteGameHandler = (gameId) => (e) => {
+      e.preventDefault();
+
+      if (confirm('Are you sure?')) deleteGameAction(apiToken, gameId);
+    };
+
+    return (
+      <div>
+        <Button floated="right" primary icon type="button" onClick={() => createGameAction(apiToken)}>
+          <Icon name="plus" />
+          New Game
+        </Button>
+        <h1>{apiUser.username}’s Games</h1>
+        <Menu vertical fluid>
+          {!games ? <Loader active inline="centered" /> : games.map((gameObj) => {
+            const { game, players } = gameObj;
+            return (
+              <Menu.Item as={Link} key={game.id} to={`/games/${game.id}/`}>
+                {this.renderGameIcon({ game, players })}
+                {this.renderGameText({ game, players })}
+                <small> updated {game.updatedAt.fromNow()}</small>
+                {!game.activePlayerId ?
+                  <Icon color="red" name="delete" title="Delete Game" onClick={deleteGameHandler(game.id)} />
+                  : ''}
+              </Menu.Item>
+            );
+          })}
+        </Menu>
+      </div>
+    );
+  }
+}
 
 function mapStateToProps({ games, session: { apiToken, apiUser } }) {
-  return { apiToken, apiUser, games };
+  const sortedGames = games ? Object.values(games).sort((a, b) => {
+    if (a.game.updatedAt < b.game.updatedAt) return 1;
+    if (a.game.updatedAt > b.game.updatedAt) return -1;
+    return 0;
+  }) : null;
+  return { apiToken, apiUser, games: sortedGames };
 }
 
 const GamesContainer = connect(mapStateToProps, { createGame, deleteGame })(Games);

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Card, Icon, Label } from 'semantic-ui-react';
 import { connect } from 'react-redux';
+import moment from 'moment';
 
 import { playerShape } from '../helpers/prop-types';
 import { iconForEvent, colorForTeam, colorForTile } from '../helpers/style-dictionary';
@@ -13,9 +14,11 @@ class Turn extends Component {
     const { word, number } = this.props;
     return (
       <Card.Description>
-        <strong>Word:</strong> “{word}”
-        <br />
-        <strong>Number:</strong> {number}
+        <p>
+          <strong>Word:</strong> “{word}”
+          <br />
+          <strong>Number:</strong> {number}
+        </p>
       </Card.Description>
     );
   }
@@ -26,10 +29,12 @@ class Turn extends Component {
           icon = correct ? 'check' : 'x';
     return (
       <Card.Description>
-        <Label color={color}>
-          <Icon name={icon} />
-          {tile.word}
-        </Label>
+        <div>
+          <Label color={color}>
+            <Icon name={icon} />
+            {tile.word}
+          </Label>
+        </div>
       </Card.Description>
     );
   }
@@ -40,26 +45,29 @@ class Turn extends Component {
 
     return (
       <Card.Description color={color}>
-        <strong>Team {winner.toUpperCase()}</strong>
+        <p><strong>Team {winner.toUpperCase()}</strong></p>
       </Card.Description>
     );
   }
 
   render() {
-    const { event, player, winner } = this.props,
+    const { event, player, winner, timestamp } = this.props,
           icon = iconForEvent(event),
           color = colorForTeam(winner || player.team);
 
     return (
       <Card>
-        <Card.Header icon color={color}>
-          <Icon name={icon} />
-          {event}
-        </Card.Header>
         <Card.Content>
+          <Card.Header icon color={color}>
+            <Icon name={icon} />
+            {event}
+          </Card.Header>
+          <Card.Meta>
+            <span className="date">{moment(timestamp).fromNow()}</span>
+          </Card.Meta>
           {this[`${event}Details`]()}
-          {player ? <Player {...player} /> : ''}
         </Card.Content>
+        {player ? <Card.Content extra><Player {...player} /></Card.Content> : ''}
       </Card>
     );
   }
@@ -84,6 +92,7 @@ Turn.propTypes = {
     type: PropTypes.string,
     word: PropTypes.string
   }),
+  timestamp: PropTypes.number.isRequired,
   winner: PropTypes.string,
   word: PropTypes.string
 };

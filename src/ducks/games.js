@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { push } from 'react-router-redux';
+import moment from 'moment';
 
 import { handleApiError } from '../helpers/requests';
 
@@ -19,15 +20,19 @@ export const gameActions = [
 // For react-dnd
 export const PLAYER_CARD = 'PLAYER_CARD';
 
+const processGame = ({ game, players }) => (
+  { game: { ...game, updatedAt: moment(game.updatedAt) }, players }
+);
+
 export default function gamesReducer(state = null, action) {
   switch (action.type) {
     case GAMES_INDEXED:
-      return action.payload.games.reduce((games, g) => ({ ...games, [g.game.id]: g }), {});
+      return action.payload.games.reduce((games, g) => ({ ...games, [g.game.id]: processGame(g) }), {});
     case GAME_CREATED:
     case GAME_UPDATED:
       return {
         ...state,
-        [action.payload.game.id]: action.payload
+        [action.payload.game.id]: processGame(action.payload)
       };
     case GAME_REMOVED: {
       const { [action.payload.gameId]: _, ...newState } = state;
