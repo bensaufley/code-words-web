@@ -128,7 +128,7 @@ export class Game extends Component {
 
     return (
       <Menu.Item color={colorForTeam(team)}>
-        Transmission:{'\xa0'}<strong>{lastTurn.word}</strong>
+        Transmission:{'\xa0'}<strong>{lastTurn.word}</strong>, {lastTurn.number}{'\xa0'}word{lastTurn.number > 1 ? 's' : ''}
       </Menu.Item>
     );
   }
