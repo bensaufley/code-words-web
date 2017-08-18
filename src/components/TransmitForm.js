@@ -105,7 +105,7 @@ TransmitForm.propTypes = {
 const validate = (values) => {
   const errors = {};
   if (!values.word) errors.word = 'Word is a required field.';
-  else if (!/^[a-z\-']+$/.test(values.word)) errors.word = 'Word must be a single word.';
+  else if (!/^[a-z\-']+$/i.test(values.word)) errors.word = 'Word must be a single word.';
 
   if (!values.number) errors.number = 'Number is a required field.';
   else if (Number(values.number) < 1 || Number(values.number) > 8) errors.number = 'Pick an actual number.';
