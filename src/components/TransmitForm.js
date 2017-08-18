@@ -7,16 +7,38 @@ import { takeTurn } from '../ducks/games';
 import { TRANSMITTER_ICON } from '../helpers/style-dictionary';
 
 const formInput = (props) => {
-  const { input, max, meta: { touched, invalid, error }, min, placeholder, type, width } = props;
+  const {
+    autoCapitalize,
+    autoCorrect,
+    input,
+    max,
+    meta: { touched, invalid, error },
+    min,
+    placeholder,
+    type,
+    width
+  } = props;
+
   return (
     <SemanticForm.Field width={width}>
-      <Input {...input} placeholder={placeholder} error={touched && invalid} type={type} min={min} max={max} />
+      <Input
+        {...input}
+        placeholder={placeholder}
+        error={touched && invalid}
+        type={type}
+        min={min}
+        max={max}
+        autoCapitalize={autoCapitalize}
+        autoCorrect={autoCorrect}
+      />
       <Message error content={error} visible={touched && invalid} />
     </SemanticForm.Field>
   );
 };
 
 formInput.defaultProps = {
+  autoCapitalize: null,
+  autoCorrect: null,
   max: null,
   meta: { touched: false, invalid: false },
   min: null,
@@ -27,6 +49,8 @@ formInput.defaultProps = {
 };
 
 formInput.propTypes = {
+  autoCapitalize: PropTypes.string,
+  autoCorrect: PropTypes.string,
   input: PropTypes.shape({
     name: PropTypes.string.isRequired
   }).isRequired,
@@ -51,7 +75,7 @@ const TransmitForm = (props) => {
         <Form onSubmit={handleSubmit}>
           <SemanticForm as="div">
             <SemanticForm.Group>
-              <Field name="word" component={formInput} width={8} placeholder="Word" />
+              <Field name="word" component={formInput} width={8} placeholder="Word" autoCorrect="off" autoCapitalize="none" />
               <Field name="number" component={formInput} width={4} placeholder="Number" type="number" min={1} max={8} />
               <SemanticForm.Button primary fluid disabled={invalid || submitting} width={4} type="submit">
                 <Icon name={TRANSMITTER_ICON} />
