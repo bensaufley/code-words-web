@@ -88,7 +88,7 @@ export class Games extends Component {
 }
 
 function mapStateToProps({ games, session: { apiToken, apiUser } }) {
-  const sortedGames = games ? Object.values(games).sort((a, b) => {
+  const sortedGames = games ? Object.keys(games).map((k) => games[k]).sort((a, b) => {
     if (a.game.updatedAt < b.game.updatedAt) return 1;
     if (a.game.updatedAt > b.game.updatedAt) return -1;
     return 0;
