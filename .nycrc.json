@@ -1,0 +1,21 @@
+ {
+  "exclude": [
+    "build/**/*.js",
+    "test/**/*.js",
+    "test{,-*}.js",
+    "**/*-test.js",
+    "**/node_modules/**",
+    "coverage",
+    "**/*.config.*",
+    "config/**/*.js",
+    "scripts/**/*.js",
+    "src/registerServiceWorker.js",
+    "semantic/**/*.js"
+  ],
+  "extensions": ["js"],
+  "all": true,
+  "reporter": ["lcov", "text"],
+  "require": ["babel-register"],
+  "sourceMap": false,
+  "instrument": false
+}
