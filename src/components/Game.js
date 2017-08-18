@@ -46,6 +46,12 @@ export class Game extends Component {
     };
   }
 
+  componentWillReceiveProps({ game }) {
+    if (game && this.props.game && this.props.game.activePlayerId !== game.activePlayerId) {
+      this.setState({ transmitDialogOpen: false });
+    }
+  }
+
   activePlayer() {
     const { game, players } = this.props;
     return game && game.activePlayerId && players.find((p) => p.id === game.activePlayerId);
@@ -123,7 +129,8 @@ export class Game extends Component {
     const activePlayer = this.activePlayer();
     if (!activePlayer || activePlayer.role !== 'decoder') return null;
     const { game: { turns } } = this.props,
-          lastTurn = turns[turns.length - 1],
+          transmissions = turns.filter((turn) => turn.event === 'transmission'),
+          lastTurn = transmissions[transmissions.length - 1],
           team = activePlayer.team;
 
     return (
