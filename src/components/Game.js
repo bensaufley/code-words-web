@@ -151,7 +151,11 @@ export class Game extends Component {
     if (loading) return (<Segment><Loader active /><Menu><Menu.Item><Icon name="bars" />Menu</Menu.Item><Menu.Item header>Loading Game…</Menu.Item></Menu></Segment>);
 
     const activePlayer = this.activePlayer(),
-          decodeAction = activePlayer && activePlayer.user.id === session.apiUser.id ? this.props.decode : null,
+          decodeAction = activePlayer &&
+            activePlayer.user.id === session.apiUser.id &&
+            activePlayer.role === 'decoder' ?
+              this.props.decode :
+              null,
           transmitModal = activePlayer && activePlayer.role === 'transmitter' ?
             (<TransmitForm
               initialValues={{ gameId: game.id }}
