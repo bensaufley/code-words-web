@@ -46,7 +46,7 @@ export class Games extends Component {
           gameText = `Game with ${players.filter((p) => p.user.id !== currentUserId).map((p) => p.user.username).join(', ') || 'nobody'}`,
           activePlayer = activePlayerFor({ game, players });
 
-    return activePlayer && activePlayer.user.id === currentUserId ?
+    return !game.completed && activePlayer && activePlayer.user.id === currentUserId ?
       <span><strong>{gameText}</strong> (Your Turn)</span> :
       <span>{gameText}</span>;
   }
