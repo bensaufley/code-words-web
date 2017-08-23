@@ -3,12 +3,13 @@ import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
+import { push } from 'react-router-redux';
 import { Button, Icon, Loader, Menu, Modal, Segment } from 'semantic-ui-react';
 
 import { gameShape, playerShape, userShape } from '../helpers/prop-types';
 import { redirectIfUnauthenticated } from '../helpers/auth';
 import { colorForTeam, iconForRole } from '../helpers/style-dictionary';
-import { takeTurn } from '../ducks/games';
+import { rematchGame, takeTurn } from '../ducks/games';
 
 import { Player } from './Player';
 import TransmitForm from './TransmitForm';
@@ -20,7 +21,8 @@ import '../styles/Game.css';
 export class Game extends Component {
   static defaultProps = {
     game: null,
-    players: []
+    players: [],
+    rematchId: null
   }
 
   static propTypes = {
@@ -29,6 +31,9 @@ export class Game extends Component {
     game: gameShape,
     loading: PropTypes.bool.isRequired,
     players: PropTypes.arrayOf(playerShape),
+    push: PropTypes.func.isRequired,
+    rematchId: PropTypes.string,
+    rematchGame: PropTypes.func.isRequired,
     session: PropTypes.shape({
       apiUser: userShape.isRequired
     }).isRequired
@@ -103,11 +108,19 @@ export class Game extends Component {
   }
 
   renderCompletedModal() {
-    const { game: { completed, turns }, players, session: { apiUser: { id: userId } } } = this.props;
+    const {
+      game: { id: gameId, completed, turns },
+      players,
+      push: pushAction,
+      rematchId,
+      rematchGame: rematchGameAction,
+      session: { apiUser: { id: userId } }
+    } = this.props;
     if (!completed) return null;
     const userPlayer = players.find((p) => p.user.id === userId),
           { winner } = turns[turns.length - 1],
-          playerWon = userPlayer && userPlayer.team === winner;
+          playerWon = userPlayer && userPlayer.team === winner,
+          rematchCallback = rematchId ? () => pushAction(`/games/${rematchId}`) : () => rematchGameAction(gameId);
 
     return (
       <Modal
@@ -121,6 +134,13 @@ export class Game extends Component {
           {playerWon ? `Great job Team ${winner.toUpperCase()}!` : 'Better luck next time!'}{'\xa0'}
           Return to the main menu to start a new game!
         </Modal.Content>
+        <Modal.Actions>
+          <Button primary={!rematchId} onClick={rematchCallback}>
+            {rematchId ? 'Go to ' : <Icon name="repeat" />}
+            Rematch
+            {rematchId ? <Icon name="arrow right" /> : ''}
+          </Button>
+        </Modal.Actions>
       </Modal>
     );
   }
@@ -190,12 +210,35 @@ export class Game extends Component {
 
 const mapStateToProps = ({ session, games }, { match: { params: { id } } }) => {
   if (!games) return { session, loading: true };
-  return { session, loading: false, ...games[id] };
+  const game = games[id],
+        rematch = game &&
+          game.game.completed &&
+          Object.keys(games).map((k) => games[k])
+            .sort(({ game: gameA }, { game: gameB }) => {
+              if (gameA.updatedAt > gameB.updatedAt) return -1;
+              if (gameB.updatedAt < gameA.updatedAt) return 1;
+              return 0;
+            })
+            .find(({ game: g, players }) => {
+              if (g.updatedAt > game.game.updatedAt) {
+                return game.players.every((player) => (
+                  players.some((p) => (
+                    p.user.id === player.user.id &&
+                    (p.team === player.team === 'a' ? 'b' : 'a') &&
+                    (p.role === player.role === 'transmitter' ? 'decoder' : 'transmitter')
+                  ))
+                ));
+              }
+              return false;
+            });
+  return { session, loading: false, ...game, rematchId: rematch ? rematch.game.id : null };
 };
 
 const mapDispatchToProps = (dispatch, { match: { params: { id: gameId } } }) => bindActionCreators({
   decode: takeTurn(gameId, 'decode'),
-  endTurn: takeTurn(gameId, 'end-turn')
+  endTurn: takeTurn(gameId, 'end-turn'),
+  push,
+  rematchGame
 }, dispatch);
 
 const GameContainer = connect(mapStateToProps, mapDispatchToProps)(Game);

@@ -12,6 +12,7 @@ import gamesReducer, {
   GAME_REMOVED,
   createGame,
   startGame,
+  rematchGame,
   deleteGame,
   addPlayer,
   assignPlayer,
@@ -129,10 +130,11 @@ describe('(Ducks) games', () => {
       context('with a successful AJAX call', () => {
         it(`dispatches ${GAME_CREATED} with payload`, () => {
           const stub = new DispatchStub(),
-                game = new GameDummy(1).serialize();
-          sandbox.stub(axios, 'post').callsFake(() => Promise.resolve({ data: { game } }));
+                game = new GameDummy({ players: 1 }).serialize();
+          sandbox.stub(axios, 'post').callsFake(() => Promise.resolve({ data: game }));
           return callback(stub.dispatch).then(() => {
-            expect(stub).to.have.receivedDispatch({ type: GAME_CREATED, payload: { game } });
+            expect(stub).to.have.receivedDispatch({ type: GAME_CREATED, payload: game });
+            expect(stub).to.have.receivedDispatch({ type: '@@router/CALL_HISTORY_METHOD', payload: { method: 'push', args: [`/games/${game.game.id}/`] } });
           });
         });
       });
@@ -163,6 +165,38 @@ describe('(Ducks) games', () => {
           .then(() => {
             expect(stub).to.have.receivedDispatch({ type: GAME_UPDATED, payload });
           });
+      });
+    });
+
+    describe('rematchGame', () => {
+      let stub, game;
+
+      beforeEach(() => {
+        const getState = () => ({ session: { apiToken: '0984124' } });
+        game = new GameDummy({ completed: true }).serialize();
+        stub = new DispatchStub(getState);
+      });
+
+      context('with a failed AJAX call', () => {
+        it('creates a modal for AJAX failure', () => {
+          sandbox.stub(axios, 'post').callsFake(() => Promise.reject(new Error('It borked')));
+
+          return rematchGame(game.game.id)(stub.dispatch, stub.getState).then(() => {
+            expect(stub).to.have.receivedDispatch({ type: MODAL_SHOW, payload: { message: 'It borked', type: 'error' } });
+          });
+        });
+      });
+
+      context('with a successful AJAX call', () => {
+        it(`dispatches ${GAME_CREATED} with payload`, () => {
+          const newGame = new GameDummy().serialize();
+          sandbox.stub(axios, 'post').callsFake(() => Promise.resolve({ data: newGame }));
+
+          return rematchGame(game.game.id)(stub.dispatch, stub.getState).then(() => {
+            expect(stub).to.have.receivedDispatch({ type: GAME_CREATED, payload: newGame });
+            expect(stub).to.have.receivedDispatch({ type: '@@router/CALL_HISTORY_METHOD', payload: { method: 'push', args: [`/games/${newGame.game.id}/`] } });
+          });
+        });
       });
     });
 

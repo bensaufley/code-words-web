@@ -62,6 +62,17 @@ export const startGame = (gameId) => (dispatch, getState) => {
     .catch(handleApiError(dispatch));
 };
 
+export const rematchGame = (gameId) => (dispatch, getState) => {
+  const config = { headers: { Authorization: `Bearer ${getState().session.apiToken}` } };
+
+  return axios.post(`http://${process.env.REACT_APP_API_URL}/api/v1/game/${gameId}/rematch`, null, config)
+    .then(({ data: game }) => {
+      dispatch({ type: GAME_CREATED, payload: game });
+      dispatch(push(`/games/${game.game.id}/`));
+    })
+    .catch(handleApiError(dispatch));
+};
+
 export const deleteGame = (token, gameId) => (dispatch) => {
   const config = { headers: { Authorization: `Bearer ${token}` } };
 
