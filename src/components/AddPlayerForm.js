@@ -36,7 +36,9 @@ AddPlayerForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired
 };
 
+export const onSubmit = ({ gameId, username }, dispatch) => dispatch(addPlayer(gameId, username));
+
 export default reduxForm({
   form: 'addPlayer',
-  onSubmit: (attrs, dispatch) => dispatch(addPlayer(attrs.gameId, attrs.username))
+  onSubmit
 })(AddPlayerForm);

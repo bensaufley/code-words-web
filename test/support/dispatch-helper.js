@@ -10,10 +10,9 @@ export class DispatchStub {
 
   dispatch(args) {
     if (typeof args === 'function') {
-      args(this.dispatch, this.getState);
-    } else {
-      this.calls.push(args);
+      return args(this.dispatch, this.getState);
     }
+    return this.calls.push(args);
   }
 }
 
