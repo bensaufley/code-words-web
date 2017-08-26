@@ -15,7 +15,9 @@ chai.use(sinonChai);
 
 Assertion.addMethod('receivedDispatch', receivedDispatch);
 
-const jsdom = new JSDOM('<!DOCTYPE html><html><body></body></html>');
+const jsdom = new JSDOM('<!DOCTYPE html><html><body></body></html>', {
+  url: 'http://code-words-web.herokuapp.com'
+});
 global.window = jsdom.window;
 global.document = global.window.document;
 global.navigator = {
