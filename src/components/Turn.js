@@ -100,7 +100,7 @@ Turn.propTypes = {
 const mapStateToProps = (state, { gameId, playerId, tile: tileIndex, ...ownProps }) => {
   const game = state.games[gameId],
         player = playerId ? game.players.find((p) => p.id === playerId) : null,
-        tile = tileIndex !== undefined ? game.game.board[tileIndex] : null;
+        tile = tileIndex !== undefined ? game.board[tileIndex] : null;
   return { ...ownProps, player, tile };
 };
 

@@ -55,11 +55,9 @@ export default class GameDummy extends Dummy {
 
   serialize() {
     return {
-      game: {
-        ...this.attrs('id', 'board', 'activePlayerId', 'completed', 'started'),
-        updatedAt: moment(this.updatedAt),
-        turns: this.turns.map((t) => t.serialize())
-      },
+      ...this.attrs('id', 'board', 'activePlayerId', 'completed', 'started'),
+      updatedAt: moment(this.updatedAt),
+      turns: this.turns.map((t) => t.serialize()),
       players: this.players.map((p) => p.serialize())
     };
   }

@@ -29,11 +29,11 @@ describe('(Ducks) games', () => {
               game4 = new GameDummy().serialize(),
               games = [game1, game2, game3],
               action = { type: GAMES_INDEXED, payload: { games } },
-              response = gamesReducer({ [game4.game.id]: game4 }, action),
+              response = gamesReducer({ [game4.id]: game4 }, action),
               expectedResponse = {
-                [game1.game.id]: game1,
-                [game2.game.id]: game2,
-                [game3.game.id]: game3
+                [game1.id]: game1,
+                [game2.id]: game2,
+                [game3.id]: game3
               };
 
         expect(response).to.eql(expectedResponse);
@@ -45,13 +45,13 @@ describe('(Ducks) games', () => {
         const game1 = new GameDummy().serialize(),
               game2 = new GameDummy().serialize(),
               game3 = new GameDummy().serialize(),
-              existingState = { [game1.game.id]: game1, [game2.game.id]: game2 },
+              existingState = { [game1.id]: game1, [game2.id]: game2 },
               action = { type: GAME_CREATED, payload: game3 },
               response = gamesReducer(existingState, action),
               expectedResponse = {
-                [game1.game.id]: game1,
-                [game2.game.id]: game2,
-                [game3.game.id]: game3
+                [game1.id]: game1,
+                [game2.id]: game2,
+                [game3.id]: game3
               };
 
         expect(response).to.eql(expectedResponse);
@@ -64,15 +64,15 @@ describe('(Ducks) games', () => {
               game2 = new GameDummy().serialize(),
               game3 = new GameDummy().serialize(),
               newGame3 = new GameDummy();
-        newGame3.id = game3.game.id;
+        newGame3.id = game3.id;
 
-        const existingState = { [game1.game.id]: game1, [game2.game.id]: game2, [game3.game.id]: game3 },
+        const existingState = { [game1.id]: game1, [game2.id]: game2, [game3.id]: game3 },
               action = { type: GAME_UPDATED, payload: newGame3.serialize() },
               response = gamesReducer(existingState, action),
               expectedResponse = {
-                [game1.game.id]: game1,
-                [game2.game.id]: game2,
-                [game3.game.id]: newGame3.serialize()
+                [game1.id]: game1,
+                [game2.id]: game2,
+                [game3.id]: newGame3.serialize()
               };
 
         expect(response).to.eql(expectedResponse);
@@ -83,11 +83,11 @@ describe('(Ducks) games', () => {
       it('removes the game from the collection', () => {
         const game1 = new GameDummy().serialize(),
               game2 = new GameDummy().serialize(),
-              existingState = { [game1.game.id]: game1, [game2.game.id]: game2 },
-              action = { type: GAME_REMOVED, payload: { gameId: game2.game.id } },
+              existingState = { [game1.id]: game1, [game2.id]: game2 },
+              action = { type: GAME_REMOVED, payload: { gameId: game2.id } },
               response = gamesReducer(existingState, action),
               expectedResponse = {
-                [game1.game.id]: game1
+                [game1.id]: game1
               };
 
         expect(response).to.eql(expectedResponse);
@@ -134,7 +134,7 @@ describe('(Ducks) games', () => {
           sandbox.stub(axios, 'post').callsFake(() => Promise.resolve({ data: game }));
           return callback(stub.dispatch).then(() => {
             expect(stub).to.have.receivedDispatch({ type: GAME_CREATED, payload: game });
-            expect(stub).to.have.receivedDispatch({ type: '@@router/CALL_HISTORY_METHOD', payload: { method: 'push', args: [`/games/${game.game.id}/`] } });
+            expect(stub).to.have.receivedDispatch({ type: '@@router/CALL_HISTORY_METHOD', payload: { method: 'push', args: [`/games/${game.id}/`] } });
           });
         });
       });
@@ -181,7 +181,7 @@ describe('(Ducks) games', () => {
         it('creates a modal for AJAX failure', () => {
           sandbox.stub(axios, 'post').callsFake(() => Promise.reject(new Error('It borked')));
 
-          return rematchGame(game.game.id)(stub.dispatch, stub.getState).then(() => {
+          return rematchGame(game.id)(stub.dispatch, stub.getState).then(() => {
             expect(stub).to.have.receivedDispatch({ type: MODAL_SHOW, payload: { message: 'It borked', type: 'error' } });
           });
         });
@@ -192,9 +192,9 @@ describe('(Ducks) games', () => {
           const newGame = new GameDummy().serialize();
           sandbox.stub(axios, 'post').callsFake(() => Promise.resolve({ data: newGame }));
 
-          return rematchGame(game.game.id)(stub.dispatch, stub.getState).then(() => {
+          return rematchGame(game.id)(stub.dispatch, stub.getState).then(() => {
             expect(stub).to.have.receivedDispatch({ type: GAME_CREATED, payload: newGame });
-            expect(stub).to.have.receivedDispatch({ type: '@@router/CALL_HISTORY_METHOD', payload: { method: 'push', args: [`/games/${newGame.game.id}/`] } });
+            expect(stub).to.have.receivedDispatch({ type: '@@router/CALL_HISTORY_METHOD', payload: { method: 'push', args: [`/games/${newGame.id}/`] } });
           });
         });
       });

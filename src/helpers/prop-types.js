@@ -19,15 +19,19 @@ export const playerShape = PropTypes.shape({
   user: userShape
 });
 
+export const tileShape = PropTypes.shape({
+  revealed: PropTypes.bool,
+  type: PropTypes.string,
+  word: PropTypes.string
+});
+
 export const gameShape = PropTypes.shape({
+  id: PropTypes.string,
+  updatedAt: PropTypes.instanceOf(moment),
   activePlayerId: PropTypes.string,
-  board: PropTypes.arrayOf(PropTypes.shape({
-    revealed: PropTypes.bool,
-    type: PropTypes.string,
-    word: PropTypes.string
-  })),
+  board: PropTypes.arrayOf(tileShape),
   completed: PropTypes.bool,
   started: PropTypes.bool,
   turns: PropTypes.arrayOf(turnShape),
-  updatedAt: PropTypes.instanceOf(moment)
+  players: PropTypes.arrayOf(playerShape)
 });

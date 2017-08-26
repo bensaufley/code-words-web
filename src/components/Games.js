@@ -8,10 +8,10 @@ import { gameShape, userShape } from '../helpers/prop-types';
 
 import { createGame, deleteGame } from '../ducks/games';
 
-const activePlayerFor = ({ game, players }) => {
+const activePlayerFor = (game) => {
   if (!game || !game.activePlayerId) return null;
 
-  return players.find((p) => p.id === game.activePlayerId);
+  return game.players.find((p) => p.id === game.activePlayerId);
 };
 
 export class Games extends Component {
@@ -27,13 +27,13 @@ export class Games extends Component {
     deleteGame: PropTypes.func.isRequired
   };
 
-  renderGameIcon({ game, players }) {
-    const activePlayer = activePlayerFor({ game, players });
+  renderGameIcon(game) {
+    const activePlayer = activePlayerFor(game);
     if (!activePlayer) return null;
     const { apiUser: { id: currentUserId } } = this.props;
 
     if (game.completed) {
-      const userPlayer = players.find((p) => p.user.id === currentUserId);
+      const userPlayer = game.players.find((p) => p.user.id === currentUserId);
       if (userPlayer.team === game.turns[game.turns.length - 1].winner) return <Icon color="grey" name="trophy" />;
       return <Icon color="grey" name="bomb" />;
     }
@@ -41,10 +41,10 @@ export class Games extends Component {
     return <Icon color="grey" name="wait" />;
   }
 
-  renderGameText({ game, players }) {
+  renderGameText(game) {
     const { apiUser: { id: currentUserId } } = this.props,
-          gameText = `Game with ${players.filter((p) => p.user.id !== currentUserId).map((p) => p.user.username).join(', ') || 'nobody'}`,
-          activePlayer = activePlayerFor({ game, players });
+          gameText = `Game with ${game.players.filter((p) => p.user.id !== currentUserId).map((p) => p.user.username).join(', ') || 'nobody'}`,
+          activePlayer = activePlayerFor(game);
 
     return !game.completed && activePlayer && activePlayer.user.id === currentUserId ?
       <span><strong>{gameText}</strong> (Your Turn)</span> :
@@ -69,14 +69,14 @@ export class Games extends Component {
         <h1>{apiUser.username}’s Games</h1>
         <Menu vertical fluid>
           {!games ? <Loader active inline="centered" /> : games.map((gameObj) => {
-            const { game, players } = gameObj;
+            const { activePlayerId, id, updatedAt } = gameObj;
             return (
-              <Menu.Item as={Link} key={game.id} to={`/games/${game.id}/`}>
-                {this.renderGameIcon({ game, players })}
-                {this.renderGameText({ game, players })}
-                <small> updated {game.updatedAt.fromNow()}</small>
-                {!game.activePlayerId ?
-                  <Icon color="red" name="delete" title="Delete Game" onClick={deleteGameHandler(game.id)} />
+              <Menu.Item as={Link} key={id} to={`/games/${id}/`}>
+                {this.renderGameIcon(gameObj)}
+                {this.renderGameText(gameObj)}
+                <small> updated {updatedAt.fromNow()}</small>
+                {!activePlayerId ?
+                  <Icon color="red" name="delete" title="Delete Game" onClick={deleteGameHandler(id)} />
                   : ''}
               </Menu.Item>
             );
@@ -89,8 +89,8 @@ export class Games extends Component {
 
 function mapStateToProps({ games, session: { apiToken, apiUser } }) {
   const sortedGames = games ? Object.keys(games).map((k) => games[k]).sort((a, b) => {
-    if (a.game.updatedAt < b.game.updatedAt) return 1;
-    if (a.game.updatedAt > b.game.updatedAt) return -1;
+    if (a.updatedAt < b.updatedAt) return 1;
+    if (a.updatedAt > b.updatedAt) return -1;
     return 0;
   }) : null;
   return { apiToken, apiUser, games: sortedGames };

@@ -27,7 +27,6 @@ const renderContainerWith = (render) => (providerProps = {}, routerProps = {}, a
               >
                 <ContainerComponent
                   {...containerProps}
-                  id="wrapped-component"
                 />
               </ConnectedRouter>
             </Provider>,

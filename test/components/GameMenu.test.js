@@ -11,10 +11,10 @@ describe('(Component) GameMenu', () => {
 
     beforeEach(() => {
       game = new GameDummy();
+      const { id: gameId, ...gameProps } = game.serialize();
       props = {
-        game: game.serialize().game,
-        players: game.players.map((p) => p.serialize()),
-        activePlayerId: null,
+        ...gameProps,
+        gameId,
         session: { apiUser: { id: game.players[0].user.id } },
         hideMenu: () => {},
         menuOpen: false
@@ -36,7 +36,7 @@ describe('(Component) GameMenu', () => {
 
     context('open', () => {
       it('renders without exploding', () => {
-        const wrapper = wrapContainer({ initialState })(GameMenu, props);
+        const wrapper = wrapContainer({ initialState })(GameMenu, { ...props, menuOpen: true });
 
         expect(findRenderedComponentWithType(wrapper, Sidebar)).to.exist;
       });
@@ -48,11 +48,13 @@ describe('(Component) GameMenu', () => {
 
     beforeEach(() => {
       game = new GameDummy({ started: true });
+      const { activePlayerId, id: gameId, players, turns } = game;
       props = {
-        game: game.serialize().game,
-        players: game.players.map((p) => p.serialize()),
-        activePlayerId: game.players[0].id,
+        activePlayerId,
+        gameId,
+        players,
         session: { apiUser: { id: game.players[0].user.id } },
+        turns,
         hideMenu: () => {},
         menuOpen: false
       };
@@ -73,7 +75,7 @@ describe('(Component) GameMenu', () => {
 
     context('open', () => {
       it('renders without exploding', () => {
-        const wrapper = wrapContainer({ initialState })(GameMenu, props);
+        const wrapper = wrapContainer({ initialState })(GameMenu, { ...props, menuOpen: true });
 
         expect(findRenderedComponentWithType(wrapper, Sidebar)).to.exist;
       });

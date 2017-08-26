@@ -5,7 +5,7 @@ import { DragDropContext } from 'react-dnd';
 import { connect } from 'react-redux';
 import HTML5Backend from 'react-dnd-html5-backend';
 
-import { gameShape, playerShape } from '../helpers/prop-types';
+import { playerShape, turnShape } from '../helpers/prop-types';
 import { startGame } from '../ducks/games';
 
 import AddPlayerForm from './AddPlayerForm';
@@ -14,9 +14,14 @@ import Turn from './Turn';
 import { PlayerSlot, DroppablePlayerSlot } from './PlayerSlot';
 
 class GameMenu extends Component {
+  static defaultProps = {
+    activePlayerId: null
+  }
+
   static propTypes = {
+    activePlayerId: PropTypes.string,
+    gameId: PropTypes.string.isRequired,
     players: PropTypes.arrayOf(playerShape).isRequired,
-    game: gameShape.isRequired,
     session: PropTypes.shape({
       apiUser: PropTypes.shape({
         id: PropTypes.string.isRequired
@@ -24,7 +29,8 @@ class GameMenu extends Component {
     }).isRequired,
     hideMenu: PropTypes.func.isRequired,
     menuOpen: PropTypes.bool.isRequired,
-    startGame: PropTypes.func.isRequired
+    startGame: PropTypes.func.isRequired,
+    turns: PropTypes.arrayOf(turnShape).isRequired
   }
 
   startable() {
@@ -33,7 +39,7 @@ class GameMenu extends Component {
   }
 
   renderPlayerSlot(player, team, role) {
-    const { game: { activePlayerId, id: gameId }, session: { apiUser: { id: currentUserId } } } = this.props,
+    const { activePlayerId, gameId, session: { apiUser: { id: currentUserId } } } = this.props,
           isUser = player && player.user && currentUserId === player.user.id,
           isActive = player && activePlayerId === player.id,
           props = { gameId, player, isUser, isActive, role, team };
@@ -65,7 +71,7 @@ class GameMenu extends Component {
     return (
       <Menu.Menu>
         <Menu.Item>Add Player</Menu.Item>
-        <Menu.Item><AddPlayerForm initialValues={{ gameId: this.props.game.id }} /></Menu.Item>
+        <Menu.Item><AddPlayerForm initialValues={{ gameId: this.props.gameId }} /></Menu.Item>
       </Menu.Menu>
     );
   }
@@ -87,8 +93,8 @@ class GameMenu extends Component {
   }
 
   renderTurns() {
-    const { game: { id: gameId, turns } } = this.props;
-    if (!turns.length) return null;
+    const { gameId, turns } = this.props;
+    if (!turns || !turns.length) return null;
 
     /* eslint-disable react/no-array-index-key */
     return (
@@ -101,7 +107,7 @@ class GameMenu extends Component {
   }
 
   render() {
-    const { game, hideMenu, menuOpen, startGame: startGameAction } = this.props;
+    const { activePlayerId, hideMenu, gameId, menuOpen, startGame: startGameAction } = this.props;
 
     return (
       <Sidebar animation="overlay" as={Menu} visible={menuOpen} vertical>
@@ -116,10 +122,10 @@ class GameMenu extends Component {
           {this.renderTeam('a')}
           {this.renderTeam('b')}
         </Menu.Menu>
-        {game.activePlayerId ?
+        {activePlayerId ?
           '' :
           <Menu.Item>
-            <Button primary icon fluid disabled={!this.startable()} onClick={() => startGameAction(game.id)}>
+            <Button primary icon fluid disabled={!this.startable()} onClick={() => startGameAction(gameId)}>
               <Icon name="check" />
               Start Game
             </Button>

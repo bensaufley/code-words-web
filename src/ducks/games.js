@@ -20,19 +20,17 @@ export const gameActions = [
 // For react-dnd
 export const PLAYER_CARD = 'PLAYER_CARD';
 
-const processGame = ({ game, players }) => (
-  { game: { ...game, updatedAt: moment(game.updatedAt) }, players }
-);
+const processGame = (game) => ({ ...game, updatedAt: moment(game.updatedAt) });
 
 export default function gamesReducer(state = null, action) {
   switch (action.type) {
     case GAMES_INDEXED:
-      return action.payload.games.reduce((games, g) => ({ ...games, [g.game.id]: processGame(g) }), {});
+      return action.payload.games.reduce((games, g) => ({ ...games, [g.id]: processGame(g) }), {});
     case GAME_CREATED:
     case GAME_UPDATED:
       return {
         ...state,
-        [action.payload.game.id]: processGame(action.payload)
+        [action.payload.id]: processGame(action.payload)
       };
     case GAME_REMOVED: {
       const { [action.payload.gameId]: _, ...newState } = state;
@@ -49,7 +47,7 @@ export const createGame = (token) => (dispatch) => {
   return axios.post(`http://${process.env.REACT_APP_API_URL}/api/v1/games/`, null, config)
     .then(({ data }) => {
       dispatch({ type: GAME_CREATED, payload: data });
-      dispatch(push(`/games/${data.game.id}/`));
+      dispatch(push(`/games/${data.id}/`));
     })
     .catch(handleApiError(dispatch));
 };
@@ -68,7 +66,7 @@ export const rematchGame = (gameId) => (dispatch, getState) => {
   return axios.post(`http://${process.env.REACT_APP_API_URL}/api/v1/game/${gameId}/rematch`, null, config)
     .then(({ data: game }) => {
       dispatch({ type: GAME_CREATED, payload: game });
-      dispatch(push(`/games/${game.game.id}/`));
+      dispatch(push(`/games/${game.id}/`));
     })
     .catch(handleApiError(dispatch));
 };
