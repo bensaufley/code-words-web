@@ -6,7 +6,7 @@ import { Redirect } from 'react-router-dom';
 import { push } from 'react-router-redux';
 import { Button, Icon, Loader, Menu, Modal, Segment } from 'semantic-ui-react';
 
-import { gameShape, playerShape, userShape } from '../helpers/prop-types';
+import { playerShape, tileShape, turnShape, userShape } from '../helpers/prop-types';
 import { redirectIfUnauthenticated } from '../helpers/auth';
 import { colorForTeam, iconForRole } from '../helpers/style-dictionary';
 import { rematchGame, takeTurn } from '../ducks/games';
@@ -20,15 +20,23 @@ import '../styles/Game.css';
 
 export class Game extends Component {
   static defaultProps = {
+    activePlayerId: null,
+    board: [],
+    completed: false,
     game: null,
+    id: null,
     players: [],
-    rematchId: null
+    rematchId: null,
+    turns: []
   }
 
   static propTypes = {
+    activePlayerId: PropTypes.string,
+    board: PropTypes.arrayOf(tileShape),
+    completed: PropTypes.bool,
     decode: PropTypes.func.isRequired,
     endTurn: PropTypes.func.isRequired,
-    game: gameShape,
+    id: PropTypes.string,
     loading: PropTypes.bool.isRequired,
     players: PropTypes.arrayOf(playerShape),
     push: PropTypes.func.isRequired,
@@ -36,7 +44,8 @@ export class Game extends Component {
     rematchGame: PropTypes.func.isRequired,
     session: PropTypes.shape({
       apiUser: userShape.isRequired
-    }).isRequired
+    }).isRequired,
+    turns: PropTypes.arrayOf(turnShape)
   }
 
   constructor(props) {
@@ -46,20 +55,20 @@ export class Game extends Component {
 
     this.state = {
       completedDialogOpen: true,
-      menuOpen: !!(props.game && !props.game.activePlayerId),
+      menuOpen: !props.activePlayerId,
       transmitDialogOpen: false
     };
   }
 
-  componentWillReceiveProps({ game }) {
-    if (game && this.props.game && this.props.game.activePlayerId !== game.activePlayerId) {
+  componentWillReceiveProps({ id, activePlayerId }) {
+    if (id && this.props.activePlayerId !== activePlayerId) {
       this.setState({ transmitDialogOpen: false });
     }
   }
 
   activePlayer() {
-    const { game, players } = this.props;
-    return game && game.activePlayerId && players.find((p) => p.id === game.activePlayerId);
+    const { activePlayerId, players } = this.props;
+    return activePlayerId && players.find((p) => p.id === activePlayerId);
   }
 
   hideMenu() {
@@ -89,7 +98,7 @@ export class Game extends Component {
   }
 
   renderActivePlayerElement() {
-    const { game, session } = this.props,
+    const { id, session } = this.props,
           activePlayer = this.activePlayer();
 
     if (!activePlayer) return null;
@@ -101,7 +110,7 @@ export class Game extends Component {
         {isUser ? this.renderTurnButton(activePlayer) : ''}
         <Menu.Item>
           {isUser ? <strong>Current{'\xa0'}Player:</strong> : 'Current\xa0Player:' }
-          <Player {...activePlayer} gameId={game.id} isActive isUser={isUser} size="medium" />
+          <Player {...activePlayer} gameId={id} isActive isUser={isUser} size="medium" />
         </Menu.Item>
       </Menu.Menu>
     );
@@ -109,7 +118,9 @@ export class Game extends Component {
 
   renderCompletedModal() {
     const {
-      game: { id: gameId, completed, turns },
+      id: gameId,
+      completed,
+      turns,
       players,
       push: pushAction,
       rematchId,
@@ -148,7 +159,7 @@ export class Game extends Component {
   renderCurrentTransmission() {
     const activePlayer = this.activePlayer();
     if (!activePlayer || activePlayer.role !== 'decoder') return null;
-    const { game: { turns } } = this.props,
+    const { turns } = this.props,
           transmissions = turns.filter((turn) => turn.event === 'transmission'),
           lastTurn = transmissions[transmissions.length - 1],
           team = activePlayer.team;
@@ -161,14 +172,13 @@ export class Game extends Component {
   }
 
   render() {
-    const { game, loading } = this.props;
-
-    if (!loading && !game) return (<Redirect to="/" />);
-
-    const { players, session } = this.props,
-          menuParams = { game, players, session };
+    const { id, loading } = this.props;
 
     if (loading) return (<Segment><Loader active /><Menu><Menu.Item><Icon name="bars" />Menu</Menu.Item><Menu.Item header>Loading Game…</Menu.Item></Menu></Segment>);
+    if (!id) return (<Redirect to="/" />);
+
+    const { activePlayerId, board, players, session, turns } = this.props,
+          menuParams = { activePlayerId, gameId: id, players, session, turns };
 
     const activePlayer = this.activePlayer(),
           decodeAction = activePlayer &&
@@ -178,7 +188,7 @@ export class Game extends Component {
               null,
           transmitModal = activePlayer && activePlayer.role === 'transmitter' ?
             (<TransmitForm
-              initialValues={{ gameId: game.id }}
+              initialValues={{ gameId: id }}
               isOpen={this.state.transmitDialogOpen}
               onClose={this.toggleTransmitDialog}
             />) : '';
@@ -201,7 +211,7 @@ export class Game extends Component {
           {this.renderActivePlayerElement()}
         </Menu>
         <div className="game">
-          {game.board.map((tile, i) => <Tile key={tile.word} {...tile} index={i} decodeAction={decodeAction} />)}
+          {board.map((tile, i) => <Tile key={tile.word} {...tile} index={i} decodeAction={decodeAction} />)}
         </div>
       </Segment>
     );
@@ -212,15 +222,15 @@ const mapStateToProps = ({ session, games }, { match: { params: { id } } }) => {
   if (!games) return { session, loading: true };
   const game = games[id],
         rematch = game &&
-          game.game.completed &&
+          game.completed &&
           Object.keys(games).map((k) => games[k])
             .sort(({ game: gameA }, { game: gameB }) => {
               if (gameA.updatedAt > gameB.updatedAt) return -1;
               if (gameB.updatedAt < gameA.updatedAt) return 1;
               return 0;
             })
-            .find(({ game: g, players }) => {
-              if (g.updatedAt > game.game.updatedAt) {
+            .find(({ updatedAt, players }) => {
+              if (updatedAt > game.updatedAt) {
                 return game.players.every((player) => (
                   players.some((p) => (
                     p.user.id === player.user.id &&
@@ -231,7 +241,7 @@ const mapStateToProps = ({ session, games }, { match: { params: { id } } }) => {
               }
               return false;
             });
-  return { session, loading: false, ...game, rematchId: rematch ? rematch.game.id : null };
+  return { session, loading: false, ...game, rematchId: rematch ? rematch.id : null };
 };
 
 const mapDispatchToProps = (dispatch, { match: { params: { id: gameId } } }) => bindActionCreators({
