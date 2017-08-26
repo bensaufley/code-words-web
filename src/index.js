@@ -6,7 +6,7 @@ import { Switch, Route } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import { Container, Segment } from 'semantic-ui-react';
 
-import store, { history } from './store';
+import store, { history, updateTitle } from './store';
 import registerServiceWorker from './registerServiceWorker';
 
 import './styles/semantic/semantic.min.css';
@@ -52,6 +52,7 @@ render((
   } else {
     Cookies.remove('apiToken');
     Cookies.remove('apiUser');
+    updateTitle(store)();
   }
 });
 registerServiceWorker();

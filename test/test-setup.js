@@ -2,6 +2,7 @@ import { JSDOM } from 'jsdom';
 import chai, { Assertion } from 'chai';
 import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
+import chaiChange from 'chai-change';
 import WebSocketStub from './support/websocket-helper';
 import { receivedDispatch } from './support/dispatch-helper';
 import polyfillRaf from './support/request-animation-frame-polyfill';
@@ -12,6 +13,7 @@ process.env.NODE_ENV = 'test';
 getClientEnvironment('');
 
 chai.use(sinonChai);
+chai.use(chaiChange);
 
 Assertion.addMethod('receivedDispatch', receivedDispatch);
 

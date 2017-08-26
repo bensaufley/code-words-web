@@ -7,6 +7,26 @@ import rootReducer from './reducers';
 
 export const history = createHistory();
 
+const isActiveUser = ({ players, activePlayerId }, userId) => {
+  const player = players.find((p) => p.id === activePlayerId);
+  return player && player.user.id === userId;
+};
+
+export const updateTitle = (storeObj) => () => {
+  let title;
+  try {
+    const { games, session: { apiUser: { id: currentUserId } } } = storeObj.getState(),
+          count = Object.values(games || {}).filter((g) => isActiveUser(g, currentUserId)).length,
+          badge = count > 0 ? ` (${count})` : '';
+
+    title = `Code Words${badge}`;
+  } catch (e) {
+    title = 'Code Words';
+  }
+
+  document.title = title;
+};
+
 export function generateStore(hist, init = {}) {
   const initialState = {
           session: {
@@ -32,25 +52,7 @@ export function generateStore(hist, init = {}) {
 
   const store = createStore(rootReducer, initialState, composedEnhancers);
 
-  const isActiveUser = ({ players, game: { activePlayerId } }, userId) => {
-    const player = players.find((p) => p.id === activePlayerId);
-    return player && player.user.id === userId;
-  };
-
-  store.subscribe(() => {
-    let title;
-    try {
-      const { games, session: { apiUser: { id: currentUserId } } } = store.getState(),
-            count = Object.values(games || {}).filter((g) => isActiveUser(g, currentUserId)).length,
-            badge = count > 0 ? ` (${count})` : '';
-
-      title = `Code Words${badge}`;
-    } catch (e) {
-      title = 'Code Words';
-    }
-
-    document.title = title;
-  });
+  store.subscribe(updateTitle(store));
 
   return store;
 }
