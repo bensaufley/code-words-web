@@ -1,11 +1,11 @@
 machine:
   node:
-    version: 6.1.0
+    version: 8.2.1
 dependencies:
   override:
     - yarn install
 test:
   override:
-    - npm run cov
+    - yarn cov
   post:
     - ./node_modules/.bin/codeclimate-test-reporter < ./coverage/lcov.info
