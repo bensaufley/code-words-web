@@ -1,9 +1,11 @@
-import { expect } from 'chai';
+import { expect } from '../test-setup';
 import { findRenderedComponentWithType } from 'react-dom/test-utils';
 import { Sidebar } from 'semantic-ui-react';
+
 import { wrapContainer } from '../support/container-helper';
-import GameMenu from '../../src/components/GameMenu';
 import GameDummy from '../dummies/game';
+
+import GameMenu from '../../src/components/GameMenu';
 
 describe('(Component) GameMenu', () => {
   context('before game has started', () => {

@@ -1,5 +1,5 @@
+import { expect } from '../test-setup';
 import React from 'react';
-import { expect } from 'chai';
 import { render } from 'enzyme';
 
 import FormInputWithError from '../../src/components/FormInputWithError';

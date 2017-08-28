@@ -1,6 +1,6 @@
 import React from 'react';
 import { render as reactRender, findDOMNode, unmountComponentAtNode } from 'react-dom';
-import { render as enzymeRender } from 'enzyme';
+import { render as enzymeRender, mount } from 'enzyme';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'react-router-redux';
 import createHistory from 'history/createMemoryHistory';
@@ -39,8 +39,8 @@ const renderContainerWith = (render) => (providerProps = {}, routerProps = {}, a
 };
 
 export const wrapContainer = renderContainerWith(reactRender);
-
 export const renderContainer = renderContainerWith(enzymeRender);
+export const mountContainer = renderContainerWith(mount);
 
 export function getWrappedComponent() {
   const wrappedComponentElement = document.body.querySelector('[data-reactroot]'),

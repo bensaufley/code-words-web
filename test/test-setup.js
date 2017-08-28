@@ -17,6 +17,24 @@ chai.use(chaiChange);
 
 Assertion.addMethod('receivedDispatch', receivedDispatch);
 
+process.on('unhandledRejection', (reason, p) => {
+  console.log('Unhandled Rejection at: Promise', p, 'reason:', reason);
+  process.exit();
+});
+
+// prevent mocha tests from breaking when trying to require a css file
+require.extensions['.css'] = () => {};
+require.extensions['.svg'] = () => {};
+
+const consoleError = console.error;
+sinon.stub(console, 'error').callsFake((warning, ...rest) => {
+  if (warning && warning.indexOf('Warning: Failed prop type:') >= 0) {
+    chai.expect.fail(null, null, warning);
+  } else {
+    consoleError(warning, ...rest);
+  }
+});
+
 const jsdom = new JSDOM('<!DOCTYPE html><html><body></body></html>', {
   url: 'http://code-words-web.herokuapp.com'
 });
@@ -28,24 +46,8 @@ global.navigator = {
 global.WebSocket = WebSocketStub;
 polyfillRaf();
 
-function noop() {
-  return {};
-}
-
-process.on('unhandledRejection', (reason, p) => {
-  console.log('Unhandled Rejection at: Promise', p, 'reason:', reason);
-  process.exit();
+afterEach(() => {
+  document.body.innerHTML = '';
 });
 
-const consoleError = console.error;
-sinon.stub(console, 'error').callsFake((warning, ...rest) => {
-  if (warning && warning.indexOf('Warning: Failed prop type:') >= 0) {
-    chai.expect.fail(null, null, warning);
-  } else {
-    consoleError(warning, ...rest);
-  }
-});
-
-// prevent mocha tests from breaking when trying to require a css file
-require.extensions['.css'] = noop;
-require.extensions['.svg'] = noop;
+export const { expect } = chai;

@@ -9,6 +9,7 @@
     "it": false
   },
   "rules":{
+    "import/first": "off",
     "no-console": "off",
     "no-unused-expressions": "off"
   }
