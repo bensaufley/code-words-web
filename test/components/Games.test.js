@@ -1,6 +1,7 @@
-import { expect } from 'chai';
+import { expect } from '../test-setup';
 import { findRenderedComponentWithType, scryRenderedComponentsWithType } from 'react-dom/test-utils';
 import { Menu } from 'semantic-ui-react';
+
 import { wrapContainer } from '../support/container-helper';
 import GameDummy from '../dummies/game';
 import UserDummy from '../dummies/user';

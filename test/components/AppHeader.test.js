@@ -1,5 +1,5 @@
+import { expect } from '../test-setup';
 import React from 'react';
-import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import { findRenderedComponentWithType } from 'react-dom/test-utils';
 import sinon from 'sinon';

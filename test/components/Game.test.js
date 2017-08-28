@@ -1,4 +1,4 @@
-import { expect } from 'chai';
+import { expect } from '../test-setup';
 import { Redirect } from 'react-router-dom';
 import { findRenderedComponentWithType, findRenderedDOMComponentWithClass, scryRenderedComponentsWithType } from 'react-dom/test-utils';
 import { wrapContainer } from '../support/container-helper';

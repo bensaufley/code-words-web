@@ -102,7 +102,7 @@ TransmitForm.propTypes = {
   submitting: PropTypes.bool
 };
 
-const validate = (values) => {
+export const validate = (values) => {
   const errors = {};
   if (!values.word) errors.word = 'Word is a required field.';
   else if (!/^[a-z\-']+$/i.test(values.word)) errors.word = 'Word must be a single word.';
@@ -113,8 +113,10 @@ const validate = (values) => {
   return errors;
 };
 
+export const onSubmit = ({ gameId, word, number }, dispatch) => dispatch(takeTurn(gameId, 'transmit')({ word, number: Number(number) }));
+
 export default reduxForm({
   form: 'transmitForm',
-  onSubmit: ({ gameId, word, number }, dispatch) => dispatch(takeTurn(gameId, 'transmit')({ word, number: Number(number) })),
+  onSubmit,
   validate
 })(TransmitForm);

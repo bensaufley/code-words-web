@@ -1,10 +1,10 @@
+import { expect } from '../test-setup';
 import React from 'react';
-import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
 import axios from 'axios';
-
 import { findRenderedComponentWithType } from 'react-dom/test-utils';
+
 import { wrapContainer } from '../support/container-helper';
 
 import LoadingIndicatorContainer, { LoadingIndicator } from '../../src/components/LoadingIndicator';

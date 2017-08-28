@@ -14,7 +14,7 @@
   ],
   "extensions": ["js"],
   "all": true,
-  "reporter": ["lcov", "text"],
+  "reporter": ["lcov", "text", "text-summary"],
   "require": ["babel-register"],
   "sourceMap": false,
   "instrument": false
