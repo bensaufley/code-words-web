@@ -100,7 +100,7 @@
     "build": "npm run build-css && node scripts/build.js",
     "build-css": "node-sass-chokidar src/sass -o src/styles",
     "build-semantic": "gulp --gulpfile ./semantic/gulpfile.js build",
-    "cov": "nyc mocha",
+    "cov": "nyc npm test",
     "heroku-postbuild": "npm run build",
     "lint": "eslint . && scss-lint",
     "serve": "node server/index.js",
