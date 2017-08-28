@@ -64,14 +64,18 @@ describe('generateStore', () => {
     });
 
     it('adds a badge when games are updated to have user as activePlayer', () => {
-      const game = new GameDummy({ started: true, completed: false });
+      const game = new GameDummy({ started: true, completed: false }),
+            updateGamesThenDelay = (games) => new Promise((resolve) => {
+              store.dispatch({
+                type: GAMES_INDEXED,
+                payload: { games }
+              });
+              setTimeout(resolve, 300);
+            });
       game.players.find((p) => p.id === game.activePlayerId).user = user;
       updateTitle(store)();
 
-      expect(() => store.dispatch({
-        type: GAMES_INDEXED,
-        payload: { games: [game.serialize()] }
-      })).to.alter(
+      expect(() => updateGamesThenDelay([game.serialize()])).to.alter(
         () => document.title, {
           from: 'Code Words',
           to: 'Code Words (1)'
@@ -79,10 +83,7 @@ describe('generateStore', () => {
 
       game.activePlayerId = game.players.find((p) => p.user.id !== user.id).id;
 
-      expect(() => store.dispatch({
-        type: GAMES_INDEXED,
-        payload: { games: [game.serialize()] }
-      })).to.alter(
+      expect(() => updateGamesThenDelay([game.serialize()])).to.alter(
         () => document.title, {
           from: 'Code Words (1)',
           to: 'Code Words'
