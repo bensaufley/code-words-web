@@ -4,9 +4,9 @@ import { connect } from 'react-redux';
 import { Icon, Label } from 'semantic-ui-react';
 import { DropTarget } from 'react-dnd';
 
-import { PLAYER_CARD, assignPlayer } from '../ducks/games';
-import { playerShape } from '../helpers/prop-types';
-import { iconForRole } from '../helpers/style-dictionary';
+import { PLAYER_CARD, assignPlayer } from '../../ducks/games';
+import { playerShape } from '../../helpers/prop-types';
+import { iconForRole } from '../../helpers/style-dictionary';
 
 import { Player, DraggablePlayer } from './Player';
 

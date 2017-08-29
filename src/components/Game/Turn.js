@@ -4,8 +4,8 @@ import { Card, Icon, Label } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import moment from 'moment';
 
-import { playerShape } from '../helpers/prop-types';
-import { iconForEvent, colorForTeam, colorForTile } from '../helpers/style-dictionary';
+import { playerShape } from '../../helpers/prop-types';
+import { iconForEvent, colorForTeam, colorForTile } from '../../helpers/style-dictionary';
 
 import { Player } from './Player';
 

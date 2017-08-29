@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import { Form as SemanticForm, Icon, Input, Message, Modal } from 'semantic-ui-react';
 import { Form, Field, reduxForm } from 'redux-form';
 
-import { takeTurn } from '../ducks/games';
-import { TRANSMITTER_ICON } from '../helpers/style-dictionary';
+import { takeTurn } from '../../ducks/games';
+import { TRANSMITTER_ICON } from '../../helpers/style-dictionary';
 
 const formInput = (props) => {
   const {

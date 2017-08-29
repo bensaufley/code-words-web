@@ -1,10 +1,10 @@
-import { expect } from '../test-setup';
+import { expect } from '../../test-setup';
 import React from 'react';
 import sinon from 'sinon';
 import { shallow } from 'enzyme';
-import TileDummy from '../dummies/tile';
+import TileDummy from '../../dummies/tile';
 
-import Tile from '../../src/components/Tile';
+import Tile from '../../../src/components/Game/Tile';
 
 describe('(component) Tile', () => {
   context('non-decodable', () => {

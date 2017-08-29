@@ -5,11 +5,11 @@ import { connect } from 'react-redux';
 import { Icon, Label } from 'semantic-ui-react';
 import { DragSource } from 'react-dnd';
 
-import { PLAYER_CARD, removePlayer } from '../ducks/games';
-import { userShape } from '../helpers/prop-types';
-import { colorForTeam, iconForRole } from '../helpers/style-dictionary';
+import { PLAYER_CARD, removePlayer } from '../../ducks/games';
+import { userShape } from '../../helpers/prop-types';
+import { colorForTeam, iconForRole } from '../../helpers/style-dictionary';
 
-import '../styles/Player.css';
+import '../../styles/Player.css';
 
 export class Player extends Component {
   static defaultProps = {

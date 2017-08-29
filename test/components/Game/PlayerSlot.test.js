@@ -1,9 +1,9 @@
-import { expect } from '../test-setup';
+import { expect } from '../../test-setup';
 import { findRenderedDOMComponentWithClass } from 'react-dom/test-utils';
-import { wrapContainer } from '../support/container-helper';
-import PlayerDummy from '../dummies/player';
+import { wrapContainer } from '../../support/container-helper';
+import PlayerDummy from '../../dummies/player';
 
-import { PlayerSlot } from '../../src/components/PlayerSlot';
+import { PlayerSlot } from '../../../src/components/Game/PlayerSlot';
 
 describe('(Container) PlayerSlot', () => {
   it('renders without exploding', () => {

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Field, reduxForm } from 'redux-form';
 import { Button, Form, Icon } from 'semantic-ui-react';
 
-import { addPlayer } from '../ducks/games';
+import { addPlayer } from '../../ducks/games';
 
 const AddPlayerForm = (props) => {
   const { handleSubmit } = props;

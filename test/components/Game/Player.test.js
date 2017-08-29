@@ -1,9 +1,9 @@
-import { expect } from '../test-setup';
+import { expect } from '../../test-setup';
 import React from 'react';
 import { shallow } from 'enzyme';
-import PlayerDummy from '../dummies/player';
+import PlayerDummy from '../../dummies/player';
 
-import { Player } from '../../src/components/Player';
+import { Player } from '../../../src/components/Game/Player';
 
 describe('(component) Player', () => {
   context('before game - editable', () => {
