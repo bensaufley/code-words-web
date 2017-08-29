@@ -6,17 +6,17 @@ import { Redirect } from 'react-router-dom';
 import { push } from 'react-router-redux';
 import { Button, Icon, Loader, Menu, Modal, Segment } from 'semantic-ui-react';
 
-import { playerShape, tileShape, turnShape, userShape } from '../helpers/prop-types';
-import { redirectIfUnauthenticated } from '../helpers/auth';
-import { colorForTeam, iconForRole } from '../helpers/style-dictionary';
-import { rematchGame, takeTurn } from '../ducks/games';
+import { playerShape, tileShape, turnShape, userShape } from '../../helpers/prop-types';
+import { redirectIfUnauthenticated } from '../../helpers/auth';
+import { colorForTeam, iconForRole } from '../../helpers/style-dictionary';
+import { rematchGame, takeTurn } from '../../ducks/games';
 
 import { Player } from './Player';
 import TransmitForm from './TransmitForm';
 import Tile from './Tile';
 import GameMenu from './GameMenu';
 
-import '../styles/Game.css';
+import '../../styles/Game.css';
 
 export class Game extends Component {
   static defaultProps = {

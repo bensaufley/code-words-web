@@ -1,12 +1,12 @@
-import { expect } from '../test-setup';
+import { expect } from '../../test-setup';
 import { findRenderedComponentWithType, scryRenderedComponentsWithType } from 'react-dom/test-utils';
 import { Menu } from 'semantic-ui-react';
 
-import { wrapContainer } from '../support/container-helper';
-import GameDummy from '../dummies/game';
-import UserDummy from '../dummies/user';
+import { wrapContainer } from '../../support/container-helper';
+import GameDummy from '../../dummies/game';
+import UserDummy from '../../dummies/user';
 
-import GamesContainer from '../../src/components/Games';
+import GamesContainer from '../../../src/components/Games';
 
 describe('(Container) Games', () => {
   let user;

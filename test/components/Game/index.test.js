@@ -1,11 +1,11 @@
-import { expect } from '../test-setup';
+import { expect } from '../../test-setup';
 import { Redirect } from 'react-router-dom';
 import { findRenderedComponentWithType, findRenderedDOMComponentWithClass, scryRenderedComponentsWithType } from 'react-dom/test-utils';
-import { wrapContainer } from '../support/container-helper';
-import GameDummy from '../dummies/game';
-import Tile from '../../src/components/Tile';
+import { wrapContainer } from '../../support/container-helper';
+import GameDummy from '../../dummies/game';
+import Tile from '../../../src/components/Game/Tile';
 
-import GameContainer from '../../src/components/Game';
+import GameContainer from '../../../src/components/Game';
 
 describe('(Container) Games', () => {
   describe('component', () => {

@@ -1,14 +1,14 @@
-import { expect } from '../test-setup';
+import { expect } from '../../test-setup';
 import sinon from 'sinon';
 import axios from 'axios';
 import { findRenderedDOMComponentWithTag } from 'react-dom/test-utils';
 
-import { DispatchStub } from '../support/dispatch-helper';
-import GameDummy from '../dummies/game';
-import { wrapContainer } from '../support/container-helper';
-import { GAME_UPDATED } from '../../src/ducks/games';
+import { DispatchStub } from '../../support/dispatch-helper';
+import GameDummy from '../../dummies/game';
+import { wrapContainer } from '../../support/container-helper';
+import { GAME_UPDATED } from '../../../src/ducks/games';
 
-import AddPlayerFormContainer, { onSubmit } from '../../src/components/AddPlayerForm';
+import AddPlayerFormContainer, { onSubmit } from '../../../src/components/Game/AddPlayerForm';
 
 describe('(Container) AddPlayerForm', () => {
   let sandbox;

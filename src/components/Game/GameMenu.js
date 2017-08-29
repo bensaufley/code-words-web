@@ -5,8 +5,8 @@ import { DragDropContext } from 'react-dnd';
 import { connect } from 'react-redux';
 import HTML5Backend from 'react-dnd-html5-backend';
 
-import { playerShape, turnShape } from '../helpers/prop-types';
-import { startGame } from '../ducks/games';
+import { playerShape, turnShape } from '../../helpers/prop-types';
+import { startGame } from '../../ducks/games';
 
 import AddPlayerForm from './AddPlayerForm';
 import { DraggablePlayer } from './Player';

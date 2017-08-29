@@ -1,13 +1,13 @@
-import { expect } from '../test-setup';
+import { expect } from '../../test-setup';
 import sinon from 'sinon';
 import axios from 'axios';
-import GameDummy from '../dummies/game';
-import { DispatchStub } from '../support/dispatch-helper';
-import { mountContainer } from '../support/container-helper';
+import GameDummy from '../../dummies/game';
+import { DispatchStub } from '../../support/dispatch-helper';
+import { mountContainer } from '../../support/container-helper';
 
-import { GAME_UPDATED } from '../../src/ducks/games';
+import { GAME_UPDATED } from '../../../src/ducks/games';
 
-import TransmitFormContainer, { onSubmit, validate } from '../../src/components/TransmitForm';
+import TransmitFormContainer, { onSubmit, validate } from '../../../src/components/Game/TransmitForm';
 
 describe('(Container) TransmitForm', () => {
   let container, sandbox;

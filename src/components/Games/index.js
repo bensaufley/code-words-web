@@ -4,9 +4,9 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Button, Icon, Loader, Menu } from 'semantic-ui-react';
 
-import { gameShape, userShape } from '../helpers/prop-types';
+import { gameShape, userShape } from '../../helpers/prop-types';
 
-import { createGame, deleteGame } from '../ducks/games';
+import { createGame, deleteGame } from '../../ducks/games';
 
 const activePlayerFor = (game) => {
   if (!game || !game.activePlayerId) return null;

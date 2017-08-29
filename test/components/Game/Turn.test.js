@@ -1,10 +1,10 @@
-import { expect } from '../test-setup';
+import { expect } from '../../test-setup';
 import { findRenderedComponentWithType } from 'react-dom/test-utils';
 import { Card } from 'semantic-ui-react';
-import { wrapContainer } from '../support/container-helper';
-import GameDummy from '../dummies/game';
+import { wrapContainer } from '../../support/container-helper';
+import GameDummy from '../../dummies/game';
 
-import TurnContainer from '../../src/components/Turn';
+import TurnContainer from '../../../src/components/Game/Turn';
 
 describe('(Container) Turn', () => {
   let game, initialState;
