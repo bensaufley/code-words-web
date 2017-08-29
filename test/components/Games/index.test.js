@@ -32,20 +32,22 @@ describe('(Container) Games', () => {
       const newGame = new GameDummy({ withUser: user }),
             startedGame = new GameDummy({ started: true, withUser: user }),
             completedGame = new GameDummy({ completed: true, withUser: user }),
+            anotherGame = new GameDummy({ updatedAt: startedGame.updatedAt, withUser: user }),
             initialState = {
               session: {
                 apiToken: '12345',
                 apiUser: user.serialize()
               },
               games: {
-                [newGame.id]: newGame.serialize(),
                 [startedGame.id]: startedGame.serialize(),
-                [completedGame.id]: completedGame.serialize()
+                [newGame.id]: newGame.serialize(),
+                [completedGame.id]: completedGame.serialize(),
+                [anotherGame.id]: anotherGame.serialize()
               }
             };
       const wrapper = wrapContainer({ initialState })(GamesContainer);
 
-      expect(scryRenderedComponentsWithType(wrapper, Menu.Item)).to.have.lengthOf(3);
+      expect(scryRenderedComponentsWithType(wrapper, Menu.Item)).to.have.lengthOf(4);
     });
   });
 });
