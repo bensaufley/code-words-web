@@ -12,7 +12,11 @@ describe('(Component) GameMenu', () => {
     let game, props, initialState;
 
     beforeEach(() => {
-      game = new GameDummy();
+      game = new GameDummy({ players: 3 });
+      for (let i = 1; i < 2; i++) {
+        game.players[i].team = ['a', 'b'][Math.round(Math.random())];
+        game.players[i].role = ['transmitter', 'decoder'][Math.round(Math.random())];
+      }
       const { id: gameId, ...gameProps } = game.serialize();
       props = {
         ...gameProps,
