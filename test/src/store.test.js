@@ -1,4 +1,4 @@
-import { expect } from '../test-setup';
+import expect from '../test-setup';
 import sinon from 'sinon';
 import createHistory from 'history/createMemoryHistory';
 import Cookies from 'js-cookie';

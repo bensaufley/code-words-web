@@ -1,4 +1,4 @@
-import { expect } from '../test-setup';
+import expect from '../test-setup';
 import React from 'react';
 import { shallow } from 'enzyme';
 import { findRenderedComponentWithType } from 'react-dom/test-utils';

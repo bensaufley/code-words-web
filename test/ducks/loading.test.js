@@ -1,4 +1,4 @@
-import { expect } from '../test-setup';
+import expect from '../test-setup';
 import loadingReducer, { LOADING_START, LOADING_END, startLoading, endLoading } from '../../src/ducks/loading';
 
 describe('(Ducks) loadingReducer', () => {

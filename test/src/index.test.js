@@ -1,5 +1,5 @@
 /* eslint-disable global-require */
-import { expect } from '../test-setup';
+import expect from '../test-setup';
 import sinon from 'sinon';
 import Cookies from 'js-cookie';
 import jwt from 'jsonwebtoken';
