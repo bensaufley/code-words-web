@@ -76,6 +76,21 @@ class GameMenu extends Component {
     );
   }
 
+  renderStartGameButton() {
+    if (this.props.activePlayerId) return null;
+
+    const { gameId, startGame: startGameAction } = this.props;
+
+    return (
+      <Menu.Item>
+        <Button primary icon fluid disabled={!this.startable()} onClick={() => startGameAction(gameId)}>
+          <Icon name="check" />
+          Start Game
+        </Button>
+      </Menu.Item>
+    );
+  }
+
   renderTeam(team) {
     const { players } = this.props,
           transmitter = players.find((p) => p.team === team && p.role === 'transmitter'),
@@ -107,7 +122,7 @@ class GameMenu extends Component {
   }
 
   render() {
-    const { activePlayerId, hideMenu, gameId, menuOpen, startGame: startGameAction } = this.props;
+    const { hideMenu, menuOpen } = this.props;
 
     return (
       <Sidebar animation="overlay" as={Menu} visible={menuOpen} vertical>
@@ -122,15 +137,7 @@ class GameMenu extends Component {
           {this.renderTeam('a')}
           {this.renderTeam('b')}
         </Menu.Menu>
-        {activePlayerId ?
-          '' :
-          <Menu.Item>
-            <Button primary icon fluid disabled={!this.startable()} onClick={() => startGameAction(gameId)}>
-              <Icon name="check" />
-              Start Game
-            </Button>
-          </Menu.Item>
-        }
+        {this.renderStartGameButton()}
         {this.renderTurns()}
       </Sidebar>
     );

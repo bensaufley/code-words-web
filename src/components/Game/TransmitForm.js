@@ -8,15 +8,7 @@ import { TRANSMITTER_ICON } from '../../helpers/style-dictionary';
 
 const formInput = (props) => {
   const {
-    autoCapitalize,
-    autoCorrect,
-    input,
-    max,
-    meta: { touched, invalid, error },
-    min,
-    placeholder,
-    type,
-    width
+    autoCapitalize, autoCorrect, input, max, meta: { touched, invalid, error }, min, placeholder, type, width
   } = props;
 
   return (
