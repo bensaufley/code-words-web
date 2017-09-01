@@ -104,6 +104,7 @@
     "heroku-postbuild": "npm run build",
     "lint": "eslint . && scss-lint",
     "serve": "node server/index.js",
+    "cov:show": "open ./coverage/lcov-report/index.html",
     "start": "npm-run-all -p watch-css watch-semantic start-js",
     "start-js": "node scripts/start.js",
     "test": "mocha --compilers js:babel-core/register",
