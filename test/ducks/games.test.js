@@ -1,4 +1,4 @@
-import { expect } from '../test-setup';
+import expect from '../test-setup';
 import sinon from 'sinon';
 import axios from 'axios';
 import { MODAL_SHOW } from '../../src/ducks/modal';

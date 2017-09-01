@@ -1,4 +1,4 @@
-import { expect } from '../test-setup';
+import expect from '../test-setup';
 import { findRenderedComponentWithType } from 'react-dom/test-utils';
 import { wrapContainer } from '../support/container-helper';
 

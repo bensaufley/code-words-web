@@ -1,4 +1,4 @@
-import { expect } from '../../test-setup';
+import expect from '../../test-setup';
 import sinon from 'sinon';
 import axios from 'axios';
 import { findRenderedDOMComponentWithTag } from 'react-dom/test-utils';

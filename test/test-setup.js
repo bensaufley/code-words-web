@@ -50,4 +50,5 @@ afterEach(() => {
   document.body.innerHTML = '';
 });
 
-export const { expect } = chai;
+const { expect } = chai;
+export default expect;
