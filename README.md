@@ -1,5 +1,8 @@
 # Code Words Web
-[![Code Climate](https://codeclimate.com/github/bensaufley/code-words-web/badges/gpa.svg)](https://codeclimate.com/github/bensaufley/code-words-web) [![Issue Count](https://codeclimate.com/github/bensaufley/code-words-web/badges/issue_count.svg)](https://codeclimate.com/github/bensaufley/code-words-web) [![Test Coverage](https://codeclimate.com/github/bensaufley/code-words-web/badges/coverage.svg)](https://codeclimate.com/github/bensaufley/code-words-web/coverage) [![CircleCI](https://circleci.com/gh/bensaufley/code-words-web/tree/master.svg?style=shield)](https://circleci.com/gh/bensaufley/code-words-web/tree/master)
+[![Maintainability](https://api.codeclimate.com/v1/badges/972a135dd86fd6423603/maintainability)](https://codeclimate.com/github/bensaufley/code-words-web/maintainability)
+[![Issue Count](https://codeclimate.com/github/bensaufley/code-words-web/badges/issue_count.svg)](https://codeclimate.com/github/bensaufley/code-words-web)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/972a135dd86fd6423603/test_coverage)](https://codeclimate.com/github/bensaufley/code-words-web/test_coverage)
+[![CircleCI](https://circleci.com/gh/bensaufley/code-words-web/tree/master.svg?style=shield)](https://circleci.com/gh/bensaufley/code-words-web/tree/master)
 
 The web-facing code for the Code Words project, which will consume the [Code Words API]
 
