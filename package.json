@@ -72,7 +72,7 @@
     "cross-env": "^5.0.1",
     "enzyme": "^2.9.1",
     "faker": "^4.1.0",
-    "jsdom": "^11.2.0",
+    "jsdom": "^16.5.0",
     "jsonwebtoken": "^7.4.1",
     "mocha": "^3.4.2",
     "npm-run-all": "^4.0.2",
